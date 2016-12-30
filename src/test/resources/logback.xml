@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="./log" />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%p][%d{yyyy/MM/dd_HH:mm:ss.SSS}][%thread][%logger{0}:%L]%m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/smartqq.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/smartqq.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%p][%d{HH:mm:ss.SSS}][%thread][%logger{0}:%L]%m%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.thankjava.wqq" level="DEBUG">
+		<appender-ref ref="DEBUG" />
+	</logger>
+
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+	</root>
+</configuration>

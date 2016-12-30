@@ -29,7 +29,7 @@ import com.thankjava.toolkit3d.fastjson.FastJson;
 
 public class GetInfoAction {
 
-private static final Logger logger = LoggerFactory.getLogger(GetInfoAction.class);
+	private static final Logger logger = LoggerFactory.getLogger(GetInfoAction.class);
 	
 	Session session = Session.getSession();
 	
