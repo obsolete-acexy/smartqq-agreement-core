@@ -1,6 +1,9 @@
 package com.thankjava.wqq;
 
 import com.thankjava.wqq.entity.msg.SendMsg;
+import com.thankjava.wqq.entity.wqq.DiscusList;
+import com.thankjava.wqq.entity.wqq.FriendsList;
+import com.thankjava.wqq.entity.wqq.GroupsList;
 import com.thankjava.wqq.extend.CallBackListener;
 
 /**
@@ -24,6 +27,42 @@ public interface SmartQQClient{
 	* @param listener 获取到二维码后的回调函数
 	 */
 	public void login(boolean autoRefreshQRcode, CallBackListener listener);
+	
+	/**
+	 * 获取讨论组信息
+	* <p>Function: getDiscusList</p>
+	* <p>Description: </p>
+	* @author zhaoxy@thankjava.com
+	* @date 2017年1月4日 下午6:59:20
+	* @version 1.0
+	* @param fromServer 是否从服务器获取最新
+	* @return
+	 */
+	public DiscusList getDiscusList(boolean fromServer);
+	
+	/**
+	 * 获取群组信息
+	* <p>Function: getGroupsList</p>
+	* <p>Description: </p>
+	* @author zhaoxy@thankjava.com
+	* @date 2017年1月4日 下午6:59:52
+	* @version 1.0
+	* @param fromServer 是否从服务器获取最新
+	* @return
+	 */
+	public GroupsList getGroupsList(boolean fromServer);
+	
+	/**
+	 * 获取好友信息
+	* <p>Function: getFriendsList</p>
+	* <p>Description: </p>
+	* @author zhaoxy@thankjava.com
+	* @date 2017年1月4日 下午7:00:06
+	* @version 1.0
+	* @param fromServer 是否从服务器获取最新
+	* @return
+	 */
+	public FriendsList getFriendsList(boolean fromServer);
 	
 	/**
 	 * 发送信息
