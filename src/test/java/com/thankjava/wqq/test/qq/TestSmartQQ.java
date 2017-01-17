@@ -38,7 +38,7 @@ public class TestSmartQQ {
 	
 	
 	public static void main(String[] args) {
-		logger.debug("smartqq");
+		logger.debug("登录开始");
 		
 		// 执行登录
 		smartQQClient.login(true, new CallBackListener() {
@@ -51,17 +51,25 @@ public class TestSmartQQ {
 					// 将返回的byte[]数据io处理成一张png图片
 					// 位于项目log/qrcode.png
 					ImageIO.write(
-							(BufferedImage)listenerAction.data, "png", 
+							(BufferedImage)listenerAction.getData(), "png", 
 							new File("./log/qrcode.png"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
+		},new CallBackListener() {
+			// 然后通过手机QQ扫描登录二维码,允许登录后smartqq-agreement-core工具就正常接收信息了
+			// 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
+			// smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.hander
+			// 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
+			@Override
+			public void onListener(ListenerAction listenerAction) {
+				
+				// 登陆成功
+				logger.debug("登录完成");
+			}
 		});
 		
-		// 然后通过手机QQ扫描登录二维码,允许登录后smartqq-agreement-core工具就正常接收信息了
-		// 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
-		// smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.hander
-		// 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
+
 	}
 }

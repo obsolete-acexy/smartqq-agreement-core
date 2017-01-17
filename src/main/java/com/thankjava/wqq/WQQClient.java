@@ -34,8 +34,8 @@ public class WQQClient implements SmartQQClient {
 	}
 	
 	@Override
-	public void login(boolean autoRefreshQRcode, CallBackListener listener) {
-		loginAction.login(autoRefreshQRcode, listener);
+	public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener,CallBackListener loginListener) {
+		loginAction.login(autoRefreshQRcode, getQrlistener, loginListener);
 	}
 
 	@Override
@@ -44,24 +44,24 @@ public class WQQClient implements SmartQQClient {
 	}
 
 	@Override
-	public DiscusList getDiscusList(boolean fromServer) {
-		if(fromServer){
+	public DiscusList getDiscusList(boolean isFromServer) {
+		if(isFromServer){
 			session.setDiscusList(getInfo.getDiscusList());
 		}
 		return session.getDiscusList();
 	}
 
 	@Override
-	public GroupsList getGroupsList(boolean fromServer) {
-		if(fromServer){
+	public GroupsList getGroupsList(boolean isFromServer) {
+		if(isFromServer){
 			session.setGroupsList(getInfo.getGroupsList());
 		}
 		return session.getGroupsList();
 	}
 
 	@Override
-	public FriendsList getFriendsList(boolean fromServer) {
-		if(fromServer){
+	public FriendsList getFriendsList(boolean isFromServer) {
+		if(isFromServer){
 			session.setFriendsList(getInfo.getFriendsList());
 		}
 		return session.getFriendsList();

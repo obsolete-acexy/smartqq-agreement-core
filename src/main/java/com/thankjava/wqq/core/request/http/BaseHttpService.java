@@ -10,11 +10,11 @@ import com.thankjava.wqq.entity.Session;
 
 public abstract class BaseHttpService implements Request{
 
-	protected Session session = Session.getSession();
+	protected final Session session = Session.getSession();
 	
 	protected static final AtomicLong msgId =  new AtomicLong(1704000);
 	
-	public static AsyncHttpClient asyncHttpClient = AsyncHttpClientBuilder.createDefault();
+	public final static AsyncHttpClient asyncHttpClient = AsyncHttpClientBuilder.createDefault();
 	
 	/**
 	 * 组装请求参数

@@ -11,7 +11,20 @@ package com.thankjava.wqq.extend;
  */
 public class ListenerAction {
 
-	// 得到的return数据
-	public Object data;
+	public ListenerAction(){}
+	
+	public ListenerAction(Object data){
+		this.data = data;
+	}
+	
+	private Object data;
 
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+	
 }
