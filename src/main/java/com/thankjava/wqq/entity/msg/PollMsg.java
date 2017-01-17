@@ -25,7 +25,7 @@ public class PollMsg {
 	}
 	
 	// 提供给发送信息时快速获取发送方信息
-	public long getTo(){
+	public long getFrom(){
 	
 		switch (msgType) {
 		case message: // 好友信息
@@ -37,6 +37,10 @@ public class PollMsg {
 		}
 		
 		return 0;
+	}
+	
+	public long getFromUin(){
+		return value.getFromUin();
 	}
 	
 	public String toGetMsgText() {
