@@ -4,7 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.thankjava.wqq</groupId>
 	<artifactId>smartqq-agreement-core</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<name>smartqq-agreement-core</name>
 
@@ -75,8 +81,8 @@
 
 	<build>
 		<finalName>smartqq-agreement-core</finalName>
-		<plugins>
-			<plugin>
+<plugins>
+			<plugin><!-- 跳过测试 -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.5</version>
@@ -84,16 +90,51 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-			<plugin>
+			<plugin><!-- 指定JDK版本 -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
+					<encoding>utf-8</encoding>
 				</configuration>
+			</plugin>
+			<plugin><!-- 指定 mvn 编译源码 -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<tag>master</tag>
+		<url>git@github.com:thankjava/smartqq-agreement-core.git</url>
+		<connection>scm:git@github.com:thankjava/smartqq-agreement-core.git</connection>
+		<developerConnection>scm:git:git@github.com:thankjava/smartqq-agreement-core.git</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<name>acexy</name>
+			<email>zhaoxy@thankjava.com</email>
+			<organization>Thankjava</organization>
+		</developer>
+	</developers>
 </project>
