@@ -10,6 +10,16 @@
       这只是一个小小的jar，但是你可以通过该sdk快速实现自己的工具创造无限可能~
 ---
 
+###获取
+```xml
+<dependency>
+  <groupId>org.thankjava.wqq</groupId>
+  <artifactId>smartqq-agreement-core</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+---
+
 ###背景
 
         该项目参考另外一个类似的基于腾讯WebQQ协议的工具，遗憾的是由于腾讯WebQQ协议变动较频繁，稳定性差，功能简略，原工程
