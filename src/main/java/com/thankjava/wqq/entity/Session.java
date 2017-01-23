@@ -7,7 +7,7 @@ import com.thankjava.wqq.entity.wqq.DetailedInfo;
 
 public class Session {
 
-	final static Session session = new Session();
+	private final static Session session = new Session();
 	
 	private Session(){};
 	

@@ -31,7 +31,7 @@ public class DoRequest {
 		if(listener != null){
 			// 如果传递了listener 则通过listener的方式回调返回
 			ListenerAction listenerAction = new ListenerAction();
-			listenerAction.data = asyncHttpClient.syncRequestWithSession(requestParams);
+			listenerAction.setData( asyncHttpClient.syncRequestWithSession(requestParams));
 			listener.onListener(listenerAction);
 		}else{
 			aopParam.setResult(asyncHttpClient.syncRequestWithSession(requestParams));

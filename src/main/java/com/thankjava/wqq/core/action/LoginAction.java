@@ -39,7 +39,7 @@ public class LoginAction {
 	Request getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
 	Request login2 = RequestFactory.getInstance(Login2.class);
 	
-	public void login(final boolean autoRefreshQRcode, final CallBackListener listener){
+	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		
 		final ListenerAction getLoginQRcodeAction = new ListenerAction();
 		
@@ -47,12 +47,16 @@ public class LoginAction {
 		getLoginQRcode(new CallBackListener() {
 			@Override
 			public void onListener(ListenerAction listenerAction) {
+				if(listenerAction.getData() == null){
+					// 获取二维码失败
+					login(autoRefreshQRcode, getQrListener, loginListener);
+				}
 				// 得到二维码数据
-				getLoginQRcodeAction.data = listenerAction.data;
+				getLoginQRcodeAction.setData(listenerAction.getData());
 				// 回调业务端处理二维码
-				listener.onListener(listenerAction);
+				getQrListener.onListener(listenerAction);
 				logger.debug("获取二维码完成，启动二维码状态检查");
-				checkLoginQRcodeStatus(autoRefreshQRcode, listener);
+				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener);
 			}
 		});
 	}
@@ -67,17 +71,15 @@ public class LoginAction {
 	* @return
 	 */
 	private void getLoginQRcode(CallBackListener listener){
-		ListenerAction listenerAction = new ListenerAction();
+		Object data = null;
 		try {
-			listenerAction.data = ImageIO.read(
-					new ByteArrayInputStream(
-							getLoginQRcode.doRequest(null).getBytes()
-							)
+			data = ImageIO.read(
+					new ByteArrayInputStream(getLoginQRcode.doRequest(null).getBytes())
 					);
 		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
+			logger.error("获取二维码失败: " + e.getMessage(), e);
 		}
-		listener.onListener(listenerAction);
+		listener.onListener(new ListenerAction(data));
 	}
 	
 	
@@ -104,7 +106,7 @@ public class LoginAction {
 	* @version 1.0
 	* @return
 	 */
-	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener listener){
+	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener, CallBackListener loginListener){
 
 		try {
 			Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
@@ -117,23 +119,28 @@ public class LoginAction {
 				DataResRegx.check_login_qrcode_status
 			);
 		
+		if(data == null){
+			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
+		}
+		
 		switch (Integer.valueOf(data[0])) {
 		case 0: // 二维码认证成功
 			logger.debug("二维码扫描登录完成,进行登录动作 checkSigUrl: " + data[2]);
 			session.setCheckSigUrl(data[2]);
 			beginLogin();
+			loginListener.onListener(new ListenerAction());
 			break;
 		case 65: // 二维码认证过期
 			if(autoRefreshQRcode){ // 如果指定过期自动刷新二维码
 				logger.debug("二维码已过期,重新获取二维码..");
-				login(autoRefreshQRcode, listener);
+				login(autoRefreshQRcode, getQRListener, loginListener);
 				break;
 			}
 			logger.debug("当前二维码已过期...");
 			break;
 		default: // 二维码处于认证中|等待认证
 			logger.debug("二维码状态: " + data[4]);
-			checkLoginQRcodeStatus(autoRefreshQRcode, listener);
+			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
 			break;
 		}
 	}
@@ -184,6 +191,12 @@ public class LoginAction {
 		getInfo.getRecentList();
 		
 		// 启动消息Poll
-		ActionFactory.getInstance(MsgPollEvent.class).poll();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				ActionFactory.getInstance(MsgPollEvent.class).poll();
+			}
+		}).start();
+		
 	}
 }

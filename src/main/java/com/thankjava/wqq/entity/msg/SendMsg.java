@@ -56,7 +56,7 @@ public class SendMsg {
 
 	public SendMsg(PollMsg pollMsg, Content content) {
 		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getTo();
+		long to = pollMsg.getFrom();
 		switch (msgType) {
 		case message: // 好友信息
 			this.to = to;
@@ -73,7 +73,7 @@ public class SendMsg {
 	
 	public SendMsg(PollMsg pollMsg, String msg) {
 		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getTo();
+		long to = pollMsg.getFrom();
 		switch (msgType) {
 		case message: // 好友信息
 			this.to = to;

@@ -26,7 +26,7 @@ public class SendBuddyMsg2 extends BaseHttpService{
 	public ResponseParams doRequest(CallBackListener listener) {
 		if(listener != null){
 			ListenerAction listenerAction = new ListenerAction();
-			listenerAction.data = asyncHttpClient.syncRequestWithSession(buildRequestParams());
+			listenerAction.setData(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
 			listener.onListener(listenerAction);
 			return null;
 		}else{
