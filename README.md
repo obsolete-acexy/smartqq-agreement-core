@@ -13,7 +13,7 @@
 ###获取
 ```xml
 <dependency>
-  <groupId>org.thankjava.wqq</groupId>
+  <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
   <version>1.0.0</version>
 </dependency>
