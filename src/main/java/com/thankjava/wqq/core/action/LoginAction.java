@@ -40,37 +40,58 @@ public class LoginAction {
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		
-		// 获取登录二维码
-		getLoginQRcode(new CallBackListener() {
-			
-			@Override
-			public void onListener(ListenerAction listenerAction) {
-
-				if (listenerAction.getData() == null) {
-					// 获取二维码失败
-					login(autoRefreshQRcode, getQrListener, loginListener);
-				}
-				
-				ResponseParams responseParams = (ResponseParams) listenerAction.getData();
-				
-				try {
-					// 得到二维码数据
-					listenerAction.setData(ImageIO.read(
-							new ByteArrayInputStream(responseParams.getBytes())
-						));
-				} catch (IOException e) {
-					logger.error("获取二维码数据失败", e);
-				}
-				
-				// 回调业务端处理二维码
-				getQrListener.onListener(listenerAction);
-				
-				logger.debug("获取二维码完成，启动二维码状态检查");
-				
-				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
-						responseParams.getCookies().getCookie("qrsig").getValue());
-			}
-		});
+		ResponseParams responseParams = getLoginQRcode.doRequest(null);
+		if(responseParams == null){
+			login(autoRefreshQRcode, getQrListener, loginListener);
+		}
+		ListenerAction listenerAction = null;
+		try {
+			// 得到二维码数据
+			listenerAction= new ListenerAction(ImageIO.read(
+					new ByteArrayInputStream(responseParams.getBytes())
+				));
+		} catch (IOException e) {
+			logger.error("获取二维码数据失败", e);
+		}
+		
+		getQrListener.onListener(listenerAction);
+		
+		logger.debug("获取二维码完成，启动二维码状态检查");
+		
+		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
+				responseParams.getCookies().getCookie("qrsig").getValue());
+		
+//		// 获取登录二维码
+//		getLoginQRcode(new CallBackListener() {
+//			
+//			@Override
+//			public void onListener(ListenerAction listenerAction) {
+//
+//				if (listenerAction.getData() == null) {
+//					// 获取二维码失败
+//					login(autoRefreshQRcode, getQrListener, loginListener);
+//				}
+//				
+//				ResponseParams responseParams = (ResponseParams) listenerAction.getData();
+//				
+//				try {
+//					// 得到二维码数据
+//					listenerAction.setData(ImageIO.read(
+//							new ByteArrayInputStream(responseParams.getBytes())
+//						));
+//				} catch (IOException e) {
+//					logger.error("获取二维码数据失败", e);
+//				}
+//				
+//				// 回调业务端处理二维码
+//				getQrListener.onListener(listenerAction);
+//				
+//				logger.debug("获取二维码完成，启动二维码状态检查");
+//				
+//				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
+//						responseParams.getCookies().getCookie("qrsig").getValue());
+//			}
+//		});
 	}
 	
 	/**
