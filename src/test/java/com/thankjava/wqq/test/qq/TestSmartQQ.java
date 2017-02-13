@@ -50,10 +50,10 @@ public class TestSmartQQ {
 					
 					// 将返回的byte[]数据io处理成一张png图片
 					// 位于项目log/qrcode.png
-					ImageIO.write(
-							(BufferedImage)listenerAction.getData(), "png", 
-							new File("./log/qrcode.png"));
-				} catch (IOException e) {
+//					ImageIO.write(
+//							(BufferedImage)listenerAction.getData(), "png", 
+//							new File("./log/qrcode.png"));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
