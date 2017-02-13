@@ -2,7 +2,6 @@ package com.thankjava.wqq.test.qq;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -50,9 +49,9 @@ public class TestSmartQQ {
 					
 					// 将返回的byte[]数据io处理成一张png图片
 					// 位于项目log/qrcode.png
-//					ImageIO.write(
-//							(BufferedImage)listenerAction.getData(), "png", 
-//							new File("./log/qrcode.png"));
+					ImageIO.write(
+							(BufferedImage)listenerAction.getData(), "png", 
+							new File("./log/qrcode.png"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -34,30 +34,41 @@ public class LoginAction {
 	Session session = Session.getSession();
 	
 	Request getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
-//	Request checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
 	Request checkSig = RequestFactory.getInstance(CheckSig.class);
 	Request getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
 	Request login2 = RequestFactory.getInstance(Login2.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		
-		final ListenerAction getLoginQRcodeAction = new ListenerAction();
-		
 		// 获取登录二维码
 		getLoginQRcode(new CallBackListener() {
+			
 			@Override
 			public void onListener(ListenerAction listenerAction) {
-				if(listenerAction.getData() == null){
+
+				if (listenerAction.getData() == null) {
 					// 获取二维码失败
 					login(autoRefreshQRcode, getQrListener, loginListener);
 				}
-				ResponseParams responseParams = (ResponseParams)listenerAction.getData();
-				// 得到二维码数据
-				getLoginQRcodeAction.setData(listenerAction.getData());
+				
+				ResponseParams responseParams = (ResponseParams) listenerAction.getData();
+				
+				try {
+					// 得到二维码数据
+					listenerAction.setData(ImageIO.read(
+							new ByteArrayInputStream(responseParams.getBytes())
+						));
+				} catch (IOException e) {
+					logger.error("获取二维码数据失败", e);
+				}
+				
 				// 回调业务端处理二维码
 				getQrListener.onListener(listenerAction);
+				
 				logger.debug("获取二维码完成，启动二维码状态检查");
-				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,responseParams.getCookies().getCookie("qrsig").getValue());
+				
+				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
+						responseParams.getCookies().getCookie("qrsig").getValue());
 			}
 		});
 	}
@@ -75,7 +86,12 @@ public class LoginAction {
 		listener.onListener(new ListenerAction(getLoginQRcode.doRequest(null)));
 	}
 	
-	
+	/**
+	 * 使用正则去匹配返回的数据
+	 * @param content
+	 * @param dataResRegx
+	 * @return
+	 */
 	private static String[] analysis(String content, DataResRegx dataResRegx){
 		Pattern pattern = Pattern.compile(dataResRegx.regx);
 		Matcher matcher = pattern.matcher(content);
@@ -86,7 +102,6 @@ public class LoginAction {
 			}
 			return values;
 		}
-		
 		return null;
 	}
 	
@@ -99,7 +114,8 @@ public class LoginAction {
 	* @version 1.0
 	* @return
 	 */
-	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener, CallBackListener loginListener,String qrsig){
+	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener,
+			CallBackListener loginListener, String qrsig) {
 
 		try {
 			Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
