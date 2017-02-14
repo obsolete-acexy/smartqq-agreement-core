@@ -60,51 +60,6 @@ public class LoginAction {
 		
 		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
 				responseParams.getCookies().getCookie("qrsig").getValue());
-		
-//		// 获取登录二维码
-//		getLoginQRcode(new CallBackListener() {
-//			
-//			@Override
-//			public void onListener(ListenerAction listenerAction) {
-//
-//				if (listenerAction.getData() == null) {
-//					// 获取二维码失败
-//					login(autoRefreshQRcode, getQrListener, loginListener);
-//				}
-//				
-//				ResponseParams responseParams = (ResponseParams) listenerAction.getData();
-//				
-//				try {
-//					// 得到二维码数据
-//					listenerAction.setData(ImageIO.read(
-//							new ByteArrayInputStream(responseParams.getBytes())
-//						));
-//				} catch (IOException e) {
-//					logger.error("获取二维码数据失败", e);
-//				}
-//				
-//				// 回调业务端处理二维码
-//				getQrListener.onListener(listenerAction);
-//				
-//				logger.debug("获取二维码完成，启动二维码状态检查");
-//				
-//				checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
-//						responseParams.getCookies().getCookie("qrsig").getValue());
-//			}
-//		});
-	}
-	
-	/**
-	 * 获取登录的二维码
-	* <p>Function: getLoginQRcode</p>
-	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
-	* @date 2016年12月19日 下午4:18:42
-	* @version 1.0
-	* @return
-	 */
-	private void getLoginQRcode(CallBackListener listener){
-		listener.onListener(new ListenerAction(getLoginQRcode.doRequest(null)));
 	}
 	
 	/**
