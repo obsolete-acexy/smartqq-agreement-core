@@ -11,7 +11,7 @@
       
 ---
 
-###获取
+### 获取
 ```xml
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
@@ -21,7 +21,7 @@
 ```
 ---
 
-###背景
+### 背景
 
         该项目参考另外一个类似的基于腾讯WebQQ协议的工具，遗憾的是由于腾讯WebQQ协议变动较频繁，稳定性差，功能简略，原工程
     早已经无法正常运行并不再维护，该项目基于此重构整个SDK，调整整个逻辑，基本开发者阅读代码后可以轻松了解腾讯WebQQ协议，该
@@ -29,7 +29,7 @@
         当前版本主要功能测试完成，后续优化后将发布到Maven中央仓库。
 ---
 
-###使用
+### 使用
 
         参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHander
 ```java
@@ -144,7 +144,7 @@ public class NotifyHander {
 ```
 ---
 
-###future
+### future
 
         目前该版本才刚刚测试完毕，还有几个功能没有完成，不过主体功能已经可以使用后续完成一下功能
     1. 增加掉线重练机制，通知信息新增session级别通知，在无法正常使用时通知NotifyHander需要手动处理
@@ -152,7 +152,7 @@ public class NotifyHander {
     3. 稳定后先发布到Maven仓库
     
 ---
-###bug fix
+### bug fix
 
         1.0.1 修复腾讯修改二维码校验流程带来的影响
         
