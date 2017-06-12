@@ -16,10 +16,10 @@ import com.alibaba.fastjson.JSONObject;
 
 public class SendQunMsg2 extends BaseHttpService {
 
-	private Object param;
+	private SendMsg sendMsg;
 	
-	public SendQunMsg2(Object param) {
-		this.param = param;
+	public SendQunMsg2(SendMsg sendMsg) {
+		this.sendMsg = sendMsg;
 	}
 	
 	@Override
@@ -36,7 +36,6 @@ public class SendQunMsg2 extends BaseHttpService {
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		SendMsg sendMsg = (SendMsg)param;
 		JSONObject jsonObject = new JSONObject(); 
 		jsonObject.put("group_uin", sendMsg.getGroupUin()); //
 		jsonObject.put("content", sendMsg.getContent().toSendMsg()); //
