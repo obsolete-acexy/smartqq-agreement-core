@@ -3,7 +3,7 @@ package com.thankjava.wqq.factory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.thankjava.wqq.core.request.Request;
+import com.thankjava.wqq.core.request.RequestBuilder;
 
 import com.thankjava.toolkit3d.aop.core.AopProxyFactory;
 
@@ -11,13 +11,13 @@ public class RequestFactory {
 
 	private RequestFactory(){}
 	
-	private static final Map<Class<?>, Request> instances = new HashMap<>();
+	private static final Map<Class<?>, RequestBuilder> instances = new HashMap<>();
 	
-	public static Request getInstance(Class<?> requestClass){
-		Request baseFunction = instances.get(requestClass);
+	public static RequestBuilder getInstance(Class<?> requestClass){
+		RequestBuilder baseFunction = instances.get(requestClass);
 		
 		if(baseFunction == null){
-			baseFunction = (Request) AopProxyFactory.createProxyObject(requestClass);
+			baseFunction = (RequestBuilder) AopProxyFactory.createProxyObject(requestClass);
 			instances.put(requestClass, baseFunction);
 		}
 		

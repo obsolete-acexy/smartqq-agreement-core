@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.fastjson.FastJson;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
 import com.thankjava.wqq.WQQClient;
-import com.thankjava.wqq.core.request.Request;
+import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.http.Poll2;
 import com.thankjava.wqq.entity.msg.Content;
 import com.thankjava.wqq.entity.msg.Font;
@@ -22,7 +22,7 @@ public class MsgPollEvent {
 
 	private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
 	
-	Request poll2 = RequestFactory.getInstance(Poll2.class);
+	RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
 	
 	public void poll(){
 		

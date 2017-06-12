@@ -13,7 +13,7 @@ import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.DataResRegx;
 import com.thankjava.wqq.core.event.MsgPollEvent;
-import com.thankjava.wqq.core.request.Request;
+import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.http.CheckLoginQRcodeStatus;
 import com.thankjava.wqq.core.request.http.CheckSig;
 import com.thankjava.wqq.core.request.http.GetLoginQRcode;
@@ -33,11 +33,11 @@ public class LoginAction {
 	
 	Session session = Session.getSession();
 	
-	Request getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
-	Request checkSig = RequestFactory.getInstance(CheckSig.class);
-	Request getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
-	Request login2 = RequestFactory.getInstance(Login2.class);
-	Request checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
+	RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
+	RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
+	RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
+	RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
+	RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		

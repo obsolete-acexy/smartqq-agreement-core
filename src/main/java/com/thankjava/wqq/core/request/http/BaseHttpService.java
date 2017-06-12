@@ -6,10 +6,10 @@ import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
 import com.thankjava.toolkit3d.http.async.AsyncHttpClientBuilder;
 import com.thankjava.toolkit3d.http.async.entity.RequestParams;
 import com.thankjava.wqq.consts.ConstsParams;
-import com.thankjava.wqq.core.request.Request;
+import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.entity.Session;
 
-public abstract class BaseHttpService implements Request{
+public abstract class BaseHttpService implements RequestBuilder{
 
 	protected final Session session = Session.getSession();
 	

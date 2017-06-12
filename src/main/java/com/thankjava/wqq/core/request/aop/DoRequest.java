@@ -17,6 +17,7 @@ public class DoRequest {
 	private static AsyncHttpClient asyncHttpClient = BaseHttpService.asyncHttpClient;
 
 	public AopParam doRequest(AopParam aopParam){
+		
 		// 指定代理的函数不要被执行
 		aopParam.setInvokeProxyMethod(false);
 		

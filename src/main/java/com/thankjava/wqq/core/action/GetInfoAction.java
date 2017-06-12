@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.thankjava.wqq.core.request.Request;
+import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.http.GetDiscusList;
 import com.thankjava.wqq.core.request.http.GetGroupNameListMask2;
 import com.thankjava.wqq.core.request.http.GetOnlineBuddies2;
@@ -33,12 +33,12 @@ public class GetInfoAction {
 	
 	Session session = Session.getSession();
 	
-	Request getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
-	Request getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
-	Request getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
-	Request getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
-	Request getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
-	Request getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
+	RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
+	RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
+	RequestBuilder getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
+	RequestBuilder getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
+	RequestBuilder getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
+	RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
 	
 	/**
 	 * 获取好友列表
