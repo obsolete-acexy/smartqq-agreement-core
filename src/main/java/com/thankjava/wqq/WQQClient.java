@@ -24,7 +24,7 @@ public class WQQClient implements SmartQQClient {
 	
 	public WQQClient(NotifyListener listener){
 		if(listener == null){
-			throw new RuntimeException("NotifyListener can not be null");
+			throw new NullPointerException("NotifyListener can not be null");
 		}
 		WQQClient.listener = listener;
 	}

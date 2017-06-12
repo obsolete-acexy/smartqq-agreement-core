@@ -1,7 +1,6 @@
 package com.thankjava.wqq.consts;
 
 public class ConstsParams {
-
 	
 	/**
 	 * 每次检查二维码的时间间隔
@@ -17,4 +16,9 @@ public class ConstsParams {
 	 * CLIENT_ID 同上
 	 */
 	public static final Integer CLIENT_ID = 53999199;
+	
+	/**
+	 * 初始化的消息ID
+	 */
+	public static final Integer INIT_MSG_ID = 1704000;
 }

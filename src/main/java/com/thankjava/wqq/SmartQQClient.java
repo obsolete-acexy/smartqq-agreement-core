@@ -27,7 +27,7 @@ public interface SmartQQClient{
 	* @param getQrlistener 获取到二维码后的回调函数
 	* @param loginListener 登录成功后的回调函数
 	 */
-	public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener,CallBackListener loginListener);
+	public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener);
 	
 	/**
 	 * 获取讨论组信息

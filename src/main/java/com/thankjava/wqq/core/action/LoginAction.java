@@ -37,29 +37,29 @@ public class LoginAction {
 	Request checkSig = RequestFactory.getInstance(CheckSig.class);
 	Request getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
 	Request login2 = RequestFactory.getInstance(Login2.class);
+	Request checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		
 		ResponseParams responseParams = getLoginQRcode.doRequest(null);
 		if(responseParams == null){
+			logger.error("获取二维码失败，执行重试");
 			login(autoRefreshQRcode, getQrListener, loginListener);
 		}
+
 		ListenerAction listenerAction = null;
 		try {
 			// 得到二维码数据
-			listenerAction= new ListenerAction(ImageIO.read(
-					new ByteArrayInputStream(responseParams.getBytes())
-				));
+			listenerAction= new ListenerAction(ImageIO.read(new ByteArrayInputStream(responseParams.getBytes())));
 		} catch (IOException e) {
 			logger.error("获取二维码数据失败", e);
 		}
 		
 		getQrListener.onListener(listenerAction);
 		
-		logger.debug("获取二维码完成，启动二维码状态检查");
+		logger.debug("获取二维码完成，启动二维码登录状态状态检查");
 		
-		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
-				responseParams.getCookies().getCookie("qrsig").getValue());
+		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener, responseParams.getCookies().getCookie("qrsig").getValue());
 	}
 	
 	/**
@@ -90,8 +90,7 @@ public class LoginAction {
 	* @version 1.0
 	* @return
 	 */
-	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener,
-			CallBackListener loginListener, String qrsig) {
+	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener, CallBackListener loginListener, String qrsig) {
 
 		try {
 			Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
@@ -100,7 +99,7 @@ public class LoginAction {
 		}
 			
 		String[] data = analysis(
-				new CheckLoginQRcodeStatus(qrsig).doRequest(null).getContent(),
+				checkLoginQRcodeStatus.doRequest(null).getContent(),
 				DataResRegx.check_login_qrcode_status
 			);
 		

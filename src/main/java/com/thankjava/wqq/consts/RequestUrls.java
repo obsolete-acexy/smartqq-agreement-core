@@ -10,6 +10,7 @@ package com.thankjava.wqq.consts;
  */
 public enum RequestUrls {
 
+	// === request url
 	get_login_qrcode("https://ssl.ptlogin2.qq.com/ptqrshow", "获取登录的二维码"),
 	check_qrcode_status("https://ssl.ptlogin2.qq.com/ptqrlogin", "校验登录二维码当前状态"),
 	getvfwebqq("http://s.web2.qq.com/api/getvfwebqq", "验证登录状态"),
@@ -25,14 +26,19 @@ public enum RequestUrls {
 	send_qun_msg2("https://d1.web2.qq.com/channel/send_qun_msg2", "发送群消息"),
 	send_discu_msg2("https://d1.web2.qq.com/channel/send_discu_msg2", "发送讨论组信息"),
 	
-	// ====referer
+	
+	// ==== referer url
 	referer_check_qrcode_status("https://ui.ptlogin2.qq.com/cgi-bin/login?daid=164&"
 			+ "target=self&style=16&mibao_css=m_webqq&appid=501004106&enable_qlogin=0"
 			+ "&no_verifyimg=1&s_url=http%3A%2F%2Fw.qq.com%2Fproxy.html&"
 			+ "f_url=loginerroralert&strong_login=1&login_state=10&t=20131024001", "检查二维码的referer"),
 	referer_getvfwebqq("http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1", "getvfwebqq的referer"),
 	referer_common("http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2", "公共的referer"),
-	referer_about_msg("https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1", "msg信息相关的referer")
+	referer_about_msg("https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1", "msg信息相关的referer"),
+	
+	
+	// ==== else url
+	else_proxy("http://w.qq.com/proxy.html?login2qq=1&webqq_type=10", "二维码状态检查的u1参数"),
 	;
 	
 	public String url;
