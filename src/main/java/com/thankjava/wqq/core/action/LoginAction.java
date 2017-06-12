@@ -2,8 +2,6 @@ package com.thankjava.wqq.core.action;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +22,7 @@ import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.ListenerAction;
 import com.thankjava.wqq.factory.ActionFactory;
 import com.thankjava.wqq.factory.RequestFactory;
-
+import com.thankjava.wqq.util.RegexUtil;
 import com.alibaba.fastjson.JSONObject;
 
 public class LoginAction {
@@ -63,25 +61,6 @@ public class LoginAction {
 	}
 	
 	/**
-	 * 使用正则去匹配返回的数据
-	 * @param content
-	 * @param dataResRegx
-	 * @return
-	 */
-	private static String[] analysis(String content, DataResRegx dataResRegx){
-		Pattern pattern = Pattern.compile(dataResRegx.regx);
-		Matcher matcher = pattern.matcher(content);
-		if(matcher.find()){
-			String[] values = new String[matcher.groupCount()];
-			for(int i = 1 ; i < matcher.groupCount(); i ++){
-				values[i - 1] = matcher.group(i);
-			}
-			return values;
-		}
-		return null;
-	}
-	
-	/**
 	 * 检查当前的二维码的状态
 	* <p>Function: checkLoginQRcodeStatus</p>
 	* <p>Description: </p>
@@ -98,12 +77,10 @@ public class LoginAction {
 			logger.error(e.getMessage(), e);
 		}
 			
-		String[] data = analysis(
-				checkLoginQRcodeStatus.doRequest(null).getContent(),
-				DataResRegx.check_login_qrcode_status
-			);
+		String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getContent(), DataResRegx.check_login_qrcode_status);
 		
 		if(data == null){
+			logger.error("解析二维码状态失败，重试二维码状态检查");
 			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener, qrsig);
 		}
 		
@@ -138,7 +115,7 @@ public class LoginAction {
 	* @version 1.0
 	 */
 	private void beginLogin(){
-		
+
 		// checkSig
 		ResponseParams responseParams = checkSig.doRequest(null);
 		
