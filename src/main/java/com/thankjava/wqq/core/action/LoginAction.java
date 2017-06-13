@@ -58,7 +58,7 @@ public class LoginAction {
 		
 		getQrListener.onListener(listenerAction);
 		
-		logger.debug("获取二维码完成,启动二维码登录状态状态检查");
+		logger.debug("获取二维码完成,启动二维码状态检查");
 		
 		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener);
 	}
