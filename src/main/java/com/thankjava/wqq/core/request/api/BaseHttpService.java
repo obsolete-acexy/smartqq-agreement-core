@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import java.util.concurrent.atomic.AtomicLong;
 

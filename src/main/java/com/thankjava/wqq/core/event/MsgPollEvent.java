@@ -6,7 +6,7 @@ import com.thankjava.toolkit3d.fastjson.FastJson;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
 import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.core.request.RequestBuilder;
-import com.thankjava.wqq.core.request.http.Poll2;
+import com.thankjava.wqq.core.request.api.Poll2;
 import com.thankjava.wqq.entity.msg.Content;
 import com.thankjava.wqq.entity.msg.Font;
 import com.thankjava.wqq.entity.msg.PollMsg;

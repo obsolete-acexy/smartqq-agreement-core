@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;

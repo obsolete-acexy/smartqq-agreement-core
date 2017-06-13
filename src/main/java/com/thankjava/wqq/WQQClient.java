@@ -12,6 +12,7 @@ import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.NotifyListener;
 import com.thankjava.wqq.factory.ActionFactory;
 
+
 public class WQQClient implements SmartQQClient {
 	
 	private static NotifyListener listener;

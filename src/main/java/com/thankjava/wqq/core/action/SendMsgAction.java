@@ -2,9 +2,10 @@ package com.thankjava.wqq.core.action;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.thankjava.wqq.core.request.http.SendBuddyMsg2;
-import com.thankjava.wqq.core.request.http.SendDiscuMsg2;
-import com.thankjava.wqq.core.request.http.SendQunMsg2;
+
+import com.thankjava.wqq.core.request.api.SendBuddyMsg2;
+import com.thankjava.wqq.core.request.api.SendDiscuMsg2;
+import com.thankjava.wqq.core.request.api.SendQunMsg2;
 import com.thankjava.wqq.entity.msg.SendMsg;
 
 public class SendMsgAction {

@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
@@ -7,12 +7,14 @@ import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
 import com.thankjava.toolkit3d.http.async.entity.RequestParams;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
-import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
+import com.thankjava.wqq.util.WqqEncryptor;
 
-public class GetOnlineBuddies2 extends BaseHttpService{
+import com.alibaba.fastjson.JSONObject;
+
+public class GetUserFriends2 extends BaseHttpService {
 
 	@Override
 	@Before(cutClass = DoRequest.class, cutMethod = "doRequest")
@@ -22,18 +24,12 @@ public class GetOnlineBuddies2 extends BaseHttpService{
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		
-		Parameters params = new Parameters("vfwebqq", session.getVfwebqq());
-		params.append("clientid", ConstsParams.CLIENT_ID.toString());
-		params.append("psessionid", session.getPsessionid());
-		params.append("t", String.valueOf(System.currentTimeMillis() / 1000));
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("vfwebqq", session.getVfwebqq());
+		jsonObject.put("hash", WqqEncryptor.hash(String.valueOf(session.getUin()), session.getPtwebqq()));
+		Parameters params = new Parameters("r", jsonObject.toJSONString());
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_common.url);
-		return new RequestParams(
-				RequestUrls.get_online_buddies2.url, 
-				HttpMethod.get, 
-				params,
-				headers
-		);	
+		return new RequestParams(RequestUrls.get_user_friends2.url, HttpMethod.post, params, headers);
 	}
 
 }

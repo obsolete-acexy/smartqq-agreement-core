@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
@@ -14,7 +14,7 @@ import com.thankjava.wqq.extend.CallBackListener;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class GetRecentList2 extends BaseHttpService {
+public class Login2 extends BaseHttpService {
 
 	@Override
 	@Before(cutClass = DoRequest.class, cutMethod = "doRequest")
@@ -24,20 +24,14 @@ public class GetRecentList2 extends BaseHttpService {
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("vfwebqq", session.getVfwebqq());
+		jsonObject.put("ptwebqq", session.getPtwebqq());
 		jsonObject.put("clientid", ConstsParams.CLIENT_ID);
-		jsonObject.put("psessionid", session.getPsessionid());
-		
-		Parameters params = new Parameters("r", jsonObject.toJSONString());		
+		jsonObject.put("psessionid", "");
+		jsonObject.put("status", "online");
+		Parameters params = new Parameters("r", jsonObject.toJSONString());
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_common.url);
-		return new RequestParams(
-				RequestUrls.get_recent_list2.url, 
-				HttpMethod.post, 
-				params,
-				headers
-		);	
+		return new RequestParams(RequestUrls.login2.url, HttpMethod.post, params, headers);
 	}
 
 }
