@@ -1,5 +1,6 @@
 package com.thankjava.wqq;
 
+import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.action.GetInfoAction;
 import com.thankjava.wqq.core.action.LoginAction;
 import com.thankjava.wqq.core.action.SendMsgAction;
@@ -23,11 +24,40 @@ public class WQQClient implements SmartQQClient {
 	private SendMsgAction sendMsgAction = ActionFactory.getInstance(SendMsgAction.class);
 	private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 	
+	
+	/**
+	 * 简单构造
+	* <p>Title: </p>
+	* <p>Description: </p>
+	* @param listener
+	 */
 	public WQQClient(NotifyListener listener){
 		if(listener == null){
 			throw new NullPointerException("NotifyListener can not be null");
 		}
 		WQQClient.listener = listener;
+	}
+	
+	/**
+	 * 携带初始化参数构造
+	* <p>Title: </p>
+	* <p>Description: </p>
+	* @param exceptionRetryMaxTimes 某些接口由于服务器不稳定返回异常的自动尝试最高次数(默认 3)
+	* @param listener
+	* @param initLoginInfo 是否登录成功后立即获取相关信息并缓存起来(好友信息，群信息等 默认 false)
+	 */
+	public WQQClient(boolean initLoginInfo, int exceptionRetryMaxTimes, NotifyListener listener){
+		
+		if(exceptionRetryMaxTimes < 1){
+			throw new IllegalArgumentException("exceptionRetryMaxTimes should >= 1");
+		}
+		if(listener == null){
+			throw new NullPointerException("NotifyListener can not be null");
+		}
+		
+		WQQClient.listener = listener;
+		ConstsParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
+		ConstsParams.INIT_LOGIN_INFO = initLoginInfo;
 	}
 	
 	public static NotifyListener getNotifyListener(){
