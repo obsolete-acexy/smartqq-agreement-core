@@ -43,7 +43,7 @@ public class SendDiscuMsg2 extends BaseHttpService{
 		jsonObject.put("content", sendMsg.getContent().toSendMsg()); //
 		jsonObject.put("face", 546); // 这个其实没啥用
 		jsonObject.put("clientid", ConstsParams.CLIENT_ID);
-		jsonObject.put("msg_id", didMsgId.incrementAndGet());
+		jsonObject.put("msg_id", msgId.incrementAndGet());
 		jsonObject.put("psessionid", session.getPsessionid());
 		Parameters params = new Parameters("r", jsonObject.toJSONString());
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_about_msg.url);
