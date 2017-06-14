@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thankjava.wqq</groupId>
 	<artifactId>smartqq-agreement-core</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
