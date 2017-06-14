@@ -1,15 +1,11 @@
 package com.thankjava.wqq.core.action;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.thankjava.wqq.core.request.http.SendBuddyMsg2;
-import com.thankjava.wqq.core.request.http.SendDiscuMsg2;
-import com.thankjava.wqq.core.request.http.SendQunMsg2;
+import com.thankjava.wqq.core.request.api.SendBuddyMsg2;
+import com.thankjava.wqq.core.request.api.SendDiscuMsg2;
+import com.thankjava.wqq.core.request.api.SendQunMsg2;
 import com.thankjava.wqq.entity.msg.SendMsg;
 
 public class SendMsgAction {
-
-	private static final Logger logger = LoggerFactory.getLogger(SendMsgAction.class);
 
 	public boolean sendMsg(SendMsg sendMsg) {
 		switch (sendMsg.getMsgType()) {
@@ -25,20 +21,17 @@ public class SendMsgAction {
 	}
 
 	private boolean sendFriendMsg(SendMsg sendMsg) {
-		String content = new SendBuddyMsg2(sendMsg).doRequest(null).getContent();
-		logger.debug("发送好友信息返回内容: " + content);
-		return false;
+		new SendBuddyMsg2(sendMsg).doRequest(null);
+		return true;
 	}
 
 	private boolean sendGroupMsg(SendMsg sendMsg) {
-		String content = new SendQunMsg2(sendMsg).doRequest(null).getContent();
-		logger.debug("发送群组信息返回内容: " + content);
-		return false;
+		new SendQunMsg2(sendMsg).doRequest(null);
+		return true;
 	}
 	
 	private boolean sendDiscuMsg(SendMsg sendMsg){
-		String content = new SendDiscuMsg2(sendMsg).doRequest(null).getContent();
-		logger.debug("发送讨论组信息返回内容: " + content);
-		return false;
+		new SendDiscuMsg2(sendMsg).doRequest(null);
+		return true;
 	}
 }

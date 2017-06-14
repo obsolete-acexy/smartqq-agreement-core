@@ -9,7 +9,7 @@ public class FriendsList {
 	private Map<Integer, CategorieInfo> categories = new HashMap<>();
 
 	// key为好友 uin 好友信息
-	private Map<Long, FriendInfo> friends = new HashMap<>();
+	private Map<Long, FriendInfo> friendsInfo = new HashMap<>();
 	
 	/**
 	 * 获取单个好友信息
@@ -22,7 +22,7 @@ public class FriendsList {
 	* @return
 	 */
 	public FriendInfo getFriendInfo(long uin){
-		return friends.get(uin);
+		return friendsInfo.get(uin);
 	}
 	
 	public Map<Integer, CategorieInfo> getCategories() {
@@ -31,10 +31,10 @@ public class FriendsList {
 	public void setCategories(Map<Integer, CategorieInfo> categories) {
 		this.categories = categories;
 	}
-	public Map<Long, FriendInfo> getFriends() {
-		return friends;
+	public Map<Long, FriendInfo> getFriendsInfo() {
+		return friendsInfo;
 	}
-	public void setFriends(Map<Long, FriendInfo> friends) {
-		this.friends = friends;
+	public void setFriendsInfo(Map<Long, FriendInfo> friends) {
+		this.friendsInfo = friends;
 	}
 }

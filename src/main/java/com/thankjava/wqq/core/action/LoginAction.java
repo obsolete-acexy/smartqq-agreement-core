@@ -2,29 +2,29 @@ package com.thankjava.wqq.core.action;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
+import org.apache.http.cookie.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.DataResRegx;
 import com.thankjava.wqq.core.event.MsgPollEvent;
-import com.thankjava.wqq.core.request.Request;
-import com.thankjava.wqq.core.request.http.CheckLoginQRcodeStatus;
-import com.thankjava.wqq.core.request.http.CheckSig;
-import com.thankjava.wqq.core.request.http.GetLoginQRcode;
-import com.thankjava.wqq.core.request.http.GetVfWebqq;
-import com.thankjava.wqq.core.request.http.Login2;
+import com.thankjava.wqq.core.request.RequestBuilder;
+import com.thankjava.wqq.core.request.api.CheckLoginQRcodeStatus;
+import com.thankjava.wqq.core.request.api.CheckSig;
+import com.thankjava.wqq.core.request.api.GetLoginQRcode;
+import com.thankjava.wqq.core.request.api.GetVfWebqq;
+import com.thankjava.wqq.core.request.api.Login2;
 import com.thankjava.wqq.entity.Session;
+import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.ListenerAction;
 import com.thankjava.wqq.factory.ActionFactory;
 import com.thankjava.wqq.factory.RequestFactory;
-
+import com.thankjava.wqq.util.RegexUtil;
 import com.alibaba.fastjson.JSONObject;
 
 public class LoginAction {
@@ -33,52 +33,35 @@ public class LoginAction {
 	
 	Session session = Session.getSession();
 	
-	Request getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
-	Request checkSig = RequestFactory.getInstance(CheckSig.class);
-	Request getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
-	Request login2 = RequestFactory.getInstance(Login2.class);
+	RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
+	RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
+	RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
+	RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
+	RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
+
+	GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		
 		ResponseParams responseParams = getLoginQRcode.doRequest(null);
 		if(responseParams == null){
+			logger.error("获取二维码失败,执行重试");
 			login(autoRefreshQRcode, getQrListener, loginListener);
 		}
+
 		ListenerAction listenerAction = null;
 		try {
 			// 得到二维码数据
-			listenerAction= new ListenerAction(ImageIO.read(
-					new ByteArrayInputStream(responseParams.getBytes())
-				));
+			listenerAction= new ListenerAction(ImageIO.read(new ByteArrayInputStream(responseParams.getBytes())));
 		} catch (IOException e) {
 			logger.error("获取二维码数据失败", e);
 		}
 		
 		getQrListener.onListener(listenerAction);
 		
-		logger.debug("获取二维码完成，启动二维码状态检查");
+		logger.debug("获取二维码完成,启动二维码状态检查");
 		
-		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener,
-				responseParams.getCookies().getCookie("qrsig").getValue());
-	}
-	
-	/**
-	 * 使用正则去匹配返回的数据
-	 * @param content
-	 * @param dataResRegx
-	 * @return
-	 */
-	private static String[] analysis(String content, DataResRegx dataResRegx){
-		Pattern pattern = Pattern.compile(dataResRegx.regx);
-		Matcher matcher = pattern.matcher(content);
-		if(matcher.find()){
-			String[] values = new String[matcher.groupCount()];
-			for(int i = 1 ; i < matcher.groupCount(); i ++){
-				values[i - 1] = matcher.group(i);
-			}
-			return values;
-		}
-		return null;
+		checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener);
 	}
 	
 	/**
@@ -90,34 +73,40 @@ public class LoginAction {
 	* @version 1.0
 	* @return
 	 */
-	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener,
-			CallBackListener loginListener, String qrsig) {
+	private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener, CallBackListener loginListener) {
 
 		try {
 			Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
 		} catch (InterruptedException e) {
-			logger.error(e.getMessage(), e);
+			logger.error("线程等待异常", e);
 		}
 			
-		String[] data = analysis(
-				new CheckLoginQRcodeStatus(qrsig).doRequest(null).getContent(),
-				DataResRegx.check_login_qrcode_status
-			);
+		String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getContent(), DataResRegx.check_login_qrcode_status);
 		
 		if(data == null){
-			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener, qrsig);
+			logger.error("解析二维码状态失败,重试二维码状态检查");
+			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
 		}
 		
-		switch (Integer.valueOf(data[0])) {
+		Integer statusCode = Integer.valueOf(data[0]);
+		if (statusCode == null){
+			logger.error("无法解析出有效的二维码状态码,重试二维码状态检查");
+			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
+		}
+		
+		switch (statusCode) {
 		case 0: // 二维码认证成功
-			logger.debug("二维码扫描登录完成,进行登录动作 checkSigUrl: " + data[2]);
+			logger.debug("二维码验证完成");
 			session.setCheckSigUrl(data[2]);
-			beginLogin();
-			loginListener.onListener(new ListenerAction());
+			if(beginLogin()){
+				loginListener.onListener(null);
+			} else {
+				logger.error("登录失败");
+			}
 			break;
 		case 65: // 二维码认证过期
 			if(autoRefreshQRcode){ // 如果指定过期自动刷新二维码
-				logger.debug("二维码已过期,重新获取二维码..");
+				logger.debug("二维码已过期,重新获取二维码...");
 				login(autoRefreshQRcode, getQRListener, loginListener);
 				break;
 			}
@@ -125,7 +114,7 @@ public class LoginAction {
 			break;
 		default: // 二维码处于认证中|等待认证
 			logger.debug("二维码状态: " + data[4]);
-			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener, qrsig);
+			checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
 			break;
 		}
 	}
@@ -138,42 +127,75 @@ public class LoginAction {
 	* @date 2016年12月20日 下午2:49:21
 	* @version 1.0
 	 */
-	private void beginLogin(){
-		
+	private boolean beginLogin(){
+
 		// checkSig
 		ResponseParams responseParams = checkSig.doRequest(null);
 		
 		// checkSig 成功后 从cookie中得到ptwebqq 确切的说其实这个cookie是检查qrcode成功后服务器下发的
-		String ptwebqq = responseParams.getCookies().getCookie("ptwebqq").getValue();
-		session.setPtwebqq(ptwebqq);
-		logger.debug("checkSig得到的ptwebqq: " + ptwebqq);
+		Cookie cookie = responseParams.getCookies().getCookie("ptwebqq");
+		if(cookie == null){
+			logger.error("未能获取到ptwebqq数据");
+			return false;
+		}
+		String ptwebqq = cookie.getValue();
+		if(ptwebqq == null || ptwebqq.length() == 0){
+			logger.error("未能成功获取ptwebqq数据");
+			return false;
+		}
 		
 		// getvfWebqq
+		session.setPtwebqq(ptwebqq);
 		responseParams = getVfWebqq.doRequest(null);
+		if(responseParams.isEmptyContent()){
+			logger.error("未能成功获取vfwebqq数据");
+			return false;
+		}
 		String content = responseParams.getContent();
-		
-		logger.debug("getvfwebqq得到的返回内容: " + content);
-		JSONObject jsonObject = JSONObject.parseObject(content);
-		JSONObject result = (JSONObject)jsonObject.get("result");
-		session.setVfwebqq(result.get("vfwebqq").toString());
+		JSONObject jsonObject,result;
+		try {
+			jsonObject = JSONObject.parseObject(content);
+			result = (JSONObject)jsonObject.get("result");
+			session.setVfwebqq(result.get("vfwebqq").toString());
+		} catch (Exception e) {
+			logger.error("未能成功解析vfwebqq数据", e);
+			return false;
+		}
 		
 		// login2
 		responseParams = login2.doRequest(null);
+		if(responseParams.isEmptyContent()){
+			logger.error("未能成功获取登录数据");
+			return false;
+		}
 		content = responseParams.getContent();
-		logger.debug("login2得到的返回内容: " + content);
+		try {
+			jsonObject = JSONObject.parseObject(content);
+			result = (JSONObject)jsonObject.get("result");
+			session.setUin(result.getLongValue("uin"));
+			session.setPsessionid(result.getString("psessionid"));
+		} catch (Exception e){
+			logger.error("未能成功解析登录数据", e);
+			return false;
+		}
 		
-		jsonObject = JSONObject.parseObject(content);
-		result = (JSONObject)jsonObject.get("result");
-		session.setUin(result.getLongValue("uin"));
-		session.setPsessionid(result.getString("psessionid"));
-		
-		// 初始化的一些信息获取
-		GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
-		getInfo.getFriendsList();
-		getInfo.getGroupsList();
-		getInfo.getDiscusList();
-		getInfo.getSelfInfo();
-		getInfo.getRecentList();
+		if (ConstsParams.INIT_LOGIN_INFO){
+			
+			FriendsList friendsList = getInfo.getFriendsList();
+			if (friendsList == null){
+				logger.error("获取好友列表失败");
+			} else {
+				friendsList = getInfo.getOnlineStatus();
+				if(friendsList == null){
+					logger.error("为好友列表查询在线状态失败");
+				}
+			}
+			getInfo.getGroupsList();
+			getInfo.getDiscusList();
+			getInfo.getSelfInfo();
+			getInfo.getRecentList();
+		}
+
 		
 		// 启动消息Poll
 		new Thread(new Runnable() {
@@ -183,5 +205,6 @@ public class LoginAction {
 			}
 		}).start();
 		
+		return true;
 	}
 }
