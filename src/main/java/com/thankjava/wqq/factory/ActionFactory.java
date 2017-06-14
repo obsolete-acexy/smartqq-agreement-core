@@ -3,8 +3,13 @@ package com.thankjava.wqq.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ActionFactory {
 
+	private static final Logger logger = LoggerFactory.getLogger(ActionFactory.class);
+	
 	private ActionFactory(){}
 	
 	private static final Map<Class<?>, Object> instances = new HashMap<>();
@@ -18,7 +23,7 @@ public class ActionFactory {
 				action = actionClass.newInstance();
 				instances.put(actionClass, action);
 			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
+				logger.error("创建ActionFactory<" + actionClass +">失败", e);
 			}
 		}
 		return action;

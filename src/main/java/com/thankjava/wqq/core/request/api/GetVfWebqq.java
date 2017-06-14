@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
@@ -11,7 +11,7 @@ import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
 
-public class GetSelfInfo2 extends BaseHttpService {
+public class GetVfWebqq extends BaseHttpService {
 
 	@Override
 	@Before(cutClass = DoRequest.class, cutMethod = "doRequest")
@@ -21,15 +21,11 @@ public class GetSelfInfo2 extends BaseHttpService {
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		Parameters params = new Parameters("t", String.valueOf(System.currentTimeMillis() / 1000));
-		
-		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_common.url);
-		return new RequestParams(
-				RequestUrls.get_self_info2.url, 
-				HttpMethod.get, 
-				params,
-				headers
-		);
+		Parameters params = new Parameters("ptwebqq", session.getPtwebqq());
+		params.append("clientid", "53999199");
+		params.append("psessionid", "");
+		params.append("t", String.valueOf(System.currentTimeMillis() / 1000));
+		Headers header = new Headers(HeaderName.referer.name, RequestUrls.referer_getvfwebqq.url);
+		return new RequestParams(RequestUrls.getvfwebqq.url, HttpMethod.get, params, header);
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
@@ -14,12 +14,12 @@ import com.thankjava.wqq.extend.ListenerAction;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class SendDiscuMsg2 extends BaseHttpService{
+public class SendQunMsg2 extends BaseHttpService {
 
-	private Object param;
+	private SendMsg sendMsg;
 	
-	public SendDiscuMsg2(Object param) {
-		this.param = param;
+	public SendQunMsg2(SendMsg sendMsg) {
+		this.sendMsg = sendMsg;
 	}
 	
 	@Override
@@ -36,9 +36,8 @@ public class SendDiscuMsg2 extends BaseHttpService{
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		SendMsg sendMsg = (SendMsg)param;
 		JSONObject jsonObject = new JSONObject(); 
-		jsonObject.put("did", sendMsg.getDid()); //
+		jsonObject.put("group_uin", sendMsg.getGroupUin()); //
 		jsonObject.put("content", sendMsg.getContent().toSendMsg()); //
 		jsonObject.put("face", 546); // 这个其实没啥用
 		jsonObject.put("clientid", ConstsParams.CLIENT_ID);
@@ -46,7 +45,7 @@ public class SendDiscuMsg2 extends BaseHttpService{
 		jsonObject.put("psessionid", session.getPsessionid());
 		Parameters params = new Parameters("r", jsonObject.toJSONString());
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_about_msg.url);
-		return new RequestParams(RequestUrls.send_discu_msg2.url, HttpMethod.post, params, headers);
+		return new RequestParams(RequestUrls.send_qun_msg2.url, HttpMethod.post, params, headers);
 	}
 
 }

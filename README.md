@@ -17,7 +17,7 @@
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 ---
@@ -153,7 +153,13 @@ public class NotifyHander {
     3. 稳定后先发布到Maven仓库
     
 ---
-### bug fix
+### bug fix & 升级备注
 
-        1.0.1 修复腾讯修改二维码校验流程带来的影响
-        
+* 1.0.1 修复腾讯修改二维码校验流程带来的影响
+* 1.0.2 调整代码易读性，增加稳定性等
+    * 代码结构调整
+    * 增加异常重试机制，增强稳定性
+    * 初始化SmartQQ的实现新增两个可选的构造参数
+---
+### 备注
+* 当前腾讯服务器在发送&接收群&讨论组消息时存在bug，会导致自己发送的消息识别为收到别人的消息

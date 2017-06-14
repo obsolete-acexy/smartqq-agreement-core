@@ -23,7 +23,7 @@ public class FriendInfo {
 	@JSONField(name = "nick")
 	private String nickName;
 	
-	// 备注
+	// 备注名
 	private String markname;
 	
 	// 客户端类型

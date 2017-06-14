@@ -1,4 +1,4 @@
-package com.thankjava.wqq.core.request.http;
+package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
@@ -7,11 +7,14 @@ import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
 import com.thankjava.toolkit3d.http.async.entity.RequestParams;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
+import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
 
-public class GetVfWebqq extends BaseHttpService {
+import com.alibaba.fastjson.JSONObject;
+
+public class GetRecentList2 extends BaseHttpService {
 
 	@Override
 	@Before(cutClass = DoRequest.class, cutMethod = "doRequest")
@@ -21,11 +24,20 @@ public class GetVfWebqq extends BaseHttpService {
 
 	@Override
 	protected RequestParams buildRequestParams() {
-		Parameters params = new Parameters("ptwebqq", session.getPtwebqq());
-		params.append("clientid", "53999199");
-		params.append("psessionid", "");
-		params.append("t", String.valueOf(System.currentTimeMillis() / 1000));
-		Headers header = new Headers(HeaderName.referer.name, RequestUrls.referer_getvfwebqq.url);
-		return new RequestParams(RequestUrls.getvfwebqq.url, HttpMethod.get, params, header);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("vfwebqq", session.getVfwebqq());
+		jsonObject.put("clientid", ConstsParams.CLIENT_ID);
+		jsonObject.put("psessionid", session.getPsessionid());
+		
+		Parameters params = new Parameters("r", jsonObject.toJSONString());		
+		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_common.url);
+		return new RequestParams(
+				RequestUrls.get_recent_list2.url, 
+				HttpMethod.post, 
+				params,
+				headers
+		);	
 	}
+
 }
