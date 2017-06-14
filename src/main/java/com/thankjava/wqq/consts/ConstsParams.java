@@ -30,5 +30,5 @@ public class ConstsParams {
 	/**
 	 * 登录完成后是否立即获取好友信息，群信息，讨论组信息
 	 */
-	public static boolean INIT_LOGIN_INFO = false;
+	public static boolean INIT_LOGIN_INFO = true;
 }

@@ -185,7 +185,7 @@ public class LoginAction {
 			if (friendsList == null){
 				logger.error("获取好友列表失败");
 			} else {
-				friendsList = getInfo.appendOnlineStatus();
+				friendsList = getInfo.getOnlineStatus();
 				if(friendsList == null){
 					logger.error("为好友列表查询在线状态失败");
 				}

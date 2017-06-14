@@ -14,6 +14,7 @@ public abstract class BaseHttpService implements RequestBuilder{
 	protected final Session session = Session.getSession();
 	
 	protected static final AtomicLong msgId =  new AtomicLong(ConstsParams.INIT_MSG_ID);
+	protected static final AtomicLong didMsgId =  new AtomicLong(99510000);
 	
 	public final static AsyncHttpClient asyncHttpClient = AsyncHttpClientBuilder.createDefault();
 	

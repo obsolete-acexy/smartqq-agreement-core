@@ -1,5 +1,6 @@
 package com.thankjava.wqq.core.request.api;
 
+import com.thankjava.toolkit3d.fastjson.FastJson;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
@@ -30,6 +31,7 @@ public class SendDiscuMsg2 extends BaseHttpService{
 			listener.onListener(listenerAction);
 			return null;
 		}else{
+			System.out.println(FastJson.toJsonString(buildRequestParams()));
 			return asyncHttpClient.syncRequestWithSession(buildRequestParams());
 		}
 	}
@@ -41,7 +43,7 @@ public class SendDiscuMsg2 extends BaseHttpService{
 		jsonObject.put("content", sendMsg.getContent().toSendMsg()); //
 		jsonObject.put("face", 546); // 这个其实没啥用
 		jsonObject.put("clientid", ConstsParams.CLIENT_ID);
-		jsonObject.put("msg_id", msgId.incrementAndGet());
+		jsonObject.put("msg_id", didMsgId.incrementAndGet());
 		jsonObject.put("psessionid", session.getPsessionid());
 		Parameters params = new Parameters("r", jsonObject.toJSONString());
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_about_msg.url);

@@ -92,8 +92,17 @@ public class WQQClient implements SmartQQClient {
 
 	@Override
 	public FriendsList getFriendsList(boolean isFromServer) {
+		
 		if(isFromServer){
-			session.setFriendsList(getInfo.getFriendsList());
+			FriendsList friendsList = getInfo.getFriendsList();
+			if (friendsList == null){
+				return null;
+			} else {
+				friendsList = getInfo.getOnlineStatus();
+				if(friendsList == null){
+					return null;
+				}
+			}
 		}
 		return session.getFriendsList();
 	}
