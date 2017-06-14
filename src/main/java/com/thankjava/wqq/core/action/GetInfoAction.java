@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.api.GetDiscusList;
 import com.thankjava.wqq.core.request.api.GetGroupNameListMask2;
@@ -13,25 +15,24 @@ import com.thankjava.wqq.core.request.api.GetRecentList2;
 import com.thankjava.wqq.core.request.api.GetSelfInfo2;
 import com.thankjava.wqq.core.request.api.GetUserFriends2;
 import com.thankjava.wqq.entity.Session;
-import com.thankjava.wqq.entity.wqq.CategorieInfo;
 import com.thankjava.wqq.entity.wqq.DetailedInfo;
 import com.thankjava.wqq.entity.wqq.DiscuInfo;
 import com.thankjava.wqq.entity.wqq.DiscusList;
-import com.thankjava.wqq.entity.wqq.FriendInfo;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupInfo;
 import com.thankjava.wqq.entity.wqq.GroupsList;
 import com.thankjava.wqq.factory.RequestFactory;
-
+import com.thankjava.wqq.util.JSON2Entity;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.thankjava.toolkit3d.fastjson.FastJson;
+import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
 
 public class GetInfoAction {
 
 	private static final Logger logger = LoggerFactory.getLogger(GetInfoAction.class);
 	
-	Session session = Session.getSession();
+	private static Session session = Session.getSession();
 	
 	RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
 	RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
@@ -41,7 +42,7 @@ public class GetInfoAction {
 	RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
 	
 	/**
-	 * 获取好友列表
+	 * 获取所有好友信息
 	* <p>Function: getFriendsList</p>
 	* <p>Description: </p>
 	* @author zhaoxy@thankjava.com
@@ -50,9 +51,54 @@ public class GetInfoAction {
 	* @return
 	 */
 	public FriendsList getFriendsList(){
-		String friendsListContent = getUserFriends2.doRequest(null).getContent();
-		String onlienBuddiesContent = getOnlineBuddies2.doRequest(null).getContent();
-		return analysisFriendsList(friendsListContent, onlienBuddiesContent);
+
+		ResponseParams response = null;
+		FriendsList friendsList = null;
+		
+		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
+			response = getUserFriends2.doRequest(null);
+			if(!response.isEmptyContent()){
+				friendsList = JSON2Entity.userFriends2(response.getContent());
+				if(friendsList != null){
+					session.setFriendsList(friendsList);
+					return friendsList;
+				}
+			}
+		}
+		logger.error("getUserFriends2失败(已尝试重试)");
+		return null;
+	}
+	
+	/**
+	 * 为当前好友列表数据查询在线状态
+	* <p>Function: appendOnlineStatus</p>
+	* <p>Description: </p>
+	* @author zhaoxy@thankjava.com
+	* @date 2017年6月14日 下午2:46:17
+	* @version 1.0
+	* @return
+	 */
+	public FriendsList appendOnlineStatus(){
+		
+		FriendsList friendsList = session.getFriendsList();
+		if(friendsList == null){
+			return null;
+		}
+		
+		ResponseParams response = null;
+		
+		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
+			response = getOnlineBuddies2.doRequest(null);
+			if(!response.isEmptyContent()){
+				friendsList = JSON2Entity.onlineStatus(friendsList, response.getContent());
+				if(friendsList != null){
+					session.setFriendsList(friendsList);
+					return friendsList;
+				}
+			}
+		}
+		logger.error("getOnlineBuddies2失败(已尝试重试)");
+		return null;
 	}
 	
 	/**
@@ -90,96 +136,7 @@ public class GetInfoAction {
 		logger.debug("获取会话列表:" + content);
 	}
 	
-	private FriendsList analysisFriendsList(String friendsListContent, String onlienBuddiesContent){
-		
-		logger.debug("获取好友列表返回数据: " + friendsListContent);
-		logger.debug("获取好友状态返回数据: " + onlienBuddiesContent);
-		
-		FriendsList friendsList = new FriendsList();
-		
-		JSONObject friendsListJson = JSONObject.parseObject(friendsListContent);
-		
-//		if(friendsListJson.getIntValue("retcode") != 0){
-////			friendsList = session.getFriendsList();
-////			if(friendsList == null){
-////				// 本地的好友列表信息不存在,则当前对于第一次获取好友列表的情况 一直重试
-////				return getFriendsList();
-////			}
-//		}else{
-			JSONObject result = (JSONObject) friendsListJson.get("result");
-			Map<Integer, CategorieInfo> categories = new HashMap<>();
-			Map<Long, FriendInfo> friendInfos = new HashMap<>();
-			
-			// 处理分组信息
-			JSONArray array = (JSONArray)result.get("categories");
-			CategorieInfo categorie;
-			Object[] objs = array.toArray();
-			for (Object obj : objs) {
-				categorie = FastJson.toObject(obj.toString(), CategorieInfo.class);
-				categories.put(categorie.getIndex(), categorie);
-			}
-			// 设置默认分组
-			if(categories.size() == 0){
-				categorie = new CategorieInfo();
-				categorie.setIndex(0);
-				categorie.setSort(1);
-				categorie.setName("默认分组");
-			}
-			friendsList.setCategories(categories);
-			
-			// 处理好友信息
-			FriendInfo friendInfo;
-			long uin = -1L;
-			
-			// 好友信息
-			array = (JSONArray)result.get("info");
-			objs = array.toArray();
-			for (Object obj : objs) {
-				friendInfo = FastJson.toObject(obj.toString(), FriendInfo.class);
-				friendInfos.put(friendInfo.getUin(), friendInfo);
-			}
-			
-			// 备注信息
-			array = (JSONArray)result.get("marknames");
-			objs = array.toArray();
-			for (Object obj : objs) {
-				uin = ((JSONObject)obj).getLongValue("uin");
-				friendInfo = friendInfos.get(uin);
-				friendInfo = FastJson.appendObject(obj.toString(), friendInfo);
-			}
-			
-			// 分组
-			array = (JSONArray)result.get("friends");
-			objs = array.toArray();
-			for (Object obj : objs) {
-				uin = ((JSONObject)obj).getLongValue("uin");
-				friendInfo = friendInfos.get(uin);
-				friendInfo = FastJson.appendObject(obj.toString(), friendInfo);
-			}
-			
-			// 会员信息
-			array = (JSONArray)result.get("vipinfo");
-			objs = array.toArray();
-			for (Object obj : objs) {
-				uin = ((JSONObject)obj).getLongValue("u");
-				friendInfo = friendInfos.get(uin);
-				friendInfo = FastJson.appendObject(obj.toString(), friendInfo);
-			}
-			// 在线状态 
-			JSONObject onlineBuddiesJson = JSONObject.parseObject(onlienBuddiesContent);
-			array = (JSONArray)onlineBuddiesJson.get("result");
-			objs = array.toArray();
-			for (Object obj : objs) {
-				uin = ((JSONObject)obj).getLongValue("uin");
-				friendInfo = friendInfos.get(uin);
-				friendInfo = FastJson.appendObject(obj.toString(), friendInfo);
-			}
-			friendsList.setFriends(friendInfos);
-			session.setFriendsList(friendsList);
-//		}
-		
-		return friendsList;
-	}
+	
 	
 	private GroupsList analysisGroupsList(String content){
 		logger.debug("获取群列表返回的数据:" + content);

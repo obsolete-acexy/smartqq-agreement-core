@@ -19,6 +19,7 @@ import com.thankjava.wqq.core.request.api.GetLoginQRcode;
 import com.thankjava.wqq.core.request.api.GetVfWebqq;
 import com.thankjava.wqq.core.request.api.Login2;
 import com.thankjava.wqq.entity.Session;
+import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.ListenerAction;
 import com.thankjava.wqq.factory.ActionFactory;
@@ -95,7 +96,7 @@ public class LoginAction {
 		
 		switch (statusCode) {
 		case 0: // 二维码认证成功
-			logger.debug("登录成功");
+			logger.debug("二维码验证完成");
 			session.setCheckSigUrl(data[2]);
 			if(beginLogin()){
 				loginListener.onListener(null);
@@ -178,11 +179,23 @@ public class LoginAction {
 			return false;
 		}
 		
-		getInfo.getFriendsList();
-		getInfo.getGroupsList();
-		getInfo.getDiscusList();
-		getInfo.getSelfInfo();
-		getInfo.getRecentList();
+		if (ConstsParams.INIT_LOGIN_INFO){
+			
+			FriendsList friendsList = getInfo.getFriendsList();
+			if (friendsList == null){
+				logger.error("获取好友列表失败");
+			} else {
+				friendsList = getInfo.appendOnlineStatus();
+				if(friendsList == null){
+					logger.error("为好友列表查询在线状态失败");
+				}
+			}
+			getInfo.getGroupsList();
+			getInfo.getDiscusList();
+			getInfo.getSelfInfo();
+			getInfo.getRecentList();
+		}
+
 		
 		// 启动消息Poll
 		new Thread(new Runnable() {
