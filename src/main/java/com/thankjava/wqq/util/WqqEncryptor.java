@@ -15,13 +15,9 @@ public class WqqEncryptor {
 	private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
 
 	/**
-	 * 计算一些接口的hash值
-	 * <p>
-	 * Function: hash
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
+	 * 计算一些接口的hash值</p>
+	 * Function: hash</p>
+	 * <p>Description:</p>
 	 * 
 	 * @author zhaoxy@thankjava.com
 	 * @date 2016年12月21日 下午6:25:04

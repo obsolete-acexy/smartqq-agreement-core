@@ -17,7 +17,7 @@ public class Content {
 	* <p>Description: </p>
 	* @param content
 	 */
-	public Content(String content){
+	Content(String content){
 		msg = new Object[]{content};
 	}
 	

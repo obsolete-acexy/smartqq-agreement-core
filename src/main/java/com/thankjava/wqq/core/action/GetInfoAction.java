@@ -26,12 +26,12 @@ public class GetInfoAction {
 	
 	private static Session session = Session.getSession();
 	
-	RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
-	RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
-	RequestBuilder getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
-	RequestBuilder getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
-	RequestBuilder getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
-	RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
+	private RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
+	private RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
+	private RequestBuilder getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
+	private RequestBuilder getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
+	private RequestBuilder getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
+	private RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
 	
 	/**
 	 * 获取所有好友信息
@@ -169,7 +169,7 @@ public class GetInfoAction {
 		return null;
 	}
 	
-	public void getRecentList(){
+	void getRecentList(){
 		getRecentList2.doRequest(null).getContent();
 	}
 }

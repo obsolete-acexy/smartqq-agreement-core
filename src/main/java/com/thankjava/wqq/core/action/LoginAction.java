@@ -31,15 +31,15 @@ public class LoginAction {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
 	
-	Session session = Session.getSession();
+	private Session session = Session.getSession();
 	
-	RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
-	RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
-	RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
-	RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
-	RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
+	private RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
+	private RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
+	private RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
+	private RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
+	private RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
 
-	GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
+	private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
 		

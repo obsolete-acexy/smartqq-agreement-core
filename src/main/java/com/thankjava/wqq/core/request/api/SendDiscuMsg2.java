@@ -1,6 +1,5 @@
 package com.thankjava.wqq.core.request.api;
 
-import com.thankjava.toolkit3d.fastjson.FastJson;
 import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
@@ -31,7 +30,6 @@ public class SendDiscuMsg2 extends BaseHttpService{
 			listener.onListener(listenerAction);
 			return null;
 		}else{
-			System.out.println(FastJson.toJsonString(buildRequestParams()));
 			return asyncHttpClient.syncRequestWithSession(buildRequestParams());
 		}
 	}

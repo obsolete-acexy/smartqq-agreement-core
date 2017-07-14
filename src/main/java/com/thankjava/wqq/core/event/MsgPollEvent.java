@@ -16,22 +16,24 @@ public class MsgPollEvent {
 
 	private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
 	
-	RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
+	private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
 	
 	public void poll(){
 		
 		poll2.doRequest(new CallBackListener() {
 			@Override
 			public void onListener(ListenerAction listenerAction) {
-				ResponseParams respones = (ResponseParams) listenerAction.getData();
-				logger.debug("poll msg: " + respones.toString());
-				if(respones.getHttpCode() == 200){
-					PollMsg pollMsg = JSON2Entity.pollMsg(respones.getContent());
-					if (pollMsg != null){
-						MsgPollEvent.this.notifyMsgEvent(pollMsg);
+				if(listenerAction.getData() != null){
+					ResponseParams respones = (ResponseParams) listenerAction.getData();
+					logger.debug("poll msg: " + respones.toString());
+					if(respones.getHttpCode() == 200){
+						PollMsg pollMsg = JSON2Entity.pollMsg(respones.getContent());
+						if (pollMsg != null){
+							notifyMsgEvent(pollMsg);
+						}
 					}
+					poll();
 				}
-				poll();
 			}
 		});
 	}
