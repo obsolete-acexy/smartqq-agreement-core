@@ -24,10 +24,10 @@ public class MsgPollEvent {
 			@Override
 			public void onListener(ListenerAction listenerAction) {
 				if(listenerAction.getData() != null){
-					ResponseParams respones = (ResponseParams) listenerAction.getData();
-					logger.debug("poll msg: " + respones.toString());
-					if(respones.getHttpCode() == 200){
-						PollMsg pollMsg = JSON2Entity.pollMsg(respones.getContent());
+					ResponseParams response = (ResponseParams) listenerAction.getData();
+					logger.debug("poll msg: " + response.toString());
+					if(response.getHttpCode() == 200){
+						PollMsg pollMsg = JSON2Entity.pollMsg(response.getContent());
 						if (pollMsg != null){
 							notifyMsgEvent(pollMsg);
 						}
