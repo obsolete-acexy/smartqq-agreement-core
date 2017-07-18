@@ -16,4 +16,4 @@ hs_err_pid*
 .classpath
 log
 .idea
-smartqq-agreement-core.iml
+*.iml
