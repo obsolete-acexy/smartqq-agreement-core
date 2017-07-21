@@ -25,7 +25,7 @@ public class MsgPollEvent {
 			public void onListener(ListenerAction listenerAction) {
 				if(listenerAction.getData() != null){
 					ResponseParams response = (ResponseParams) listenerAction.getData();
-					logger.debug("poll msg: " + response.toString());
+					logger.debug("poll msg > httpStatus: " + response.getHttpCode());
 					if(response.getHttpCode() == 200){
 						PollMsg pollMsg = JSON2Entity.pollMsg(response.getContent());
 						if (pollMsg != null){
