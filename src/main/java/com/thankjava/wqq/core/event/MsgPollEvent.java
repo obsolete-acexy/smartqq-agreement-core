@@ -1,5 +1,6 @@
 package com.thankjava.wqq.core.event;
 
+import com.thankjava.toolkit3d.fastjson.FastJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
@@ -25,7 +26,7 @@ public class MsgPollEvent {
 			public void onListener(ListenerAction listenerAction) {
 				if(listenerAction.getData() != null){
 					ResponseParams response = (ResponseParams) listenerAction.getData();
-					logger.debug("poll msg > httpStatus: " + response.getHttpCode());
+					logger.debug("msgPoll Event > httpStatus: " + response.getHttpCode());
 					if(response.getHttpCode() == 200){
 						PollMsg pollMsg = JSON2Entity.pollMsg(response.getContent());
 						if (pollMsg != null){

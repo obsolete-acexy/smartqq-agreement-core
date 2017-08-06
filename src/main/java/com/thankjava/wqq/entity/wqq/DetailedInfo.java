@@ -10,7 +10,7 @@ public class DetailedInfo {
 	// 学校
 	private String college;
 	
-	// qq号码
+	// qq号码 (腾讯已经移除了QQ号码的返回)
 	@JSONField(name = "account")
 	private String qq;
 	
