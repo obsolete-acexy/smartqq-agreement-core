@@ -13,6 +13,8 @@
 ---
 
 ### 获取
+# 由于腾讯获取登陆二维码移除返回content-type导致相关问题，相关问题预计近期1.0.3版本修复。请见https://github.com/thankjava/smartqq-agreement-core/issues/8
+
 ```xml
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
@@ -157,9 +159,10 @@ public class NotifyHander {
 
 * 1.0.1 修复腾讯修改二维码校验流程带来的影响
 * 1.0.2 调整代码易读性，增加稳定性等
-    * 代码结构调整
-    * 增加异常重试机制，增强稳定性
-    * 初始化SmartQQ的实现新增两个可选的构造参数
+	* 代码结构调整
+	* 增加异常重试机制，增强稳定性
+	* 初始化SmartQQ的实现新增两个可选的构造参数
+    
 ---
 ### 备注
 * 当前腾讯服务器在发送&接收群&讨论组消息时存在bug，会导致自己发送的消息识别为收到别人的消息
