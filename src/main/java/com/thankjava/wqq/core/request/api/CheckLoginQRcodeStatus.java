@@ -5,8 +5,8 @@ import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
-import com.thankjava.toolkit3d.http.async.entity.RequestParams;
-import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
 import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
@@ -16,12 +16,12 @@ public class CheckLoginQRcodeStatus extends BaseHttpService {
 
 	@Override
 	@Before(cutClass = DoRequest.class, cutMethod = "doRequest")
-	public ResponseParams doRequest(CallBackListener listener) {
+	public AsyncResponse doRequest(CallBackListener listener) {
 		return null;
 	}
 
 	@Override
-	protected RequestParams buildRequestParams() {
+	protected AsyncRequest buildRequestParams() {
 		
 		Parameters params = new Parameters("webqq_type", "10");
 		params.append("ptqrtoken", WqqEncryptor.hashForCheckQrStatus(asyncHttpClient.getCookie("qrsig").getValue()));
@@ -47,7 +47,7 @@ public class CheckLoginQRcodeStatus extends BaseHttpService {
 		params.append("pt_randsalt", "0");
 		
 		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_check_qrcode_status.url);
-		return new RequestParams(
+		return new AsyncRequest(
 				RequestUrls.check_qrcode_status.url, 
 				HttpMethod.get, 
 				params,

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import com.thankjava.toolkit3d.aop.entity.AopParam;
 import com.thankjava.toolkit.reflect.ReflectHelper;
 import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
-import com.thankjava.toolkit3d.http.async.entity.RequestParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
 import com.thankjava.wqq.core.request.api.BaseHttpService;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.ListenerAction;
@@ -28,14 +28,14 @@ public class DoRequest {
 		Object proxyInstance = aopParam.getProxyInstance();
 		
 		Method method = ReflectHelper.getMethod(proxyInstance, proxyMethodName);
-		RequestParams requestParams = (RequestParams) ReflectHelper.invokeMethod(proxyInstance, method);
+		AsyncRequest asyncRequest = (AsyncRequest) ReflectHelper.invokeMethod(proxyInstance, method);
 		if(listener != null){
 			// 如果传递了listener 则通过listener的方式回调返回
 			ListenerAction listenerAction = new ListenerAction();
-			listenerAction.setData(asyncHttpClient.syncRequestWithSession(requestParams));
+			listenerAction.setData(asyncHttpClient.syncRequestWithSession(asyncRequest));
 			listener.onListener(listenerAction);
 		}else{
-			aopParam.setResult(asyncHttpClient.syncRequestWithSession(requestParams));
+			aopParam.setResult(asyncHttpClient.syncRequestWithSession(asyncRequest));
 		}
 		// 通过普通的方式返回结果
 		return aopParam;

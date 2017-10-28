@@ -14,12 +14,6 @@ public class NotifyHander {
 
 	// 指定不同类型的不同msg回复
 	public void hander(PollMsg pollMsg) {
-		try {
-			Thread.currentThread().sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		switch (pollMsg.getMsgType()) {
 		case message:
 			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: friend"));
@@ -32,7 +26,7 @@ public class NotifyHander {
 			break;
 		}
 	}
-//	
+
 	
 	// sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
 //	public void hander(PollMsg pollMsg){

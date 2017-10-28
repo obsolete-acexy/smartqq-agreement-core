@@ -1,6 +1,7 @@
+
 package com.thankjava.wqq.core.request;
 
-import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
 import com.thankjava.wqq.extend.CallBackListener;
 
 public interface RequestBuilder {
@@ -15,6 +16,6 @@ public interface RequestBuilder {
 	* @param listener 回调函数 如果回调函数为空 则通过 return 返回请求结果
 	* @return 如果没有传入回调函数则结果将通过该参数返回， 如果传入了回调函数则返回值为null
 	 */
-	public ResponseParams doRequest(CallBackListener listener);
+	public AsyncResponse doRequest(CallBackListener listener);
 	
 }

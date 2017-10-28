@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
 import com.thankjava.toolkit3d.http.async.AsyncHttpClientBuilder;
-import com.thankjava.toolkit3d.http.async.entity.RequestParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.entity.Session;
@@ -26,6 +26,6 @@ public abstract class BaseHttpService implements RequestBuilder{
 	* @version 1.0
 	* @return
 	 */
-	protected abstract RequestParams buildRequestParams();
+	protected abstract AsyncRequest buildRequestParams();
 	
 }

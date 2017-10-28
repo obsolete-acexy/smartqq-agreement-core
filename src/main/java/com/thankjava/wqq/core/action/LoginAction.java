@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import org.apache.http.cookie.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.DataResRegx;
 import com.thankjava.wqq.core.event.MsgPollEvent;
@@ -31,20 +31,20 @@ public class LoginAction {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
 	
-	Session session = Session.getSession();
+	private Session session = Session.getSession();
 	
-	RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
-	RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
-	RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
-	RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
-	RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
+	private RequestBuilder getLoginQRcode = RequestFactory.getInstance(GetLoginQRcode.class);
+	private RequestBuilder checkSig = RequestFactory.getInstance(CheckSig.class);
+	private RequestBuilder getVfWebqq = RequestFactory.getInstance(GetVfWebqq.class);
+	private RequestBuilder login2 = RequestFactory.getInstance(Login2.class);
+	private RequestBuilder checkLoginQRcodeStatus = RequestFactory.getInstance(CheckLoginQRcodeStatus.class);
 
-	GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
+	private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 	
 	public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener){
-		
-		ResponseParams responseParams = getLoginQRcode.doRequest(null);
-		if(responseParams == null){
+
+		AsyncResponse asyncResponse = getLoginQRcode.doRequest(null);
+		if(asyncResponse == null){
 			logger.error("获取二维码失败,执行重试");
 			login(autoRefreshQRcode, getQrListener, loginListener);
 		}
@@ -52,7 +52,7 @@ public class LoginAction {
 		ListenerAction listenerAction = null;
 		try {
 			// 得到二维码数据
-			listenerAction= new ListenerAction(ImageIO.read(new ByteArrayInputStream(responseParams.getBytes())));
+			listenerAction= new ListenerAction(ImageIO.read(new ByteArrayInputStream(asyncResponse.getDataByteArray())));
 		} catch (IOException e) {
 			logger.error("获取二维码数据失败", e);
 		}
@@ -81,7 +81,7 @@ public class LoginAction {
 			logger.error("线程等待异常", e);
 		}
 			
-		String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getContent(), DataResRegx.check_login_qrcode_status);
+		String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getDataString(), DataResRegx.check_login_qrcode_status);
 		
 		if(data == null){
 			logger.error("解析二维码状态失败,重试二维码状态检查");
@@ -130,10 +130,10 @@ public class LoginAction {
 	private boolean beginLogin(){
 
 		// checkSig
-		ResponseParams responseParams = checkSig.doRequest(null);
+		AsyncResponse asyncResponse = checkSig.doRequest(null);
 		
 		// checkSig 成功后 从cookie中得到ptwebqq 确切的说其实这个cookie是检查qrcode成功后服务器下发的
-		Cookie cookie = responseParams.getCookies().getCookie("ptwebqq");
+		Cookie cookie = asyncResponse.getCookies().getCookie("ptwebqq");
 		if(cookie == null){
 			logger.error("未能获取到ptwebqq数据");
 			return false;
@@ -146,12 +146,12 @@ public class LoginAction {
 		
 		// getvfWebqq
 		session.setPtwebqq(ptwebqq);
-		responseParams = getVfWebqq.doRequest(null);
-		if(responseParams.isEmptyContent()){
+		asyncResponse = getVfWebqq.doRequest(null);
+		if(asyncResponse.isEmptyDataString()){
 			logger.error("未能成功获取vfwebqq数据");
 			return false;
 		}
-		String content = responseParams.getContent();
+		String content = asyncResponse.getDataString();
 		JSONObject jsonObject,result;
 		try {
 			jsonObject = JSONObject.parseObject(content);
@@ -163,12 +163,12 @@ public class LoginAction {
 		}
 		
 		// login2
-		responseParams = login2.doRequest(null);
-		if(responseParams.isEmptyContent()){
+		asyncResponse = login2.doRequest(null);
+		if(asyncResponse.isEmptyDataString()){
 			logger.error("未能成功获取登录数据");
 			return false;
 		}
-		content = responseParams.getContent();
+		content = asyncResponse.getDataString();
 		try {
 			jsonObject = JSONObject.parseObject(content);
 			result = (JSONObject)jsonObject.get("result");

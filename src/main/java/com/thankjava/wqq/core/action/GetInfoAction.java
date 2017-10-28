@@ -18,7 +18,7 @@ import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupsList;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.JSON2Entity;
-import com.thankjava.toolkit3d.http.async.entity.ResponseParams;
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
 
 public class GetInfoAction {
 
@@ -26,12 +26,12 @@ public class GetInfoAction {
 	
 	private static Session session = Session.getSession();
 	
-	RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
-	RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
-	RequestBuilder getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
-	RequestBuilder getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
-	RequestBuilder getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
-	RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
+	private RequestBuilder getUserFriends2 = RequestFactory.getInstance(GetUserFriends2.class);
+	private RequestBuilder getGroupNameListMask2 = RequestFactory.getInstance(GetGroupNameListMask2.class);
+	private RequestBuilder getDiscusList = RequestFactory.getInstance(GetDiscusList.class);
+	private RequestBuilder getSelfInfo2 = RequestFactory.getInstance(GetSelfInfo2.class);
+	private RequestBuilder getOnlineBuddies2 = RequestFactory.getInstance(GetOnlineBuddies2.class);
+	private RequestBuilder getRecentList2 = RequestFactory.getInstance(GetRecentList2.class);
 	
 	/**
 	 * 获取所有好友信息
@@ -44,13 +44,13 @@ public class GetInfoAction {
 	 */
 	public FriendsList getFriendsList(){
 
-		ResponseParams response = null;
+		AsyncResponse response = null;
 		FriendsList friendsList = null;
 		
 		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
 			response = getUserFriends2.doRequest(null);
-			if(!response.isEmptyContent()){
-				friendsList = JSON2Entity.userFriends2(response.getContent());
+			if(!response.isEmptyDataString()){
+				friendsList = JSON2Entity.userFriends2(response.getDataString());
 				if(friendsList != null){
 					session.setFriendsList(friendsList);
 					return friendsList;
@@ -77,12 +77,12 @@ public class GetInfoAction {
 			return null;
 		}
 		
-		ResponseParams response = null;
+		AsyncResponse response = null;
 		
 		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
 			response = getOnlineBuddies2.doRequest(null);
-			if(!response.isEmptyContent()){
-				friendsList = JSON2Entity.onlineStatus(friendsList, response.getContent());
+			if(!response.isEmptyDataString()){
+				friendsList = JSON2Entity.onlineStatus(friendsList, response.getDataString());
 				if(friendsList != null){
 					session.setFriendsList(friendsList);
 					return friendsList;
@@ -104,12 +104,12 @@ public class GetInfoAction {
 	* @return
 	 */
 	public DiscusList getDiscusList(){
-		ResponseParams response = null;
+		AsyncResponse response = null;
 		DiscusList discusList = null;
 		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
 			response = getDiscusList.doRequest(null);
-			if(!response.isEmptyContent()){
-				discusList = JSON2Entity.getDiscusList(response.getContent());
+			if(!response.isEmptyDataString()){
+				discusList = JSON2Entity.getDiscusList(response.getDataString());
 				if(discusList != null){
 					session.setDiscusList(discusList);
 					return discusList;
@@ -129,12 +129,12 @@ public class GetInfoAction {
 	* @return
 	 */
 	public GroupsList getGroupsList(){
-		ResponseParams response = null;
+		AsyncResponse response = null;
 		GroupsList groupList = null;
 		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
 			response = getGroupNameListMask2.doRequest(null);
-			if(!response.isEmptyContent()){
-				groupList = JSON2Entity.getGroupsList(response.getContent());
+			if(!response.isEmptyDataString()){
+				groupList = JSON2Entity.getGroupsList(response.getDataString());
 				if(groupList != null){
 					session.setGroupsList(groupList);
 					return groupList;
@@ -154,12 +154,12 @@ public class GetInfoAction {
 	* @return
 	 */
 	public DetailedInfo getSelfInfo(){
-		ResponseParams response = null;
+		AsyncResponse response = null;
 		DetailedInfo detailedInfo = null;
 		for(int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i ++){
 			response = getSelfInfo2.doRequest(null);
-			if(!response.isEmptyContent()){
-				detailedInfo = JSON2Entity.getSelfInfo(response.getContent());
+			if(!response.isEmptyDataString()){
+				detailedInfo = JSON2Entity.getSelfInfo(response.getDataString());
 				if(detailedInfo != null){
 					session.setSelfInfo(detailedInfo);
 					return detailedInfo;
@@ -169,7 +169,7 @@ public class GetInfoAction {
 		return null;
 	}
 	
-	public void getRecentList(){
-		getRecentList2.doRequest(null).getContent();
+	void getRecentList(){
+		getRecentList2.doRequest(null).isEmptyDataString();
 	}
 }
