@@ -3,6 +3,7 @@ package com.thankjava.wqq.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.thankjava.wqq.entity.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -257,6 +258,7 @@ public class JSON2Entity {
 	* @return
 	 */
 	public static PollMsg pollMsg(String content){
+		System.out.println(content);
 		try{
 			JSONObject contentJson = JSONObject.parseObject(content);
 			if(contentJson.getInteger("retcode") != 0){
@@ -265,8 +267,18 @@ public class JSON2Entity {
 			// 处理数据
 			JSONArray array = (JSONArray) contentJson.get("result");
 			JSONObject pollMsgJson = (JSONObject)array.get(0);
+
+
 			JSONObject valueJson = pollMsgJson.getJSONObject("value");
+
+			// 由于腾讯协议bug造成群消息&讨论组消息，会将自己发送的消息poll识别成别人的消息，
+			// 此处需要过滤
+			if (Session.getSession().getUin() == valueJson.getLongValue("send_uin")){
+				return null;
+			}
+
 			JSONArray contentArray = valueJson.getJSONArray("content");
+
 			valueJson.remove("content");
 			
 			PollMsg pollMsg = FastJson.toObject(array.get(0).toString(), PollMsg.class);
