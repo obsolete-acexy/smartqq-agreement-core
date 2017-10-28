@@ -9,17 +9,27 @@
       需要jdk最低1.7
       这只是一个小小的jar，但是你可以通过该sdk快速实现自己的工具创造无限可能~
       [博客详细说明](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
-      
+   
 ---
+### bug fix & 升级备注
 
+* 1.0.1 修复腾讯修改二维码校验流程带来的影响
+* 1.0.2 调整代码易读性，增加稳定性等
+	* 代码结构调整
+	* 增加异常重试机制，增强稳定性
+	* 初始化SmartQQ的实现新增两个可选的构造参数
+* 1.0.3 配合java-toolkit升级，修复async.http模块稳定性
+	* 配合async.http参数变更结构调整等
+	* 解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
+   
+---
 ### 获取
-# 由于腾讯获取登陆二维码移除返回content-type导致相关问题，相关问题预计近期1.0.3版本修复。请见https://github.com/thankjava/smartqq-agreement-core/issues/8
 
 ```xml
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 ---
@@ -140,7 +150,6 @@ public class NotifyHander {
 	public void hander(PollMsg pollMsg){
 		smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg"));
 	}
-	
 
 }
 
@@ -154,19 +163,3 @@ public class NotifyHander {
     2. 部分结果的相关响应码进行相关判断，增加相关接口的重连机制
     3. 稳定后先发布到Maven仓库
     
----
-### bug fix & 升级备注
-
-* 1.0.1 修复腾讯修改二维码校验流程带来的影响
-* 1.0.2 调整代码易读性，增加稳定性等
-<<<<<<< HEAD
-	* 代码结构调整
-	* 增加异常重试机制，增强稳定性
-	* 初始化SmartQQ的实现新增两个可选的构造参数
-    
-=======
-	>代码结构调整；增加异常重试机制，增强稳定性；构造SmartQQ的实现新增两个可选的构造参数
->>>>>>> 1.0.3
----
-### 备注
-* 当前腾讯服务器在发送&接收群&讨论组消息时存在bug，会导致自己发送的消息识别为收到别人的消息
