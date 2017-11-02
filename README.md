@@ -34,14 +34,6 @@
 ```
 ---
 
-### 背景
-
-        该项目参考另外一个类似的基于腾讯WebQQ协议的工具，遗憾的是由于腾讯WebQQ协议变动较频繁，稳定性差，功能简略，原工程
-    早已经无法正常运行并不再维护，该项目基于此重构整个SDK，调整整个逻辑，基本开发者阅读代码后可以轻松了解腾讯WebQQ协议，该
-    项目依赖本人编写的另外两个jar，fast-toolkit&fast-toolkit3d。这两个jar已经发布到Maven中央仓库可直接使用。
-        当前版本主要功能测试完成，后续优化后将发布到Maven中央仓库。
----
-
 ### 使用
 
         参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHander
