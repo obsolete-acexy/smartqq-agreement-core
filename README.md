@@ -21,6 +21,8 @@
 * 1.0.3 配合java-toolkit升级，修复async.http模块稳定性
 	* 配合async.http参数变更结构调整等
 	* 解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
+* 1.0.4 升级java-toolkit
+    * 升级java-toolkit
    
 ---
 ### 获取
@@ -29,7 +31,7 @@
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
 </dependency>
 ```
 ---
