@@ -15,7 +15,7 @@ public class FriendsList {
 	 * 获取单个好友信息
 	* <p>Function: getFriendInfo</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月22日 上午11:40:50
 	* @version 1.0
 	* @param uin

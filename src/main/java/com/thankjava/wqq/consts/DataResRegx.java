@@ -5,7 +5,7 @@ package com.thankjava.wqq.consts;
  * 解析腾讯返回的数据正则表达式
 * <p>Function: DataResRegx</p>
 * <p>Description: </p>
-* @author zhaoxy@thankjava.com
+* @author acexy@thankjava.com
 * @date 2016年12月15日 上午11:48:07
 * @version 1.0
  */

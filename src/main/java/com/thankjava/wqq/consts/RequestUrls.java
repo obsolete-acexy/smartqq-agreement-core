@@ -4,7 +4,7 @@ package com.thankjava.wqq.consts;
  * 腾讯wqq url 汇总
 * <p>Function: Urls</p>
 * <p>Description: </p>
-* @author zhaoxy@thankjava.com
+* @author acexy@thankjava.com
 * @date 2016年12月9日 下午3:23:44
 * @version 1.0
  */

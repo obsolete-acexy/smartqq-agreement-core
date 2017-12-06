@@ -22,7 +22,7 @@ public class WqqEncryptor {
      * @param uin
      * @param ptwebqq
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2016年12月21日 下午6:25:04
      * @version 1.0
      */
@@ -50,7 +50,7 @@ public class WqqEncryptor {
      *
      * @param str
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年2月13日 下午6:11:06
      * @version 1.0
      */

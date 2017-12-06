@@ -21,7 +21,7 @@ public abstract class BaseHttpService implements RequestBuilder{
 	 * 组装请求参数
 	* <p>Function: buildRequestParams</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月19日 上午11:43:02
 	* @version 1.0
 	* @return

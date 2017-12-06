@@ -28,7 +28,7 @@ import com.thankjava.wqq.entity.wqq.GroupsList;
  * <p>Function: JSON2Entity</p>
  * <p>Description: </p>
  *
- * @author zhaoxy@thankjava.com
+ * @author acexy@thankjava.com
  * @version 1.0
  * @date 2017年6月14日 下午2:27:34
  */
@@ -43,7 +43,7 @@ public class JSON2Entity {
      *
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午2:33:31
      * @version 1.0
      */
@@ -127,7 +127,7 @@ public class JSON2Entity {
      * @param friendsList
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午4:05:59
      * @version 1.0
      */
@@ -161,7 +161,7 @@ public class JSON2Entity {
      *
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午4:06:12
      * @version 1.0
      */
@@ -195,7 +195,7 @@ public class JSON2Entity {
      *
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午4:08:47
      * @version 1.0
      */
@@ -238,7 +238,7 @@ public class JSON2Entity {
      *
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午4:11:42
      * @version 1.0
      */
@@ -260,7 +260,7 @@ public class JSON2Entity {
      *
      * @param content
      * @return
-     * @author zhaoxy@thankjava.com
+     * @author acexy@thankjava.com
      * @date 2017年6月14日 下午4:21:38
      * @version 1.0
      */

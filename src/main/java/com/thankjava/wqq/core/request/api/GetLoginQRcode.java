@@ -14,7 +14,7 @@ import com.thankjava.wqq.extend.CallBackListener;
  * 获取登录二维码
 * <p>Function: GetLoginQRcode</p>
 * <p>Description: </p>
-* @author zhaoxy@thankjava.com
+* @author acexy@thankjava.com
 * @date 2016年12月13日 下午5:53:53
 * @version 1.0
  */

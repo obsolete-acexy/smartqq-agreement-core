@@ -10,7 +10,7 @@ public interface RequestBuilder {
 	 * 请求腾讯服务器 得到请求结果
 	* <p>Function: doRequest</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月19日 下午3:05:37
 	* @version 1.0
 	* @param listener 回调函数 如果回调函数为空 则通过 return 返回请求结果

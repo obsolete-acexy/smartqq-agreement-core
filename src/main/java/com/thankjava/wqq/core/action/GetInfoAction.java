@@ -37,7 +37,7 @@ public class GetInfoAction {
 	 * 获取所有好友信息
 	* <p>Function: getFriendsList</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月22日 下午1:34:35
 	* @version 1.0
 	* @return
@@ -65,7 +65,7 @@ public class GetInfoAction {
 	 * 为当前好友列表数据查询在线状态
 	* <p>Function: getOnlineStatus</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2017年6月14日 下午2:46:17
 	* @version 1.0
 	* @return
@@ -98,7 +98,7 @@ public class GetInfoAction {
 	 * 获取讨论组列表
 	* <p>Function: getDiscusList</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月22日 下午4:42:58
 	* @version 1.0
 	* @return
@@ -123,7 +123,7 @@ public class GetInfoAction {
 	 * 获取群列表
 	* <p>Function: getGroupsList</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2016年12月22日 下午1:56:17
 	* @version 1.0
 	* @return
@@ -148,7 +148,7 @@ public class GetInfoAction {
 	 * 获取个人信息(登录人)
 	* <p>Function: getSelfInfo</p>
 	* <p>Description: </p>
-	* @author zhaoxy@thankjava.com
+	* @author acexy@thankjava.com
 	* @date 2017年6月14日 下午4:13:01
 	* @version 1.0
 	* @return
