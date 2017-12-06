@@ -51,7 +51,7 @@ public class JSON2Entity {
         FriendsList friendsList = new FriendsList();
         JSONObject userFriends2Json;
         try {
-            userFriends2Json = JSONObject.parseObject(content);
+            userFriends2Json = FastJson.toJSONObject(content);
             JSONObject result = (JSONObject) userFriends2Json.get("result");
             Map<Integer, CategorieInfo> categories = new HashMap<>();
             Map<Long, FriendInfo> friendInfos = new HashMap<>();
@@ -134,7 +134,7 @@ public class JSON2Entity {
     public static FriendsList onlineStatus(FriendsList friendsList, String content) {
         try {
             Map<Long, FriendInfo> friendsInfo = friendsList.getFriendsInfo();
-            JSONObject onlineBuddiesJson = JSONObject.parseObject(content);
+            JSONObject onlineBuddiesJson = FastJson.toJSONObject(content);
             JSONArray array = (JSONArray) onlineBuddiesJson.get("result");
             Object[] objs = array.toArray();
             Long uin = null;
@@ -168,7 +168,7 @@ public class JSON2Entity {
     public static DiscusList getDiscusList(String content) {
         DiscusList discusList = new DiscusList();
         try {
-            JSONObject discusListJson = JSONObject.parseObject(content);
+            JSONObject discusListJson = FastJson.toJSONObject(content);
             JSONObject result = (JSONObject) discusListJson.get("result");
 
             Map<Long, DiscuInfo> discuInfo = new HashMap<Long, DiscuInfo>();
@@ -202,7 +202,7 @@ public class JSON2Entity {
     public static GroupsList getGroupsList(String content) {
         GroupsList groupsList = new GroupsList();
         try {
-            JSONObject groupsListJson = JSONObject.parseObject(content);
+            JSONObject groupsListJson = FastJson.toJSONObject(content);
             JSONObject result = (JSONObject) groupsListJson.get("result");
 
             Map<Long, GroupInfo> groups = new HashMap<Long, GroupInfo>();
@@ -244,7 +244,7 @@ public class JSON2Entity {
      */
     public static DetailedInfo getSelfInfo(String content) {
         try {
-            JSONObject discusListJson = JSONObject.parseObject(content);
+            JSONObject discusListJson = FastJson.toJSONObject(content);
             JSONObject result = (JSONObject) discusListJson.get("result");
             return FastJson.toObject(result.toJSONString(), DetailedInfo.class);
         } catch (Exception e) {
@@ -266,7 +266,7 @@ public class JSON2Entity {
      */
     public static PollMsg pollMsg(String content) {
         try {
-            JSONObject contentJson = JSONObject.parseObject(content);
+            JSONObject contentJson = FastJson.toJSONObject(content);
             if (contentJson.getInteger("retcode") != 0) {
                 return null;
             }
