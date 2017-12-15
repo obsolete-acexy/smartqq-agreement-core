@@ -1,7 +1,7 @@
 # smartqq-agreement-core
 ---
 - JDK >= 1.7
-- Why?
+- Why
 ```
     基于它你可以实现
       
