@@ -42,7 +42,7 @@
     参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHandler
 
 ---
-> ### future
+> ### Future
 
     1. 增加掉线重练机制，通知信息新增session级别通知，在无法正常使用时通知NotifyHander需要手动处理
     2. 部分结果的相关响应码进行相关判断，增加相关接口的重连机制
