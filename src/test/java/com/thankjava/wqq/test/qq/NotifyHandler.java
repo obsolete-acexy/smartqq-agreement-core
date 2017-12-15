@@ -30,7 +30,7 @@ public class NotifyHandler {
 	
 	// sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
 //	public void handler(PollMsg pollMsg){
-//		smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg"));
+//		SMART_QQ_CLIENT.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg"));
 //	}
 	
 

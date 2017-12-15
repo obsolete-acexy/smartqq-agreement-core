@@ -21,7 +21,7 @@ public class TestSmartQQ {
 	
 	// 初始化SmartQQClient
 	// 需要指明一个NotifyListener 该接口的实例会在 SmartQQClient 拉取到信息时被执行调用
-	static final SmartQQClient smartQQClient = new WQQClient(new NotifyListener() {
+	static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(new NotifyListener() {
 		
 		@Override
 		public void handler(PollMsg pollMsg) {
@@ -33,7 +33,7 @@ public class TestSmartQQ {
 	});
 	
 	// 一个自定义用于处理得到消息的拓展类
-	static final NotifyHandler NOTIFY_HANDLER = new NotifyHandler(smartQQClient);
+	static final NotifyHandler NOTIFY_HANDLER = new NotifyHandler(SMART_QQ_CLIENT);
 	
 	
 	public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class TestSmartQQ {
 		logger.debug("登录开始");
 		
 		// 执行登录
-		smartQQClient.login(true, new CallBackListener() {
+		SMART_QQ_CLIENT.login(true, new CallBackListener() {
 			// login 接口在得到登录二维码时会调用CallBackListener
 			// 并且二维码byte[] 数据会通过ListenerAction.data返回
 			@Override
