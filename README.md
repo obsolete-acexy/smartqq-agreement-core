@@ -1,7 +1,7 @@
 # smartqq-agreement-core
 ---
 - 基于jdk开发 不依赖第三方代码 (JDK >= 1.7)
-
+```
     你可以在此基础上拓展自己的工具
       Such As
       1. <QQ机器人> 好友给机器人发消息，你自定义解析并回复
@@ -12,7 +12,7 @@
       需要jdk最低1.7
       这只是一个小小的jar，但是你可以通过该sdk快速实现自己的工具创造无限可能~
       [博客详细说明](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
-   
+```   
 ---
 > ### bug fix & 升级备注
 
