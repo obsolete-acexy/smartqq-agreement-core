@@ -12,20 +12,20 @@
       需要jdk最低1.7
       这只是一个小小的jar，但是你可以通过该sdk快速实现自己的工具创造无限可能~
 ```   
+
 ---
 > ### bug fix & 升级备注
 
-* 1.0.1 修复腾讯修改二维码校验流程带来的影响
-* 1.0.2 调整代码易读性，增加稳定性等
-	* 代码结构调整
-	* 增加异常重试机制，增强稳定性
-	* 初始化SmartQQ的实现新增两个可选的构造参数
-* 1.0.3 配合java-toolkit升级，修复async.http模块稳定性
-	* 配合async.http参数变更结构调整等
-	* 解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
-* 1.0.4 升级java-toolkit
-    * 升级java-toolkit
-   
+    1.0.1 修复腾讯修改二维码校验流程带来的影响
+    1.0.2 调整代码易读性，增加稳定性等
+        代码结构调整
+        增加异常重试机制，增强稳定性
+        初始化SmartQQ的实现新增两个可选的构造参数
+    1.0.3 配合java-toolkit升级，修复async.http模块稳定性
+        配合async.http参数变更结构调整等
+        解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
+    1.0.4 升级java-toolkit
+        升级java-toolkit
 ---
 > ### 获取
 
@@ -40,115 +40,8 @@
 
 > ### 使用
 
-        参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHandler
-```java
-package com.thankjava.wqq.test.qq;
+    参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHandler
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.thankjava.wqq.SmartQQClient;
-import com.thankjava.wqq.WQQClient;
-import com.thankjava.wqq.entity.msg.PollMsg;
-import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ListenerAction;
-import com.thankjava.wqq.extend.NotifyListener;
-
-public class TestSmartQQ {
-
-	private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
-	
-	// 初始化SmartQQClient
-	// 需要指明一个NotifyListener 该接口的实例会在 SmartQQClient 拉取到信息时被执行调用
-	static final SmartQQClient smartQQClient = new WQQClient(new NotifyListener() {
-		
-		@Override
-		public void handler(PollMsg pollMsg) {
-			// 这里让NotifyListener.hander由于拉取到信息而执行时,将执行的方法交由NotifyHander.hander去处理
-			// 在NotifyHander里面对消息进行拓展处理
-			notifyHander.handler(pollMsg);
-		}
-		
-	});
-	
-	// 一个自定义用于处理得到消息的拓展类
-	static final NotifyHander notifyHander = new NotifyHander(smartQQClient);
-	
-	
-	public static void main(String[] args) {
-		logger.debug("smartqq");
-		
-		// 执行登录
-		smartQQClient.login(true, new CallBackListener() {
-			// login 接口在得到登录二维码时会调用CallBackListener
-			// 并且二维码byte[] 数据会通过ListenerAction.data返回
-			@Override
-			public void onListener(ListenerAction listenerAction) {
-				try {
-					
-					// 将返回的byte[]数据io处理成一张png图片
-					// 位于项目log/qrcode.png
-					ImageIO.write(
-							(BufferedImage)listenerAction.data, "png", 
-							new File("./log/qrcode.png"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		// 然后通过手机QQ扫描登录二维码,允许登录后smartqq-agreement-core工具就正常接收信息了
-		// 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
-		handler
-		// 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
-	}
-}
-
-```
-``handlerpackage com.thankjava.wqq.test.qq;
-
-import com.thankjava.wqq.SmartQQClient;
-import com.thankjava.wqq.entity.msg.PollMsg;
-import com.thankjava.wqq.entity.msg.SendMsg;
-
-public class NotifyHander {
-	
-	private static SmartQQClient smartQQClient;
-	
-	public NotifyHander(SmartQQClient smartQQClient){
-		NotifyHander.smartQQClient = smartQQClient;
-	}
-
-	// 指定不同类型的不同msg回复
-//	public void hander(PollMsg pollMsg) {
-//		switch (pollMsg.getMsgType()) {
-//	handlermessage:
-//			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: friend"));
-//			break;
-//		case group_message:
-//			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: group"));
-//			break;
-//		case discu_message:
-//			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: discu"));
-//			break;
-//		}
-//	}
-//	
-	
-	// sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
-	public void hander(PollMsg pollMsg){
-		smartQQClient.sendMsg(new SendMsg(pollhandlerI Have Got Your Msg"));
-	}
-
-}
-
-```
 ---
 
 > ### future
