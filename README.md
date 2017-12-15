@@ -1,6 +1,6 @@
 # smartqq-agreement-core
 ---
-- 基于jdk开发 不依赖第三方代码 (JDK >= 1.7)
+- JDK >= 1.7
 ```
     你可以在此基础上拓展自己的工具
       Such As
