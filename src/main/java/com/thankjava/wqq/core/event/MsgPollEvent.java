@@ -1,6 +1,5 @@
 package com.thankjava.wqq.core.event;
 
-import com.thankjava.toolkit3d.fastjson.FastJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
@@ -40,6 +39,6 @@ public class MsgPollEvent {
 	}
 
 	private void notifyMsgEvent(PollMsg pollMsg){
-		WQQClient.getNotifyListener().hander(pollMsg);
+		WQQClient.getNotifyListener().handler(pollMsg);
 	}
 }

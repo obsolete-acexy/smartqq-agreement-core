@@ -4,12 +4,12 @@ import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.entity.msg.SendMsg;
 
-public class NotifyHander {
+public class NotifyHandler {
 	
 	private static SmartQQClient smartQQClient;
 	
-	public NotifyHander(SmartQQClient smartQQClient){
-		NotifyHander.smartQQClient = smartQQClient;
+	public NotifyHandler(SmartQQClient smartQQClient){
+		NotifyHandler.smartQQClient = smartQQClient;
 	}
 
 	// 指定不同类型的不同msg回复
@@ -29,7 +29,7 @@ public class NotifyHander {
 
 	
 	// sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
-//	public void hander(PollMsg pollMsg){
+//	public void handler(PollMsg pollMsg){
 //		smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg"));
 //	}
 	
