@@ -11,7 +11,6 @@
       And More
       需要jdk最低1.7
       这只是一个小小的jar，但是你可以通过该sdk快速实现自己的工具创造无限可能~
-      [博客详细说明](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
 ```   
 ---
 > ### bug fix & 升级备注
