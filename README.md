@@ -1,4 +1,7 @@
 # smartqq-agreement-core
+---
+- 基于jdk开发 不依赖第三方代码 (JDK >= 1.7)
+
     你可以在此基础上拓展自己的工具
       Such As
       1. <QQ机器人> 好友给机器人发消息，你自定义解析并回复
@@ -11,7 +14,7 @@
       [博客详细说明](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
    
 ---
-### bug fix & 升级备注
+> ### bug fix & 升级备注
 
 * 1.0.1 修复腾讯修改二维码校验流程带来的影响
 * 1.0.2 调整代码易读性，增加稳定性等
@@ -25,7 +28,7 @@
     * 升级java-toolkit
    
 ---
-### 获取
+> ### 获取
 
 ```xml
 <dependency>
@@ -36,7 +39,7 @@
 ```
 ---
 
-### 使用
+> ### 使用
 
         参考com.thankjava.wqq.test.qq.TestSmartQQ.java&com.thankjava.wqq.test.qq.NotifyHandler
 ```java
@@ -149,7 +152,7 @@ public class NotifyHander {
 ```
 ---
 
-### future
+> ### future
 
         目前该版本才刚刚测试完毕，还有几个功能没有完成，不过主体功能已经可以使用后续完成一下功能
     1. 增加掉线重练机制，通知信息新增session级别通知，在无法正常使用时通知NotifyHander需要手动处理
