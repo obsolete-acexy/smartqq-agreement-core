@@ -1,6 +1,5 @@
 package com.thankjava.wqq.core.request.api;
 
-import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
@@ -44,7 +43,7 @@ public class SendBuddyMsg2 extends BaseHttpService{
 		jsonObject.put("msg_id", msgId.incrementAndGet());
 		jsonObject.put("psessionid", session.getPsessionid());
 		Parameters params = new Parameters("r", jsonObject.toJSONString());
-		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_about_msg.url);
+		Headers headers = new Headers("Referer", RequestUrls.referer_about_msg.url);
 		return new AsyncRequest(RequestUrls.send_buddy_msg2.url, HttpMethod.post, params, headers);
 	}
 

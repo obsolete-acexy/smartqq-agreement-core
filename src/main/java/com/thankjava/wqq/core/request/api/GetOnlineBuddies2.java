@@ -1,7 +1,6 @@
 package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
-import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
@@ -24,10 +23,10 @@ public class GetOnlineBuddies2 extends BaseHttpService{
 	protected AsyncRequest buildRequestParams() {
 		
 		Parameters params = new Parameters("vfwebqq", session.getVfwebqq());
-		params.append("clientid", ConstsParams.CLIENT_ID.toString());
+		params.append("clientid", String.valueOf(ConstsParams.CLIENT_ID));
 		params.append("psessionid", session.getPsessionid());
 		params.append("t", String.valueOf(System.currentTimeMillis() / 1000));
-		Headers headers = new Headers(HeaderName.referer.name, RequestUrls.referer_common.url);
+		Headers headers = new Headers("Referer", RequestUrls.referer_common.url);
 		return new AsyncRequest(
 				RequestUrls.get_online_buddies2.url, 
 				HttpMethod.get, 

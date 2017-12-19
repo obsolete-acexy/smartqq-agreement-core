@@ -1,7 +1,6 @@
 package com.thankjava.wqq.core.request.api;
 
 import com.thankjava.toolkit3d.aop.anno.Before;
-import com.thankjava.toolkit3d.http.async.consts.HeaderName;
 import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
 import com.thankjava.toolkit3d.http.async.entity.Headers;
 import com.thankjava.toolkit3d.http.async.entity.Parameters;
@@ -25,7 +24,7 @@ public class GetVfWebqq extends BaseHttpService {
 		params.append("clientid", "53999199");
 		params.append("psessionid", "");
 		params.append("t", String.valueOf(System.currentTimeMillis() / 1000));
-		Headers header = new Headers(HeaderName.referer.name, RequestUrls.referer_getvfwebqq.url);
+		Headers header = new Headers("Referer", RequestUrls.referer_getvfwebqq.url);
 		return new AsyncRequest(RequestUrls.getvfwebqq.url, HttpMethod.get, params, header);
 	}
 }

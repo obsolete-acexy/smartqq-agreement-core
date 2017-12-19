@@ -14,31 +14,31 @@ import com.thankjava.wqq.util.JSON2Entity;
 
 public class MsgPollEvent {
 
-	private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
-	
-	private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
-	
-	public void poll(){
-		
-		poll2.doRequest(new CallBackListener() {
-			@Override
-			public void onListener(ListenerAction listenerAction) {
-				if(listenerAction.getData() != null){
-					AsyncResponse response = (AsyncResponse) listenerAction.getData();
-					logger.debug("msgPoll Event > httpStatus: " + response.getHttpCode());
-					if(response.getHttpCode() == 200){
-						PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
-						if (pollMsg != null){
-							notifyMsgEvent(pollMsg);
-						}
-					}
-					poll();
-				}
-			}
-		});
-	}
+    private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
 
-	private void notifyMsgEvent(PollMsg pollMsg){
-		WQQClient.getNotifyListener().handler(pollMsg);
-	}
+    private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
+
+    public void poll() {
+
+        poll2.doRequest(new CallBackListener() {
+            @Override
+            public void onListener(ListenerAction listenerAction) {
+                if (listenerAction.getData() != null) {
+                    AsyncResponse response = (AsyncResponse) listenerAction.getData();
+                    logger.debug("msgPoll Event > httpStatus: " + response.getHttpCode());
+                    if (response.getHttpCode() == 200) {
+                        PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
+                        if (pollMsg != null) {
+                            notifyMsgEvent(pollMsg);
+                        }
+                    }
+                    poll();
+                }
+            }
+        });
+    }
+
+    private void notifyMsgEvent(PollMsg pollMsg) {
+        WQQClient.getNotifyListener().handler(pollMsg);
+    }
 }
