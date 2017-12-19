@@ -1,6 +1,6 @@
 # smartqq-agreement-core
 ---
-- 依赖 JDK >= 1.7
+- JDK >= 1.7
 - 用处 Why
 ```
 1. <QQ机器人> 好友给机器人发消息，你自定义解析并回复
