@@ -9,11 +9,9 @@ package com.thankjava.wqq.consts;
 * @version 1.0
  */
 public enum MsgType {
-
 	
-	message, // f2f
-	discu_message, // discu
-	group_message //group
-	
+	message, 		// f2f	好友点对点聊天
+	discu_message, 	// discu	讨论组消息
+	group_message 	// group	群消息
 	
 }
