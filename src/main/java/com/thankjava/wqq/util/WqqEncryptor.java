@@ -29,10 +29,10 @@ public class WqqEncryptor {
     public static String hash(String uin, String ptwebqq) {
 
         try {
-            String jsSources = IOUtils.toString(SourceLoader.getResourceAsInputStream("hash.js"), "utf-8");
+            String jsSource = IOUtils.toString(SourceLoader.getResourceAsInputStream("hash.js"), "utf-8");
             ScriptEngineManager scriptEMgr = new ScriptEngineManager();
             ScriptEngine engine = scriptEMgr.getEngineByMimeType("application/javascript");
-            engine.eval(jsSources);
+            engine.eval(jsSource);
             Invocable invocable = (Invocable) engine;
             // 调用js
             return (String) invocable.invokeFunction("hash", uin, ptwebqq);
