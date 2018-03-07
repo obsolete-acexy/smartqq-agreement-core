@@ -1,7 +1,7 @@
 package com.thankjava.wqq.extend;
 
 /**
- * 回调函数
+ * 声明CallBack函数
 * <p>Function: CallBackListener</p>
 * <p>Description: </p>
 * @author acexy@thankjava.com
@@ -17,8 +17,8 @@ public interface CallBackListener {
 	* @author acexy@thankjava.com
 	* @date 2016年12月20日 上午10:07:07
 	* @version 1.0
-	* @param listenerAction
+	* @param actionListener
 	 */
-	public void onListener(ListenerAction listenerAction);
+	public void onListener(ActionListener actionListener);
 	
 }

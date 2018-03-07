@@ -9,7 +9,7 @@ import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.entity.msg.SendMsg;
 import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ListenerAction;
+import com.thankjava.wqq.extend.ActionListener;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -24,9 +24,9 @@ public class SendQunMsg2 extends BaseHttpService {
 	@Override
 	public AsyncResponse doRequest(CallBackListener listener) {
 		if(listener != null){
-			ListenerAction listenerAction = new ListenerAction();
-			listenerAction.setData(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
-			listener.onListener(listenerAction);
+			ActionListener actionListener = new ActionListener();
+			actionListener.setData(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
+			listener.onListener(actionListener);
 			return null;
 		}else{
 			return asyncHttpClient.syncRequestWithSession(buildRequestParams());

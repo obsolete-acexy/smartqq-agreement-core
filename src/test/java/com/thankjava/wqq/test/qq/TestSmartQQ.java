@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import com.thankjava.wqq.extend.ActionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,6 @@ import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ListenerAction;
 import com.thankjava.wqq.extend.NotifyListener;
 
 public class TestSmartQQ {
@@ -45,12 +45,12 @@ public class TestSmartQQ {
             // login 接口在得到登录二维码时会调用CallBackListener
             // 并且二维码byte[] 数据会通过ListenerAction.data返回
             @Override
-            public void onListener(ListenerAction listenerAction) {
+            public void onListener(ActionListener actionListener) {
 
                 try {
                     // 将返回的byte[]数据io处理成一张png图片
                     // 位于项目log/qrcode.png
-                    ImageIO.write((BufferedImage) listenerAction.getData(), "png", new File("./log/qrcode.png"));
+                    ImageIO.write((BufferedImage) actionListener.getData(), "png", new File("./log/qrcode.png"));
                     logger.debug("获取登录二维码完成,手机QQ扫描 ./log/qrcode.png 位置的二维码图片");
                 } catch (Exception e) {
                     logger.error("将byte[]写为图片失败", e);
@@ -64,7 +64,7 @@ public class TestSmartQQ {
             // smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.handler
             // 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
             @Override
-            public void onListener(ListenerAction listenerAction) {
+            public void onListener(ActionListener actionListener) {
                 // 登陆成功
                 logger.debug("登录完成");
             }

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.thankjava.wqq.extend.ActionListener;
 import org.apache.http.cookie.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ import com.thankjava.wqq.core.request.api.Login2;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ListenerAction;
 import com.thankjava.wqq.factory.ActionFactory;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.RegexUtil;
@@ -49,15 +49,15 @@ public class LoginAction {
             login(autoRefreshQRcode, getQrListener, loginListener);
         }
 
-        ListenerAction listenerAction = null;
+        ActionListener actionListener = null;
         try {
             // 得到二维码数据
-            listenerAction = new ListenerAction(ImageIO.read(new ByteArrayInputStream(asyncResponse.getDataByteArray())));
+            actionListener = new ActionListener(ImageIO.read(new ByteArrayInputStream(asyncResponse.getDataByteArray())));
         } catch (IOException e) {
             logger.error("获取二维码数据失败", e);
         }
 
-        getQrListener.onListener(listenerAction);
+        getQrListener.onListener(actionListener);
 
         logger.debug("获取二维码完成,启动二维码状态检查");
 
