@@ -3,7 +3,7 @@ package com.thankjava.wqq.core.action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thankjava.wqq.consts.ConstsParams;
+import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.api.GetDiscusList;
 import com.thankjava.wqq.core.request.api.GetGroupNameListMask2;
@@ -48,7 +48,7 @@ public class GetInfoAction {
         AsyncResponse response = null;
         FriendsList friendsList = null;
 
-        for (int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i++) {
+        for (int i = 1; i <= ConfigParams.EXCEPTION_RETRY_MAX_TIME; i++) {
             response = getUserFriends2.doRequest(null);
             if (!response.isEmptyDataString()) {
                 friendsList = JSON2Entity.userFriends2(response.getDataString());
@@ -58,7 +58,7 @@ public class GetInfoAction {
                 }
             }
         }
-        logger.error("getUserFriends2失败(已尝试重试)");
+        logger.error("getUserFriends2 失败 (已尝试重试)");
         return null;
     }
 
@@ -81,7 +81,7 @@ public class GetInfoAction {
 
         AsyncResponse response = null;
 
-        for (int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i++) {
+        for (int i = 1; i <= ConfigParams.EXCEPTION_RETRY_MAX_TIME; i++) {
             response = getOnlineBuddies2.doRequest(null);
             if (!response.isEmptyDataString()) {
                 friendsList = JSON2Entity.onlineStatus(friendsList, response.getDataString());
@@ -91,7 +91,7 @@ public class GetInfoAction {
                 }
             }
         }
-        logger.error("getOnlineBuddies2失败(已尝试重试)");
+        logger.error("getOnlineBuddies2 失败 (已尝试重试)");
 
         return null;
     }
@@ -109,7 +109,7 @@ public class GetInfoAction {
     public DiscusList getDiscusList() {
         AsyncResponse response = null;
         DiscusList discusList = null;
-        for (int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i++) {
+        for (int i = 1; i <= ConfigParams.EXCEPTION_RETRY_MAX_TIME; i++) {
             response = getDiscusList.doRequest(null);
             if (!response.isEmptyDataString()) {
                 discusList = JSON2Entity.getDiscusList(response.getDataString());
@@ -119,6 +119,7 @@ public class GetInfoAction {
                 }
             }
         }
+        logger.error("getDiscusList 失败 (已尝试重试)");
         return null;
     }
 
@@ -135,7 +136,7 @@ public class GetInfoAction {
     public GroupsList getGroupsList() {
         AsyncResponse response = null;
         GroupsList groupList = null;
-        for (int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i++) {
+        for (int i = 1; i <= ConfigParams.EXCEPTION_RETRY_MAX_TIME; i++) {
             response = getGroupNameListMask2.doRequest(null);
             if (!response.isEmptyDataString()) {
                 groupList = JSON2Entity.getGroupsList(response.getDataString());
@@ -145,6 +146,7 @@ public class GetInfoAction {
                 }
             }
         }
+        logger.error("getGroupNameListMask2 失败 (已尝试重试)");
         return null;
     }
 
@@ -161,7 +163,7 @@ public class GetInfoAction {
     public DetailedInfo getSelfInfo() {
         AsyncResponse response = null;
         DetailedInfo detailedInfo = null;
-        for (int i = 1; i <= ConstsParams.EXCEPTION_RETRY_MAX_TIME; i++) {
+        for (int i = 1; i <= ConfigParams.EXCEPTION_RETRY_MAX_TIME; i++) {
             response = getSelfInfo2.doRequest(null);
             if (!response.isEmptyDataString()) {
                 detailedInfo = JSON2Entity.getSelfInfo(response.getDataString());
@@ -171,6 +173,8 @@ public class GetInfoAction {
                 }
             }
         }
+        logger.error("getSelfInfo2 失败 (已尝试重试)");
+
         return null;
     }
 

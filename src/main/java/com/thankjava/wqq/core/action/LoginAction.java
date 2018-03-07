@@ -10,6 +10,7 @@ import org.apache.http.cookie.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.DataResRegx;
 import com.thankjava.wqq.core.event.MsgPollEvent;
@@ -181,7 +182,7 @@ public class LoginAction {
             return false;
         }
 
-        if (ConstsParams.INIT_LOGIN_INFO) {
+        if (ConfigParams.INIT_LOGIN_INFO) {
 
             FriendsList friendsList = getInfo.getFriendsList();
             if (friendsList == null) {
