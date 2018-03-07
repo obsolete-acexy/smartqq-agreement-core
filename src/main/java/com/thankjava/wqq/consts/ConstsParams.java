@@ -25,7 +25,7 @@ public class ConstsParams {
 	/**
 	 * 一些接口最大的异常尝试次数
 	 */
-	public static int EXCEPTION_RETRY_MAX_TIME = 3;
+	public static int EXCEPTION_RETRY_MAX_TIME = 1;
 	
 	/**
 	 * 登录完成后是否立即获取好友信息，群信息，讨论组信息
