@@ -22,4 +22,14 @@ public class ConstsParams {
 	 */
 	public static final int INIT_MSG_ID = 1704000;
 	
+	/**
+	 * 生成图片二维码类型
+	 */
+	public static final String QR_CODE_TYPE = "png";
+	
+	/**
+	 * 生成二维码的名称
+	 */
+	public static final String QR_CODE_NAME = "qrcode.png";
+	
 }

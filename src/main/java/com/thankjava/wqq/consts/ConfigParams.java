@@ -16,4 +16,9 @@ public class ConfigParams {
 	 * 登录完成后是否立即获取好友信息，群信息，讨论组信息
 	 */
 	public static boolean INIT_LOGIN_INFO = false;
+	
+	/**
+	 * 若获取的二维码超时未登录则自动重新获取
+	 */
+	public static boolean AUTO_REFRESH_QR_CODE = false;
 }
