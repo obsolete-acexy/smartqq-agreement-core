@@ -27,13 +27,13 @@ public class TestSmartQQ {
         public void handler(PollMsg pollMsg) {
             // 这里让NotifyListener.hander由于拉取到信息而执行时,将执行的方法交由NotifyHander.hander去处理
             // 在NotifyHander里面对消息进行拓展处理
-            NOTIFY_HANDLER.hander(pollMsg);
+            NOTIFY_HANDLER.handler(pollMsg);
         }
 
     });
 
     // 一个自定义用于处理得到消息的拓展类
-    static final NotifyHandler NOTIFY_HANDLER = new NotifyHandler(SMART_QQ_CLIENT);
+    static final MessageHandler NOTIFY_HANDLER = new MessageHandler(SMART_QQ_CLIENT);
 
 
     public static void main(String[] args) {

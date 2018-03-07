@@ -1,6 +1,6 @@
 package com.thankjava.wqq;
 
-import com.thankjava.wqq.consts.ConstsParams;
+import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.GetInfoAction;
 import com.thankjava.wqq.core.action.LoginAction;
 import com.thankjava.wqq.core.action.SendMsgAction;
@@ -25,17 +25,21 @@ public class WQQClient implements SmartQQClient {
     private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 
 
+    public WQQClient() {}
+    
     /**
      * 简单构造
      * @param listener
      */
+    @Deprecated
     public WQQClient(NotifyListener listener) {
         if (listener == null) {
+        	System.exit(0);
             throw new NullPointerException("NotifyListener can not be null");
         }
         WQQClient.listener = listener;
     }
-
+    
     /**
      * 携带初始化参数构造
      * <p>Title: </p>
@@ -45,6 +49,7 @@ public class WQQClient implements SmartQQClient {
      * @param listener
      * @param initLoginInfo          是否登录成功后立即获取相关信息并缓存起来(好友信息，群信息等 默认 false)
      */
+    @Deprecated
     public WQQClient(boolean initLoginInfo, int exceptionRetryMaxTimes, NotifyListener listener) {
 
         if (exceptionRetryMaxTimes < 1) {
@@ -55,8 +60,8 @@ public class WQQClient implements SmartQQClient {
         }
 
         WQQClient.listener = listener;
-        ConstsParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
-        ConstsParams.INIT_LOGIN_INFO = initLoginInfo;
+        ConfigParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
+        ConfigParams.INIT_LOGIN_INFO = initLoginInfo;
     }
 
     public static NotifyListener getNotifyListener() {
@@ -64,6 +69,7 @@ public class WQQClient implements SmartQQClient {
     }
 
     @Override
+    @Deprecated
     public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener) {
         loginAction.login(autoRefreshQRcode, getQrlistener, loginListener);
     }

@@ -9,7 +9,7 @@ import com.thankjava.wqq.extend.CallBackListener;
 /**
  * SmartQQ 应用接口
  * <p>Function: SmartQQClient</p>
- * <p>Description: </p>
+ * <p>Description: 基础应用接口</p>
  *
  * @author acexy@thankjava.com
  * @version 1.0
@@ -29,6 +29,7 @@ public interface SmartQQClient {
      * @date 2016年12月28日 下午11:42:34
      * @version 1.0
      */
+	@Deprecated
     public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener);
 
     /**
