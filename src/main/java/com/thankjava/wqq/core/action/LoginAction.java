@@ -20,6 +20,7 @@ import com.thankjava.wqq.core.request.api.CheckSig;
 import com.thankjava.wqq.core.request.api.GetLoginQRcode;
 import com.thankjava.wqq.core.request.api.GetVfWebqq;
 import com.thankjava.wqq.core.request.api.Login2;
+import com.thankjava.wqq.entity.LoginResult;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
@@ -42,12 +43,12 @@ public class LoginAction {
 
     private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 
-    public void login(final boolean autoRefreshQRcode, final CallBackListener getQrListener, final CallBackListener loginListener) {
+    public void login(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
         AsyncResponse asyncResponse = getLoginQRcode.doRequest(null);
         if (asyncResponse == null) {
             logger.error("获取二维码失败,执行重试");
-            login(autoRefreshQRcode, getQrListener, loginListener);
+            login(getQrListener, loginListener);
         }
 
         ActionListener actionListener = null;
@@ -56,13 +57,14 @@ public class LoginAction {
             actionListener = new ActionListener(ImageIO.read(new ByteArrayInputStream(asyncResponse.getDataByteArray())));
         } catch (IOException e) {
             logger.error("获取二维码数据失败", e);
+            loginListener.onListener(new ActionListener(LoginResult.exception));
         }
 
         getQrListener.onListener(actionListener);
 
         logger.debug("获取二维码完成,启动二维码状态检查");
 
-        checkLoginQRcodeStatus(autoRefreshQRcode, getQrListener, loginListener);
+        checkLoginQRcodeStatus(getQrListener, loginListener);
     }
 
     /**
@@ -75,25 +77,26 @@ public class LoginAction {
      * @date 2016年12月19日 下午4:19:00
      * @version 1.0
      */
-    private void checkLoginQRcodeStatus(boolean autoRefreshQRcode, CallBackListener getQRListener, CallBackListener loginListener) {
+    private void checkLoginQRcodeStatus(CallBackListener getQRListener, CallBackListener loginListener) {
 
         try {
             Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
         } catch (InterruptedException e) {
             logger.error("线程等待异常", e);
+            loginListener.onListener(new ActionListener(LoginResult.exception));
         }
 
         String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getDataString(), DataResRegx.check_login_qrcode_status);
 
         if (data == null) {
             logger.error("解析二维码状态失败,重试二维码状态检查");
-            checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
+            checkLoginQRcodeStatus(getQRListener, loginListener);
         }
 
         Integer statusCode = Integer.valueOf(data[0]);
         if (statusCode == null) {
             logger.error("无法解析出有效的二维码状态码,重试二维码状态检查");
-            checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
+            checkLoginQRcodeStatus(getQRListener, loginListener);
         }
 
         switch (statusCode) {
@@ -101,22 +104,23 @@ public class LoginAction {
                 logger.debug("二维码验证完成");
                 session.setCheckSigUrl(data[2]);
                 if (beginLogin()) {
-                    loginListener.onListener(null);
+                    loginListener.onListener(new ActionListener(LoginResult.success));
                 } else {
                     logger.error("登录失败");
+                    loginListener.onListener(new ActionListener(LoginResult.faild));
                 }
                 break;
             case 65: // 二维码认证过期
-                if (autoRefreshQRcode) { // 如果指定过期自动刷新二维码
+                if (ConfigParams.AUTO_REFRESH_QR_CODE) { // 如果指定过期自动刷新二维码
                     logger.debug("二维码已过期,重新获取二维码...");
-                    login(autoRefreshQRcode, getQRListener, loginListener);
+                    login(getQRListener, loginListener);
                     break;
                 }
                 logger.debug("当前二维码已过期...");
                 break;
             default: // 二维码处于认证中|等待认证
                 logger.debug("二维码状态: " + data[4]);
-                checkLoginQRcodeStatus(autoRefreshQRcode, getQRListener, loginListener);
+                checkLoginQRcodeStatus(getQRListener, loginListener);
                 break;
         }
     }

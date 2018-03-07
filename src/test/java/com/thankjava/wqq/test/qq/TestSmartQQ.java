@@ -15,6 +15,7 @@ import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.NotifyListener;
 
+@Deprecated
 public class TestSmartQQ {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
@@ -63,10 +64,11 @@ public class TestSmartQQ {
             // 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
             // smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.handler
             // 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
+        	// 登录完毕后会返回LoginResult 已反馈当前登录结果
             @Override
             public void onListener(ActionListener actionListener) {
                 // 登陆成功
-                logger.debug("登录完成");
+                logger.debug("登录结果: " + actionListener.getData());
             }
         });
 

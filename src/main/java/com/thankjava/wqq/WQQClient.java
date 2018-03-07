@@ -71,7 +71,7 @@ public class WQQClient implements SmartQQClient {
     @Override
     @Deprecated
     public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener) {
-        loginAction.login(autoRefreshQRcode, getQrlistener, loginListener);
+        loginAction.login(getQrlistener, loginListener);
     }
 
     @Override
