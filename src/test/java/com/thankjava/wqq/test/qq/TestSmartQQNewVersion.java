@@ -43,7 +43,7 @@ public class TestSmartQQNewVersion {
         builder
                 .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
                 .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
-//                .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
+                .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
         ;
 
         /**
