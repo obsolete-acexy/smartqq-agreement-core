@@ -13,7 +13,7 @@ import com.thankjava.toolkit.reflect.ReflectHelper;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.action.LoginAction;
-import com.thankjava.wqq.entity.LoginResult;
+import com.thankjava.wqq.entity.enums.LoginResult;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.NotifyListener;
@@ -72,39 +72,33 @@ public class SmartQQClientBuilder {
 	 * 
 	 * @return
 	 */
-	public SmartQQClientBuilder autoGetInfoAfterLogin() {
+	public SmartQQClientBuilder setAutoGetInfoAfterLogin() {
 		ConfigParams.INIT_LOGIN_INFO = true;
 		return this;
 	}
 
+    /**
+     * 设置若登录二维码过期则自动重新拉取下一张二维码
+     * @return
+     */
+	public SmartQQClientBuilder setAutoRefreshQrcode() {
+        ConfigParams.AUTO_REFRESH_QR_CODE = true;
+        return this;
+    }
+
 	/**
 	 * 创建SmartQQClient实例并登录
 	 * 
-	 * @param qrCodePathDirName
-	 *            获取登录二维码后，指定二维码所生成的目录位置
+	 * @param getQrListener
+	 *            获取到登录二维码后将进行回调
 	 * @param loginListener
 	 *            登录完毕后的回调函数，函数会返回一个LoginResult的登录状态反馈值
 	 * @return
 	 */
-	public SmartQQClient create(final String qrCodePathDirName, final CallBackListener loginListener) {
+	public SmartQQClient create(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
 		LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
-		loginAction.login(new CallBackListener() {
-
-			@Override
-			public void onListener(ActionListener actionListener) {
-				try {
-					String qrPath = qrCodePathDirName + File.separator + ConstsParams.QR_CODE_NAME;
-					ImageIO.write((BufferedImage) actionListener.getData(), ConstsParams.QR_CODE_TYPE,
-							new File(qrPath));
-					logger.info("登录二维码已创建至: " + qrPath);
-				} catch (IOException e) {
-					logger.error("创建登录二维码异常", e);
-					loginListener.onListener(new ActionListener(LoginResult.exception));
-				}
-			}
-		}, new CallBackListener() {
-
+		loginAction.login(getQrListener, new CallBackListener() {
 			@Override
 			public void onListener(ActionListener actionListener) {
 				loginListener.onListener(actionListener);

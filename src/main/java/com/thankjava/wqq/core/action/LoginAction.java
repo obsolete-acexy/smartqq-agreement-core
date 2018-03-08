@@ -20,7 +20,7 @@ import com.thankjava.wqq.core.request.api.CheckSig;
 import com.thankjava.wqq.core.request.api.GetLoginQRcode;
 import com.thankjava.wqq.core.request.api.GetVfWebqq;
 import com.thankjava.wqq.core.request.api.Login2;
-import com.thankjava.wqq.entity.LoginResult;
+import com.thankjava.wqq.entity.enums.LoginResult;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
@@ -82,7 +82,7 @@ public class LoginAction {
         try {
             Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
         } catch (InterruptedException e) {
-            logger.error("线程等待异常", e);
+            logger.error("检查当前的二维码的状态线程等待异常", e);
             loginListener.onListener(new ActionListener(LoginResult.exception));
         }
 
@@ -107,16 +107,17 @@ public class LoginAction {
                     loginListener.onListener(new ActionListener(LoginResult.success));
                 } else {
                     logger.error("登录失败");
-                    loginListener.onListener(new ActionListener(LoginResult.faild));
+                    loginListener.onListener(new ActionListener(LoginResult.failed));
                 }
                 break;
             case 65: // 二维码认证过期
                 if (ConfigParams.AUTO_REFRESH_QR_CODE) { // 如果指定过期自动刷新二维码
-                    logger.debug("二维码已过期,重新获取二维码...");
+                    logger.debug("二维码已过期, 重新获取二维码...");
                     login(getQRListener, loginListener);
                     break;
                 }
-                logger.debug("当前二维码已过期...");
+                logger.debug("当前二维码已过期, 并且未设置自动重刷二维码, 登录失败");
+                loginListener.onListener(new ActionListener(LoginResult.failed));
                 break;
             default: // 二维码处于认证中|等待认证
                 logger.debug("二维码状态: " + data[4]);

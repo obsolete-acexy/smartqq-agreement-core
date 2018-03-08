@@ -1,9 +1,9 @@
-package com.thankjava.wqq.entity;
+package com.thankjava.wqq.entity.enums;
 
 public enum LoginResult {
 	
 	success,
-	faild,
+	failed,
 	exception
 
 }

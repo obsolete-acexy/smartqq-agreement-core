@@ -25,21 +25,27 @@ public class WQQClient implements SmartQQClient {
     private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 
 
-    public WQQClient() {}
-    
+    private static WQQClient instance;
+
+    public WQQClient() {
+        instance = this;
+    }
+
     /**
      * 简单构造
+     *
      * @param listener
      */
     @Deprecated
     public WQQClient(NotifyListener listener) {
         if (listener == null) {
-        	System.exit(0);
+            System.exit(0);
             throw new NullPointerException("NotifyListener can not be null");
         }
         WQQClient.listener = listener;
+        instance = this;
     }
-    
+
     /**
      * 携带初始化参数构造
      * <p>Title: </p>
@@ -62,15 +68,21 @@ public class WQQClient implements SmartQQClient {
         WQQClient.listener = listener;
         ConfigParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
         ConfigParams.INIT_LOGIN_INFO = initLoginInfo;
+        instance = this;
     }
 
     public static NotifyListener getNotifyListener() {
         return listener;
     }
 
+    public static SmartQQClient getInstance() {
+        return instance;
+    }
+
     @Override
     @Deprecated
     public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener) {
+        ConfigParams.AUTO_REFRESH_QR_CODE = autoRefreshQRcode;
         loginAction.login(getQrlistener, loginListener);
     }
 

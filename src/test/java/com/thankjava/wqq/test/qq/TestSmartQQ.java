@@ -20,21 +20,13 @@ public class TestSmartQQ {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
 
+    static final NotifyListener NOTIFY_HANDLER = new MessageHandler();
+
     // 初始化SmartQQClient
     // 需要指明一个NotifyListener 该接口的实例会在 SmartQQClient 拉取到信息时被执行调用
-    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(new NotifyListener() {
-
-        @Override
-        public void handler(PollMsg pollMsg) {
-            // 这里让NotifyListener.hander由于拉取到信息而执行时,将执行的方法交由NotifyHander.hander去处理
-            // 在NotifyHander里面对消息进行拓展处理
-            NOTIFY_HANDLER.handler(pollMsg);
-        }
-
-    });
+    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(NOTIFY_HANDLER);
 
     // 一个自定义用于处理得到消息的拓展类
-    static final MessageHandler NOTIFY_HANDLER = new MessageHandler(SMART_QQ_CLIENT);
 
 
     public static void main(String[] args) {
