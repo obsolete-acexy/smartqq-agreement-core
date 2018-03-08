@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.WQQClient;
-import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.NotifyListener;
 
 @Deprecated
 public class TestSmartQQ {
