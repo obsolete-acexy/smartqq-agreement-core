@@ -98,11 +98,14 @@ public class SmartQQClientBuilder {
 	public SmartQQClient create(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
 		LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
+
 		loginAction.login(getQrListener, new CallBackListener() {
-			@Override
+
+		    @Override
 			public void onListener(ActionListener actionListener) {
 				loginListener.onListener(actionListener);
 			}
+
 		});
 		return client;
 	}
