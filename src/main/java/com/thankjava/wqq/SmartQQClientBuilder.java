@@ -1,19 +1,8 @@
 package com.thankjava.wqq;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thankjava.toolkit.reflect.ReflectHelper;
 import com.thankjava.wqq.consts.ConfigParams;
-import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.action.LoginAction;
-import com.thankjava.wqq.entity.enums.LoginResult;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.NotifyListener;
@@ -26,8 +15,6 @@ import com.thankjava.wqq.factory.ActionFactory;
  *
  */
 public class SmartQQClientBuilder {
-
-	private static final Logger logger = LoggerFactory.getLogger(SmartQQClientBuilder.class);
 
 	private SmartQQClientBuilder() {
 	}
@@ -107,6 +94,7 @@ public class SmartQQClientBuilder {
 			}
 
 		});
+		
 		return client;
 	}
 }
