@@ -20,13 +20,9 @@ public class TestSmartQQ {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
 
-    static final NotifyListener NOTIFY_HANDLER = new MessageHandler();
-
     // 初始化SmartQQClient
     // 需要指明一个NotifyListener 该接口的实例会在 SmartQQClient 拉取到信息时被执行调用
-    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(NOTIFY_HANDLER);
-
-    // 一个自定义用于处理得到消息的拓展类
+    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(new MessageHandler());
 
 
     public static void main(String[] args) {
@@ -56,7 +52,7 @@ public class TestSmartQQ {
             // 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
             // smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.handler
             // 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
-        	// 登录完毕后会返回LoginResult 已反馈当前登录结果
+            // 登录完毕后会返回LoginResult 已反馈当前登录结果
             @Override
             public void onListener(ActionListener actionListener) {
                 // 登陆成功
