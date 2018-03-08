@@ -31,10 +31,11 @@
         升级依赖组件
         调整代码结构
     1.1.0
-        标注废除历史版本登录和应用初始化相关代码
-        提供基于Fluent Interface风格代码的初始化
+        标注废除历史版本登录和应用初始化相关代码(未来标注废弃的代码将测底移除)
+        新增提供基于Fluent Interface风格代码的初始化，并提供测试案例代码(未来将以该代码继续维护)
         调整部分代码注释，调整可配参数代码
         废弃主动登录接口，合并到初始化自动完成
+        闭环登录环节的相关异常，各个需要业务控制的回调均提供反馈调用
         
 ```     
 ---
@@ -48,9 +49,10 @@
 ```
 ---
 > ### 使用
+- 1.1.0之前(后续会彻底废弃)
 
 ```
-参考com.thankjava.wqq.test.qq.TestSmartQQ.java & com.thankjava.wqq.test.qq.NotifyHandler
+参考com.thankjava.wqq.test.qq.TestSmartQQ & com.thankjava.wqq.test.qq.MessageHandler
 ``` 
 ```java
 package com.thankjava.wqq.test.qq;
@@ -60,6 +62,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import com.thankjava.wqq.extend.ActionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,28 +70,16 @@ import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.NotifyListener;
 
+@Deprecated
 public class TestSmartQQ {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
 
     // 初始化SmartQQClient
     // 需要指明一个NotifyListener 该接口的实例会在 SmartQQClient 拉取到信息时被执行调用
-    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(new NotifyListener() {
-
-        @Override
-        public void handler(PollMsg pollMsg) {
-            // 这里让NotifyListener.hander由于拉取到信息而执行时,将执行的方法交由NotifyHander.hander去处理
-            // 在NotifyHander里面对消息进行拓展处理
-            NOTIFY_HANDLER.hander(pollMsg);
-        }
-
-    });
-
-    // 一个自定义用于处理得到消息的拓展类
-    static final NotifyHandler NOTIFY_HANDLER = new NotifyHandler(SMART_QQ_CLIENT);
+    static final SmartQQClient SMART_QQ_CLIENT = new WQQClient(new MessageHandler());
 
 
     public static void main(String[] args) {
@@ -100,13 +91,12 @@ public class TestSmartQQ {
             // login 接口在得到登录二维码时会调用CallBackListener
             // 并且二维码byte[] 数据会通过ListenerAction.data返回
             @Override
-            public void onListener(ListenerAction actionListener) {
+            public void onListener(ActionListener actionListener) {
 
                 try {
                     // 将返回的byte[]数据io处理成一张png图片
                     // 位于项目log/qrcode.png
-                    ImageIO.write((BufferedImage) actionListener.getData(),
-                        "png", new File("./log/qrcode.png"));
+                    ImageIO.write((BufferedImage) actionListener.getData(), "png", new File("./log/qrcode.png"));
                     logger.debug("获取登录二维码完成,手机QQ扫描 ./log/qrcode.png 位置的二维码图片");
                 } catch (Exception e) {
                     logger.error("将byte[]写为图片失败", e);
@@ -119,10 +109,11 @@ public class TestSmartQQ {
             // 可以通过SmartQQClient.sendMsg向讨论组或者好友或者群组发送信息
             // smartqq-agreement-core工具在得到好友|讨论组|群组信息后就会调用上面提到的NotifyListener.handler
             // 自此你自需要拓展自己的回复消息的内容,就可以自定义自己的QQ机器人或者组件服务拉
+            // 登录完毕后会返回LoginResult 已反馈当前登录结果
             @Override
-            public void onListener(ListenerAction actionListener) {
+            public void onListener(ActionListener actionListener) {
                 // 登陆成功
-                logger.debug("登录完成");
+                logger.debug("登录结果: " + actionListener.getData());
             }
         });
 
@@ -131,9 +122,106 @@ public class TestSmartQQ {
 }
 
 ```
+- 1.1.0之后新版
+```
+参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageHandler
+```
+```java
+package com.thankjava.wqq.test.qq;
 
+import com.thankjava.wqq.SmartQQClient;
+import com.thankjava.wqq.SmartQQClientBuilder;
+import com.thankjava.wqq.entity.msg.PollMsg;
+import com.thankjava.wqq.extend.ActionListener;
+import com.thankjava.wqq.extend.CallBackListener;
+import com.thankjava.wqq.extend.NotifyListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+/**
+ * 新版本SmartQQClient测试代码 version >= 1.1.x
+ *
+ * @author acexy
+ */
+public class TestSmartQQNewVersion {
+
+    private static final Logger logger = LoggerFactory.getLogger(TestSmartQQNewVersion.class);
+
+    static SmartQQClient smartQQClient;
+
+    public static void main(String[] args) {
+
+
+        /**
+         * step 1 > 利用指定使用SmartQQClientBuilder指南来构建SmartQQClient实例
+         */
+        SmartQQClientBuilder builder = SmartQQClientBuilder.custom(
+
+                // 注册一个通知事件的处理器，它将在SmartQQClient获得到相关信息时被调用执行
+                new MessageHandler()
+        );
+
+
+        /**
+         * step 2 > 自定义可选参数(为方便查看可选方法，设置参数的函数均以set关键字命名开始)
+         */
+        builder
+                .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
+                .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
+                .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
+        ;
+
+        /**
+         * step 3 > create SmartQQClient 实例 并进行登录
+         */
+
+        // A: 声明一个获取到登录二维码的回调函数，将返回二维码的byte数组数据
+        CallBackListener getQrListener = new CallBackListener() {
+
+            // login 接口在得到登录二维码时会调用CallBackListener
+            // 并且二维码byte[] 数据会通过ListenerAction.data返回
+
+            @Override
+            public void onListener(ActionListener actionListener) {
+
+                try {
+                    // 将返回的byte[]数据io处理成一张png图片
+                    // 位于项目log/qrcode.png
+                    ImageIO.write((BufferedImage) actionListener.getData(), "png", new File("./log/qrcode.png"));
+                    logger.debug("获取登录二维码完成,手机QQ扫描 ./log/qrcode.png 位置的二维码图片");
+                } catch (Exception e) {
+                    logger.error("将byte[]写为图片失败", e);
+                }
+
+            }
+        };
+        // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
+        CallBackListener loginListener = new CallBackListener() {
+
+            // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.enums.LoginResult
+            @Override
+            public void onListener(ActionListener actionListener) {
+                System.out.println("登录结果: " + actionListener.getData());
+            }
+        };
+
+        // C: 创建SmartQQClient实例对象，并进行登录动作
+        smartQQClient = builder.create(getQrListener, loginListener);
+
+        // 后续就可以利用smartQQClient调用API
+    }
+
+}
+
+```
 ---
 > ### Future
 
-    1. 增加掉线重练机制，通知信息新增session级别通知，在无法正常使用时通知NotifyHandler需要手动处理
-    2. 部分结果的相关响应码进行相关判断，增加相关接口的重连机制
+    1. 持续优化可能存在的BUG
+    2. 响应可能用户提出的优化或建议方案
+    3. 跟进TX协议修改后的改动
+    4. 提高可用性
