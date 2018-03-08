@@ -7,18 +7,17 @@ import com.thankjava.wqq.extend.NotifyListener;
 
 public class MessageHandler implements NotifyListener {
 
-
 	@Override
 	public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
 		switch (pollMsg.getMsgType()) {
 		case message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: friend"));
+			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Friend`"));
 			break;
 		case group_message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: group"));
+			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Group`"));
 			break;
 		case discu_message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: discu"));
+			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Discu`"));
 			break;
 		}
 	}
