@@ -24,8 +24,7 @@ public class WQQClient implements SmartQQClient {
     private SendMsgAction sendMsgAction = ActionFactory.getInstance(SendMsgAction.class);
     private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 
-
-    private static WQQClient instance;
+    private static WQQClient instance = null;
 
     public WQQClient() {
         instance = this;
@@ -39,11 +38,9 @@ public class WQQClient implements SmartQQClient {
     @Deprecated
     public WQQClient(NotifyListener listener) {
         if (listener == null) {
-            System.exit(0);
             throw new NullPointerException("NotifyListener can not be null");
         }
         WQQClient.listener = listener;
-        instance = this;
     }
 
     /**
@@ -68,7 +65,6 @@ public class WQQClient implements SmartQQClient {
         WQQClient.listener = listener;
         ConfigParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
         ConfigParams.INIT_LOGIN_INFO = initLoginInfo;
-        instance = this;
     }
 
     public static NotifyListener getNotifyListener() {
@@ -76,6 +72,9 @@ public class WQQClient implements SmartQQClient {
     }
 
     public static SmartQQClient getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("SmartQQClient is not instantiated");
+        }
         return instance;
     }
 
