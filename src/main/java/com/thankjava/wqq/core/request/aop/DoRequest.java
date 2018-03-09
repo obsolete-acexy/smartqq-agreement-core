@@ -34,6 +34,7 @@ public class DoRequest {
 
         Method method = ReflectHelper.getMethod(proxyInstance, proxyMethodName);
         AsyncRequest asyncRequest = (AsyncRequest) ReflectHelper.invokeMethod(proxyInstance, method);
+        
         if (listener != null) {
             // 如果传递了listener 则通过listener的方式回调返回
             ActionListener actionListener = new ActionListener();
@@ -43,15 +44,21 @@ public class DoRequest {
             	logger.error("http request error", e);
             	actionListener.setData(null);
             }
+            
+            //TODO:
+            logger.debug(String.valueOf(listener == null));
+            
             listener.onListener(actionListener);
+            
         } else {
         	try {
                 aopParam.setResult(asyncHttpClient.syncRequestWithSession(asyncRequest));
         	}catch (Throwable e) {
+        		aopParam.setResult(null);
         		logger.error("http request error", e);
-                aopParam.setResult(null);
 			}
         }
+        
         // 通过普通的方式返回结果
         return aopParam;
     }

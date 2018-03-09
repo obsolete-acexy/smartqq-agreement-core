@@ -3,6 +3,12 @@ package com.thankjava.wqq.entity;
 import com.thankjava.wqq.entity.wqq.DiscusList;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupsList;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.thankjava.wqq.entity.enums.PullMsgStatus;
+import com.thankjava.wqq.entity.sys.MonitoringData;
 import com.thankjava.wqq.entity.wqq.DetailedInfo;
 
 public class Session {
@@ -31,6 +37,9 @@ public class Session {
 	// 个人信息
 	private DetailedInfo selfInfo;
 	
+	// ---
+	private Map<PullMsgStatus, MonitoringData> monitoringData = new HashMap<PullMsgStatus, MonitoringData>();
+
 	public String getPtwebqq() {
 		return ptwebqq;
 	}
@@ -84,6 +93,10 @@ public class Session {
 	}
 	public void setSelfInfo(DetailedInfo selfInfo) {
 		this.selfInfo = selfInfo;
+	}
+
+	public MonitoringData getMonitoringData(PullMsgStatus pullMsgStatus) {
+		return monitoringData.get(pullMsgStatus);
 	}
 	
 	

@@ -21,4 +21,9 @@ public class ConfigParams {
 	 * 若获取的二维码超时未登录则自动重新获取
 	 */
 	public static boolean AUTO_REFRESH_QR_CODE = false;
+	
+	/**
+	 * 用于算法计算是否掉线的样本数据个数
+	 */
+	public static int MONITOR_THE_NUMBER_OF_DATA_SAMPLES = 10;
 }
