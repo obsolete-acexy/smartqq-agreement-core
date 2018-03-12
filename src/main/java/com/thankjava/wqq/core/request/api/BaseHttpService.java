@@ -18,6 +18,13 @@ public abstract class BaseHttpService implements RequestBuilder {
     public final static AsyncHttpClient asyncHttpClient = AsyncHttpClientBuilder.createDefault();
 
     /**
+     * 关闭AsyncHttpClient
+     */
+    public static void shutdownAsyncHttpClient() {
+        asyncHttpClient.shutdown();
+    }
+
+    /**
      * 组装请求参数
      * <p>Function: buildRequestParams</p>
      * <p>Description: </p>
