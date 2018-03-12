@@ -19,7 +19,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.thankjava.wqq" level="DEBUG">
+	<logger name="com.thankjava.wqq" level="DEBUG">
 		<appender-ref ref="DEBUG" />
 	</logger>
 
