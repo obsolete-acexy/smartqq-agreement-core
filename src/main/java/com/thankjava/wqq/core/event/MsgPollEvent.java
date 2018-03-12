@@ -47,12 +47,13 @@ public class MsgPollEvent {
 					} else {
 						pullMsgStatus = PullMsgStatus.http_status_error;
 					}
-					poll();
-				} else {
+                } else {
 					pullMsgStatus = PullMsgStatus.http_exception;
 				}
 
 				doExceptionCheck(pullMsgStatus);
+                poll();
+
 			}
 		});
 	}
