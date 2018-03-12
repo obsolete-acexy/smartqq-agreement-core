@@ -1,7 +1,10 @@
 package com.thankjava.wqq.test.qq;
 
+import com.thankjava.toolkit3d.fastjson.FastJson;
 import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.SmartQQClientBuilder;
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
+import com.thankjava.wqq.entity.sys.LoginResult;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
 import org.slf4j.Logger;
@@ -20,10 +23,7 @@ public class TestSmartQQNewVersion {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSmartQQNewVersion.class);
 
-    static SmartQQClient smartQQClient;
-
     public static void main(String[] args) {
-
 
         /**
          * step 1 > 利用指定使用SmartQQClientBuilder指南来构建SmartQQClient实例
@@ -68,18 +68,23 @@ public class TestSmartQQNewVersion {
 
             }
         };
+        
         // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
         CallBackListener loginListener = new CallBackListener() {
 
             // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.enums.LoginResult
             @Override
             public void onListener(ActionListener actionListener) {
-                System.out.println("登录结果: " + actionListener.getData());
+            	LoginResult loginResult = (LoginResult) actionListener.getData();
+                System.out.println("登录结果: " + loginResult.getLoginStatus());
+                if (loginResult.getLoginStatus() == LoginResultStatus.success) {
+                	
+                	SmartQQClient smartQQClient = loginResult.getClient();
 
-                // TODO: 后续就可以利用smartQQClient调用API
-                System.out.println(smartQQClient.getFriendsList(false));
-                smartQQClient.shutdown();
-
+                	// TODO: 后续就可以利用smartQQClient调用API
+                    System.out.println(FastJson.toJSONString(smartQQClient.getFriendsList(false)));
+                    
+                }
             }
         };
 

@@ -3,6 +3,8 @@ package com.thankjava.wqq;
 import com.thankjava.toolkit.reflect.ReflectHelper;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.LoginAction;
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
+import com.thankjava.wqq.entity.sys.LoginResult;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.extend.NotifyListener;
@@ -77,7 +79,7 @@ public class SmartQQClientBuilder {
      * 创建SmartQQClient实例并登录
      *
      * @param getQrListener 获取到登录二维码后将进行回调
-     * @param loginListener 登录完毕后的回调函数，函数会返回一个LoginResult的登录状态反馈值
+     * @param loginListener 登录完毕后的回调函数，函数会返回一个LoginResult的登录反馈值
      */
     public void createAndLogin(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
@@ -91,7 +93,7 @@ public class SmartQQClientBuilder {
 
             @Override
             public void onListener(ActionListener actionListener) {
-                loginListener.onListener(actionListener);
+                loginListener.onListener(new ActionListener(new LoginResult(smartQQClient, (LoginResultStatus)actionListener.getData())));
             }
 
         });

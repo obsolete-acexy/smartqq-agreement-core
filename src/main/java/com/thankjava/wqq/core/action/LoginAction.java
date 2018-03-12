@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
 import com.thankjava.wqq.extend.ActionListener;
 import org.apache.http.cookie.Cookie;
 import org.slf4j.Logger;
@@ -20,7 +21,6 @@ import com.thankjava.wqq.core.request.api.CheckSig;
 import com.thankjava.wqq.core.request.api.GetLoginQRcode;
 import com.thankjava.wqq.core.request.api.GetVfWebqq;
 import com.thankjava.wqq.core.request.api.Login2;
-import com.thankjava.wqq.entity.enums.LoginResult;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.extend.CallBackListener;
@@ -57,7 +57,7 @@ public class LoginAction {
             actionListener = new ActionListener(ImageIO.read(new ByteArrayInputStream(asyncResponse.getDataByteArray())));
         } catch (IOException e) {
             logger.error("获取二维码数据失败", e);
-            loginListener.onListener(new ActionListener(LoginResult.exception));
+            loginListener.onListener(new ActionListener(LoginResultStatus.exception));
         }
 
         getQrListener.onListener(actionListener);
@@ -83,7 +83,7 @@ public class LoginAction {
             Thread.sleep(ConstsParams.CHECK_QRCODE_WITE_TIME);
         } catch (InterruptedException e) {
             logger.error("检查当前的二维码的状态线程等待异常", e);
-            loginListener.onListener(new ActionListener(LoginResult.exception));
+            loginListener.onListener(new ActionListener(LoginResultStatus.exception));
         }
 
         String[] data = RegexUtil.doRegex(checkLoginQRcodeStatus.doRequest(null).getDataString(), DataResRegx.check_login_qrcode_status);
@@ -104,10 +104,10 @@ public class LoginAction {
                 logger.debug("二维码验证完成");
                 session.setCheckSigUrl(data[2]);
                 if (beginLogin()) {
-                    loginListener.onListener(new ActionListener(LoginResult.success));
+                    loginListener.onListener(new ActionListener(LoginResultStatus.success));
                 } else {
                     logger.error("登录失败");
-                    loginListener.onListener(new ActionListener(LoginResult.failed));
+                    loginListener.onListener(new ActionListener(LoginResultStatus.failed));
                 }
                 break;
             case 65: // 二维码认证过期
@@ -117,7 +117,7 @@ public class LoginAction {
                     break;
                 }
                 logger.debug("当前二维码已过期, 并且未设置自动重刷二维码, 登录失败");
-                loginListener.onListener(new ActionListener(LoginResult.failed));
+                loginListener.onListener(new ActionListener(LoginResultStatus.failed));
                 break;
             default: // 二维码处于认证中|等待认证
                 logger.debug("二维码状态: " + data[4]);

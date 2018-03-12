@@ -1,6 +1,6 @@
 package com.thankjava.wqq.entity.enums;
 
-public enum LoginResult {
+public enum LoginResultStatus {
 	
 	success,
 	failed,
