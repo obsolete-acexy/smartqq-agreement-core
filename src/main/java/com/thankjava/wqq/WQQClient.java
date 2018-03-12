@@ -4,6 +4,7 @@ import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.GetInfoAction;
 import com.thankjava.wqq.core.action.LoginAction;
 import com.thankjava.wqq.core.action.SendMsgAction;
+import com.thankjava.wqq.core.request.api.BaseHttpService;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.msg.SendMsg;
 import com.thankjava.wqq.entity.wqq.DiscusList;
@@ -88,6 +89,11 @@ public class WQQClient implements SmartQQClient {
     @Override
     public void sendMsg(SendMsg sendMsg) {
         sendMsgAction.sendMsg(sendMsg);
+    }
+
+    @Override
+    public void shutdown() {
+        BaseHttpService.shutdownAsyncHttpClient();
     }
 
     @Override

@@ -82,4 +82,9 @@ public interface SmartQQClient {
      * @version 1.0
      */
     public void sendMsg(SendMsg sendMsg);
+
+    /**
+     * 关闭SmartQQClient
+     */
+    public void shutdown();
 }
