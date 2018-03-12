@@ -25,6 +25,6 @@ public class MonitoringData {
 		long first = frequencyData.getFirst();
 		long last = frequencyData.getLast();
 		long timeSecound = (last - first) / 1000;
-		return MathUtils.divide(frequencyData.size(), timeSecound);
+		return MathUtils.divide(ConfigParams.MONITOR_THE_NUMBER_OF_DATA_SAMPLES, timeSecound);
 	}
 }
