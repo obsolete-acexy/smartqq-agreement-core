@@ -176,7 +176,7 @@ public class TestSmartQQNewVersion {
         ;
 
         /**
-         * step 3 > create SmartQQClient 实例 并进行登录
+         *createAndLogin
          */
 
         // A: 声明一个获取到登录二维码的回调函数，将返回二维码的byte数组数据

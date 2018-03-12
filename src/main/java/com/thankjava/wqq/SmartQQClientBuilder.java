@@ -17,8 +17,8 @@ public class SmartQQClientBuilder {
 
     private SmartQQClientBuilder() {
     }
-
-    private static WQQClient client = null;
+    
+    private static SmartQQClient smartQQClient;
 
     /**
      * 声明需要自定义参数化 SmartQQClient
@@ -28,13 +28,13 @@ public class SmartQQClientBuilder {
      */
     public static SmartQQClientBuilder custom(NotifyListener notifyListener) {
 
-        client = new WQQClient();
+        smartQQClient = new WQQClient();
 
         if (notifyListener == null) {
             throw new NullPointerException("notifyListener can not be null");
         }
 
-        ReflectHelper.setFieldVal(client, "listener", notifyListener);
+        ReflectHelper.setFieldVal(smartQQClient, "listener", notifyListener);
 
         return new SmartQQClientBuilder();
     }
@@ -78,9 +78,8 @@ public class SmartQQClientBuilder {
      *
      * @param getQrListener 获取到登录二维码后将进行回调
      * @param loginListener 登录完毕后的回调函数，函数会返回一个LoginResult的登录状态反馈值
-     * @return
      */
-    public SmartQQClient create(final CallBackListener getQrListener, final CallBackListener loginListener) {
+    public void createAndLogin(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
         if (getQrListener == null || loginListener == null) {
 	        throw new NullPointerException("listener can not be null");
@@ -96,7 +95,5 @@ public class SmartQQClientBuilder {
             }
 
         });
-
-        return client;
     }
 }

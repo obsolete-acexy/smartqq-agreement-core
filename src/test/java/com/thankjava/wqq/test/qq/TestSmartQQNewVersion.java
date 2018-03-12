@@ -75,13 +75,16 @@ public class TestSmartQQNewVersion {
             @Override
             public void onListener(ActionListener actionListener) {
                 System.out.println("登录结果: " + actionListener.getData());
+
+                // TODO: 后续就可以利用smartQQClient调用API
+                System.out.println(smartQQClient.getFriendsList(false));
+                smartQQClient.shutdown();
+
             }
         };
 
-        // C: 创建SmartQQClient实例对象，并进行登录动作
-        smartQQClient = builder.create(getQrListener, loginListener);
-
-        // 后续就可以利用smartQQClient调用API
+        // C: 进行登录动作
+        builder.createAndLogin(getQrListener, loginListener);
     }
 
 }
