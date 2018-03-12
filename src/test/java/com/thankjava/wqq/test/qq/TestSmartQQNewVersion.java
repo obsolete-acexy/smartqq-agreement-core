@@ -72,17 +72,17 @@ public class TestSmartQQNewVersion {
         // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
         CallBackListener loginListener = new CallBackListener() {
 
-            // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.enums.LoginResult
+            // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.sys.LoginResult
             @Override
             public void onListener(ActionListener actionListener) {
             	LoginResult loginResult = (LoginResult) actionListener.getData();
-                System.out.println("登录结果: " + loginResult.getLoginStatus());
+                logger.info("登录结果: " + loginResult.getLoginStatus());
                 if (loginResult.getLoginStatus() == LoginResultStatus.success) {
                 	
                 	SmartQQClient smartQQClient = loginResult.getClient();
 
                 	// TODO: 后续就可以利用smartQQClient调用API
-                    System.out.println(FastJson.toJSONString(smartQQClient.getFriendsList(false)));
+                    logger.info("获取到的好友列表信息: " + FastJson.toJSONString(smartQQClient.getFriendsList(true)));
                     
                 }
             }
