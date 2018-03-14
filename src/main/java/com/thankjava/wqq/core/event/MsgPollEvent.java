@@ -1,7 +1,9 @@
 package com.thankjava.wqq.core.event;
 
 import com.thankjava.toolkit.reflect.ReflectHelper;
+import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.LoginAction;
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.factory.ActionFactory;
 import org.slf4j.Logger;
@@ -78,9 +80,9 @@ public class MsgPollEvent {
 
         MonitoringData monitoringData = session.getMonitoringData(pullMsgStatus);
         monitoringData.addData();
-        double avaValue = monitoringData.getAverageValueOfOneSecond();
+        double avgValue = monitoringData.getAverageValueOfOneSecond();
 
-        if (avaValue >= 1) {
+        if (avgValue >= 1) {
 
             logger.info(pullMsgStatus + " 类型平均值超出，可能处于登录异常，将执行掉线重连");
 
@@ -88,7 +90,18 @@ public class MsgPollEvent {
             session.resetMonitoringData();
             try {
                 Method method = ReflectHelper.getMethod(loginAction, "beginLogin", null);
-                ReflectHelper.invokeMethod(loginAction, method);
+                int retryTimes = ConfigParams.AUTO_RE_LOGIN_RETRY_MAX_TIME;
+                while (retryTimes > 0) {
+                    boolean flag = (boolean) ReflectHelper.invokeMethod(loginAction, method);
+                    if (flag) {
+                        break;
+                    }
+                    retryTimes--;
+                }
+                if (retryTimes == 0) {
+                    // 计算是否处于连续重连失败的情况
+                    logger.debug("自动重连已达到上限");
+                }
             } catch (Exception e) {
                 // TODO:
             }
@@ -96,4 +109,6 @@ public class MsgPollEvent {
         }
         return true;
     }
+
+
 }

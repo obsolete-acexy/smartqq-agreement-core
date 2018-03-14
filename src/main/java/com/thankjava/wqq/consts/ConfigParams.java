@@ -26,4 +26,9 @@ public class ConfigParams {
 	 * 用于算法计算是否掉线的样本数据个数
 	 */
 	public static int MONITOR_THE_NUMBER_OF_DATA_SAMPLES = 10;
+
+	/**
+	 * 计算出掉线情况的连续自动重连最大次数
+	 */
+	public static int AUTO_RE_LOGIN_RETRY_MAX_TIME = 1;
 }

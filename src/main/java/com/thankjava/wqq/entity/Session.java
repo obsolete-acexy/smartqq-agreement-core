@@ -1,5 +1,6 @@
 package com.thankjava.wqq.entity;
 
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
 import com.thankjava.wqq.entity.wqq.DiscusList;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupsList;
@@ -125,7 +126,6 @@ public class Session {
     }
 
     public void resetMonitoringData() {
-	    monitoringData.clear();
+        monitoringData.clear();
     }
-
 }
