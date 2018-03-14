@@ -3,7 +3,6 @@ package com.thankjava.wqq.core.event;
 import com.thankjava.toolkit.reflect.ReflectHelper;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.LoginAction;
-import com.thankjava.wqq.entity.enums.LoginResultStatus;
 import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.factory.ActionFactory;
 import org.slf4j.Logger;
@@ -101,6 +100,10 @@ public class MsgPollEvent {
                 if (retryTimes == 0) {
                     // 计算是否处于连续重连失败的情况
                     logger.debug("自动重连已达到上限");
+                    CallBackListener callBackListener = WQQClient.getOfflineListener();
+                    if (callBackListener != null) {
+                        callBackListener.onListener(new ActionListener());
+                    }
                 }
             } catch (Exception e) {
                 // TODO:

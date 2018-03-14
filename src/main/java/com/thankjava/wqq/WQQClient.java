@@ -17,7 +17,11 @@ import com.thankjava.wqq.factory.ActionFactory;
 
 public class WQQClient implements SmartQQClient {
 
-    private static NotifyListener listener;
+    // 通知
+    private static NotifyListener notifyListener = null;
+
+    // 系统停止回调(掉线)
+    private static CallBackListener offlineListener = null;
 
     private Session session = Session.getSession();
 
@@ -36,14 +40,14 @@ public class WQQClient implements SmartQQClient {
     /**
      * 简单构造
      *
-     * @param listener
+     * @param notifyListener
      */
     @Deprecated
-    public WQQClient(NotifyListener listener) {
-        if (listener == null) {
+    public WQQClient(NotifyListener notifyListener) {
+        if (notifyListener == null) {
             throw new NullPointerException("NotifyListener can not be null");
         }
-        WQQClient.listener = listener;
+        WQQClient.notifyListener = notifyListener;
     }
 
     /**
@@ -52,26 +56,30 @@ public class WQQClient implements SmartQQClient {
      * <p>Description: </p>
      *
      * @param exceptionRetryMaxTimes 某些接口由于服务器不稳定返回异常的自动尝试最高次数(默认 3)
-     * @param listener
+     * @param notifyListener
      * @param initLoginInfo          是否登录成功后立即获取相关信息并缓存起来(好友信息，群信息等 默认 false)
      */
     @Deprecated
-    public WQQClient(boolean initLoginInfo, int exceptionRetryMaxTimes, NotifyListener listener) {
+    public WQQClient(boolean initLoginInfo, int exceptionRetryMaxTimes, NotifyListener notifyListener) {
 
         if (exceptionRetryMaxTimes < 1) {
             throw new IllegalArgumentException("exceptionRetryMaxTimes should >= 1");
         }
-        if (listener == null) {
+        if (notifyListener == null) {
             throw new NullPointerException("NotifyListener can not be null");
         }
 
-        WQQClient.listener = listener;
+        WQQClient.notifyListener = notifyListener;
         ConfigParams.EXCEPTION_RETRY_MAX_TIME = exceptionRetryMaxTimes;
         ConfigParams.INIT_LOGIN_INFO = initLoginInfo;
     }
 
     public static NotifyListener getNotifyListener() {
-        return listener;
+        return notifyListener;
+    }
+
+    public static CallBackListener getOfflineListener() {
+        return offlineListener;
     }
 
     public static SmartQQClient getInstance() {

@@ -42,6 +42,12 @@ public class TestSmartQQNewVersion {
                 .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
                 .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
                 .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
+//                .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
+//                    @Override
+//                    public void onListener(ActionListener actionListener) {
+//                        logger.info("登录的QQ已由掉线无法继续使用(系统已经尝试自动处理)");
+//                    }
+//                })
         ;
 
         /**
@@ -68,22 +74,22 @@ public class TestSmartQQNewVersion {
 
             }
         };
-        
+
         // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
         CallBackListener loginListener = new CallBackListener() {
 
             // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.sys.LoginResult
             @Override
             public void onListener(ActionListener actionListener) {
-            	LoginResult loginResult = (LoginResult) actionListener.getData();
+                LoginResult loginResult = (LoginResult) actionListener.getData();
                 logger.info("登录结果: " + loginResult.getLoginStatus());
                 if (loginResult.getLoginStatus() == LoginResultStatus.success) {
-                	
-                	SmartQQClient smartQQClient = loginResult.getClient();
 
-                	// TODO: 后续就可以利用smartQQClient调用API
+                    SmartQQClient smartQQClient = loginResult.getClient();
+
+                    // TODO: 后续就可以利用smartQQClient调用API
                     logger.info("获取到的好友列表信息: " + FastJson.toJSONString(smartQQClient.getFriendsList(true)));
-                    
+
                 }
             }
         };

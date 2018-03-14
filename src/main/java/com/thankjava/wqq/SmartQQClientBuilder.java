@@ -36,7 +36,7 @@ public class SmartQQClientBuilder {
             throw new NullPointerException("notifyListener can not be null");
         }
 
-        ReflectHelper.setFieldVal(smartQQClient, "listener", notifyListener);
+        ReflectHelper.setFieldVal(smartQQClient, "notifyListener", notifyListener);
 
         return new SmartQQClientBuilder();
     }
@@ -72,6 +72,29 @@ public class SmartQQClientBuilder {
      */
     public SmartQQClientBuilder setAutoRefreshQrcode() {
         ConfigParams.AUTO_REFRESH_QR_CODE = true;
+        return this;
+    }
+
+    /**
+     * 当系统计算出登陆状态异常时会重新登录，连续异常到限定阀值后放弃
+     * @param times
+     * @return
+     */
+    public SmartQQClientBuilder setAutoLoginMaxRetryTimes(int times) {
+        if (times < 1) {
+            throw new IllegalArgumentException("autoLoginMaxRetryTimes should >= 1");
+        }
+        ConfigParams.AUTO_RE_LOGIN_RETRY_MAX_TIME = times;
+        return this;
+    }
+
+    /**
+     * 注册一个掉线通知
+     * @param offlineListener
+     * @return
+     */
+    public SmartQQClientBuilder setOffLineListener(CallBackListener offlineListener) {
+        ReflectHelper.setFieldVal(smartQQClient, "offlineListener", offlineListener);
         return this;
     }
 
