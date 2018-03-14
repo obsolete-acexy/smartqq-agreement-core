@@ -31,12 +31,12 @@
         升级依赖组件
         调整代码结构
     1.1.0
-        标注废除历史版本登录和应用初始化相关代码(未来标注废弃的代码将测底移除)
-        新增提供基于Fluent Interface风格代码的初始化，并提供测试案例代码(未来将以该代码继续维护)
+        标注废除历史版本登录和应用初始化相关代码预计1.1.1将彻底移除)
+        新增提供基于Fluent Interface风格代码的初始化，并提供测试案例代码
         调整部分代码注释，调整可配参数代码
         废弃主动登录接口，合并到初始化自动完成
         闭环登录环节的相关异常，各个需要业务控制的回调均提供反馈调用
-        增加稳定性，增加算法优化掉线自动重连机制
+        增加稳定性，新增应用健康状态监控，提供优化掉线自动重连机制
         
 ```     
 ---
@@ -172,6 +172,12 @@ public class TestSmartQQNewVersion {
                 .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
                 .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
                 .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
+//                .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
+//                    @Override
+//                    public void onListener(ActionListener actionListener) {
+//                        logger.info("登录的QQ已由掉线无法继续使用(系统已经尝试自动处理)");
+//                    }
+//                })
         ;
 
         /**
@@ -198,22 +204,22 @@ public class TestSmartQQNewVersion {
 
             }
         };
-        
+
         // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
         CallBackListener loginListener = new CallBackListener() {
 
-            // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.enums.LoginResult
+            // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.sys.LoginResult
             @Override
             public void onListener(ActionListener actionListener) {
-            	LoginResult loginResult = (LoginResult) actionListener.getData();
-                System.out.println("登录结果: " + loginResult.getLoginStatus());
+                LoginResult loginResult = (LoginResult) actionListener.getData();
+                logger.info("登录结果: " + loginResult.getLoginStatus());
                 if (loginResult.getLoginStatus() == LoginResultStatus.success) {
-                	
-                	SmartQQClient smartQQClient = loginResult.getClient();
 
-                	// TODO: 后续就可以利用smartQQClient调用API
-                    System.out.println(FastJson.toJSONString(smartQQClient.getFriendsList(false)));
-                    
+                    SmartQQClient smartQQClient = loginResult.getClient();
+
+                    // TODO: 后续就可以利用smartQQClient调用API
+                    logger.info("获取到的好友列表信息: " + FastJson.toJSONString(smartQQClient.getFriendsList(true)));
+
                 }
             }
         };
@@ -223,6 +229,7 @@ public class TestSmartQQNewVersion {
     }
 
 }
+
 
 ```
 ---
