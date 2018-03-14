@@ -44,13 +44,10 @@ public class DoRequest {
             	logger.error("http request error", e);
             	actionListener.setData(null);
             }
-            
-            //TODO:
-            logger.debug(String.valueOf(listener == null));
-            
             listener.onListener(actionListener);
             
         } else {
+
         	try {
                 aopParam.setResult(asyncHttpClient.syncRequestWithSession(asyncRequest));
         	}catch (Throwable e) {

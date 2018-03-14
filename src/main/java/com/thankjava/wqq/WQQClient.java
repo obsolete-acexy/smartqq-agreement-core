@@ -21,7 +21,9 @@ public class WQQClient implements SmartQQClient {
 
     private Session session = Session.getSession();
 
+    @Deprecated
     private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
+
     private SendMsgAction sendMsgAction = ActionFactory.getInstance(SendMsgAction.class);
     private GetInfoAction getInfo = ActionFactory.getInstance(GetInfoAction.class);
 

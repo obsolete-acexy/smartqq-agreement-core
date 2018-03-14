@@ -1,6 +1,9 @@
 package com.thankjava.wqq.core.event;
 
+import com.thankjava.toolkit.reflect.ReflectHelper;
+import com.thankjava.wqq.core.action.LoginAction;
 import com.thankjava.wqq.extend.ActionListener;
+import com.thankjava.wqq.factory.ActionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
@@ -15,59 +18,82 @@ import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.JSON2Entity;
 
+import java.lang.reflect.Method;
+
 /**
  * 消息事件处理器
  */
 public class MsgPollEvent {
 
-	private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
+    private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
 
-	private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
+    private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
 
-	private static Session session = Session.getSession();
+    private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
 
-	public void poll() {
 
-		poll2.doRequest(new CallBackListener() {
+    private static Session session = Session.getSession();
 
-			@Override
-			public void onListener(ActionListener actionListener) {
-				PullMsgStatus pullMsgStatus;
-				if (actionListener.getData() != null) {
-					AsyncResponse response = (AsyncResponse) actionListener.getData();
-					logger.debug("msgPoll Event > httpStatus: " + response);
-					if (response.getHttpCode() == 200) {
-						PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
-						if (pollMsg != null) {
-							notifyMsgEvent(pollMsg);
-							pullMsgStatus = PullMsgStatus.normal;
-						} else {
-							pullMsgStatus = PullMsgStatus.http_response_error;
-						}
-					} else {
-						pullMsgStatus = PullMsgStatus.http_status_error;
-					}
+    public void poll() {
+
+        poll2.doRequest(new CallBackListener() {
+
+            @Override
+            public void onListener(ActionListener actionListener) {
+                PullMsgStatus pullMsgStatus;
+                if (actionListener.getData() != null) {
+                    AsyncResponse response = (AsyncResponse) actionListener.getData();
+                    logger.debug("MsgPollEvent httpStatus: " + response.getHttpCode());
+                    if (response.getHttpCode() == 200) {
+                        PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
+                        if (pollMsg != null) {
+                            notifyMsgEvent(pollMsg);
+                            pullMsgStatus = PullMsgStatus.normal;
+                        } else {
+                            // 未能解析响应数据
+                            pullMsgStatus = PullMsgStatus.http_response_error;
+                        }
+                    } else {
+                        pullMsgStatus = PullMsgStatus.http_status_error;
+                    }
                 } else {
-					pullMsgStatus = PullMsgStatus.http_exception;
-				}
+                    // http 请求异常
+                    pullMsgStatus = PullMsgStatus.http_exception;
+                }
 
-				doExceptionCheck(pullMsgStatus);
-                poll();
+                if (doExceptionCheck(pullMsgStatus)) {
+                    poll();
+                }
 
-			}
-		});
-	}
+            }
+        });
+    }
 
-	private void notifyMsgEvent(PollMsg pollMsg) {
-		WQQClient.getNotifyListener().handler(WQQClient.getInstance(), pollMsg);
-	}
+    private void notifyMsgEvent(PollMsg pollMsg) {
+        WQQClient.getNotifyListener().handler(WQQClient.getInstance(), pollMsg);
+    }
 
-	private void doExceptionCheck(PullMsgStatus pullMsgStatus) {
-		MonitoringData monitoringData = session.getMonitoringData(pullMsgStatus);
-		monitoringData.addData();
-		double avaValue = monitoringData.getAverageValueOfOneSecound();
-		if (avaValue >= 1) {
-			logger.info(pullMsgStatus + " 类型平均值超出，可能处于登录异常");
-		}
-	}
+    // 用来监控&计算当前SmartQQClient的健康状态
+    private boolean doExceptionCheck(PullMsgStatus pullMsgStatus) {
+
+        MonitoringData monitoringData = session.getMonitoringData(pullMsgStatus);
+        monitoringData.addData();
+        double avaValue = monitoringData.getAverageValueOfOneSecond();
+
+        if (avaValue >= 1) {
+
+            logger.info(pullMsgStatus + " 类型平均值超出，可能处于登录异常，将执行掉线重连");
+
+            // 重置监控数据
+            session.resetMonitoringData();
+            try {
+                Method method = ReflectHelper.getMethod(loginAction, "beginLogin", null);
+                ReflectHelper.invokeMethod(loginAction, method);
+            } catch (Exception e) {
+                // TODO:
+            }
+            return false;
+        }
+        return true;
+    }
 }
