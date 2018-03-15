@@ -83,7 +83,7 @@ public class MsgPollEvent {
 
         if (avgValue >= 1) {
 
-            logger.info(pullMsgStatus + " 类型平均值超出，可能处于登录异常，将执行掉线重连");
+            logger.debug("MsgStatus: " + pullMsgStatus + " 类型平均值超出，可能处于登录异常，执行掉线重连");
 
             // 重置监控数据
             session.resetMonitoringData();
@@ -93,13 +93,14 @@ public class MsgPollEvent {
                 while (retryTimes > 0) {
                     boolean flag = (boolean) ReflectHelper.invokeMethod(loginAction, method);
                     if (flag) {
+                        logger.debug("执行重连完成");
                         break;
                     }
                     retryTimes--;
                 }
                 if (retryTimes == 0) {
                     // 计算是否处于连续重连失败的情况
-                    logger.debug("自动重连已达到上限");
+                    logger.debug("执行重连失败已达到上限，已放弃尝试");
                     CallBackListener callBackListener = WQQClient.getOfflineListener();
                     if (callBackListener != null) {
                         callBackListener.onListener(new ActionListener());
