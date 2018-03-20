@@ -88,7 +88,7 @@ public class MsgPollEvent {
             // 重置监控数据
             session.resetMonitoringData();
             try {
-                Method method = ReflectHelper.getMethod(loginAction, "beginLogin", null);
+                Method method = ReflectHelper.getMethod(loginAction, "beginLogin");
                 int retryTimes = ConfigParams.AUTO_RE_LOGIN_RETRY_MAX_TIME;
                 while (retryTimes > 0) {
                     boolean flag = (boolean) ReflectHelper.invokeMethod(loginAction, method);

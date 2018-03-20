@@ -4,7 +4,6 @@ import com.thankjava.wqq.entity.msg.SendMsg;
 import com.thankjava.wqq.entity.wqq.DiscusList;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupsList;
-import com.thankjava.wqq.extend.CallBackListener;
 
 /**
  * SmartQQ 应用接口
@@ -16,21 +15,6 @@ import com.thankjava.wqq.extend.CallBackListener;
  * @date 2016年12月9日 下午2:17:14
  */
 public interface SmartQQClient {
-
-    /**
-     * 登录接口
-     * <p>Function: login</p>
-     * <p>Description: 扫描登录</p>
-     *
-     * @param autoRefreshQRcode 指定二维码过期是否自动刷新
-     * @param getQrlistener     获取到二维码后的回调函数
-     * @param loginListener     登录成功后的回调函数
-     * @author acexy@thankjava.com
-     * @date 2016年12月28日 下午11:42:34
-     * @version 1.0
-     */
-	@Deprecated
-    public void login(boolean autoRefreshQRcode, CallBackListener getQrlistener, CallBackListener loginListener);
 
     /**
      * 获取讨论组信息
