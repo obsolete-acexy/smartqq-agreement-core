@@ -19,9 +19,9 @@ import java.io.File;
  *
  * @author acexy
  */
-public class TestSmartQQNewVersion {
+public class TestSmartQQ {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestSmartQQNewVersion.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestSmartQQ.class);
 
     public static void main(String[] args) {
 
