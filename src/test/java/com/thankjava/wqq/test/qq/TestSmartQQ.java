@@ -90,11 +90,16 @@ public class TestSmartQQ {
                     // TODO: 后续就可以利用smartQQClient调用API
                     logger.info("获取到的好友列表信息: " + FastJson.toJSONString(smartQQClient.getFriendsList(true)));
 
+
+
+                    // 业务处理
+                    // TODO:
+
                 }
             }
         };
 
-        // C: 进行登录动作
+        // C: 进行登录,启动服务
         builder.createAndLogin(getQrListener, loginListener);
     }
 
