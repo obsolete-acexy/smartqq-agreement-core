@@ -8,5 +8,11 @@ import com.thankjava.wqq.entity.msg.PollMsg;
  */
 public interface NotifyListener {
 
+
+    /**
+     * 消息通知处理定义
+     * @param smartQQClient
+     * @param pollMsg
+     */
     public void handler(SmartQQClient smartQQClient, PollMsg pollMsg);
 }

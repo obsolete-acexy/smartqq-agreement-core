@@ -24,8 +24,7 @@ public class SendQunMsg2 extends BaseHttpService {
 	@Override
 	public AsyncResponse doRequest(CallBackListener listener) {
 		if(listener != null){
-			ActionListener actionListener = new ActionListener();
-			actionListener.setData(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
+			ActionListener actionListener = new ActionListener(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
 			listener.onListener(actionListener);
 			return null;
 		}else{

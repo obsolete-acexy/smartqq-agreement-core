@@ -31,7 +31,7 @@ public class TestSmartQQ {
         SmartQQClientBuilder builder = SmartQQClientBuilder.custom(
 
                 // 注册一个通知事件的处理器，它将在SmartQQClient获得到相关信息时被调用执行
-                new MessageHandler()
+                new MessageListener()
         );
 
 

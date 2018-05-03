@@ -37,15 +37,13 @@ public class DoRequest {
         
         if (listener != null) {
             // 如果传递了listener 则通过listener的方式回调返回
-            ActionListener actionListener = new ActionListener();
             try {
-                actionListener.setData(asyncHttpClient.syncRequestWithSession(asyncRequest));
+                listener.onListener(new ActionListener((asyncHttpClient.syncRequestWithSession(asyncRequest))));
             } catch (Throwable e) {
             	logger.error("http request error", e);
-            	actionListener.setData(null);
+                listener.onListener(new ActionListener());
             }
-            listener.onListener(actionListener);
-            
+
         } else {
 
         	try {

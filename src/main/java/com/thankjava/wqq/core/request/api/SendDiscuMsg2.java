@@ -24,9 +24,7 @@ public class SendDiscuMsg2 extends BaseHttpService{
 	@Override
 	public AsyncResponse doRequest(CallBackListener listener) {
 		if(listener != null){
-			ActionListener actionListener = new ActionListener();
-			actionListener.setData(asyncHttpClient.syncRequestWithSession(buildRequestParams()));
-			listener.onListener(actionListener);
+			listener.onListener(new ActionListener(asyncHttpClient.syncRequestWithSession(buildRequestParams())));
 			return null;
 		}else{
 			return asyncHttpClient.syncRequestWithSession(buildRequestParams());

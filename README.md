@@ -37,6 +37,8 @@
         废弃主动登录接口，合并到初始化自动完成
         闭环登录环节的相关异常，各个需要业务控制的回调均提供反馈调用
         增加稳定性，新增应用健康状态监控，提供优化掉线自动重连机制
+    1.1.1
+        移除了历史版本登录测试方法和历史登录的相关支持代码
         
 ```     
 ---
@@ -53,7 +55,7 @@
 - 1.1.0之前(后续会彻底废弃)
 
 ```
-参考com.thankjava.wqq.test.qq.TestSmartQQ & com.thankjava.wqq.test.qq.MessageHandler
+参考com.thankjava.wqq.test.qq.TestSmartQQ & com.thankjava.wqq.test.qq.MessageListener
 ``` 
 ```java
 package com.thankjava.wqq.test.qq;
@@ -125,7 +127,7 @@ public class TestSmartQQ {
 ```
 - 1.1.0之后新版
 ```
-参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageHandler
+参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageListener
 ```
 ```java
 package com.thankjava.wqq.test.qq;
