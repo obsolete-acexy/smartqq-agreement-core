@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thankjava.wqq</groupId>
 	<artifactId>smartqq-agreement-core</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1</version>
 
-	<!--<parent>-->
-		<!--<groupId>org.sonatype.oss</groupId>-->
-		<!--<artifactId>oss-parent</artifactId>-->
-		<!--<version>7</version>-->
-	<!--</parent>-->
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<name>smartqq-agreement-core</name>
 
@@ -21,10 +21,10 @@
 
 		<fast-toolkit.version>1.0.6</fast-toolkit.version>
 		<httpasyncclient.version>4.1.3</httpasyncclient.version>
-		<fastjson.version>1.2.41</fastjson.version>
+		<fastjson.version>1.2.47</fastjson.version>
 		<org.slf4j.version>1.7.25</org.slf4j.version>
 		<ch.qos.logback.version>1.2.3</ch.qos.logback.version>
-		<cglib.version>3.2.5</cglib.version>
+		<cglib.version>3.2.6</cglib.version>
 		<commons-io.version>2.6</commons-io.version>
 
 	</properties>
