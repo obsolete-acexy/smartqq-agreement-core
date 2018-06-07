@@ -14,6 +14,13 @@ public class SendMsg {
 	private Long did;
 	private Content content;
 
+	/**
+	 *  发送消息构造
+	 * @param to 根据 msgType 指定回复对象
+	 * @param msgType
+	 * @param content 回复内容 Content
+	 * @see Content
+	 */
 	public SendMsg(long to, MsgType msgType, Content content) {
 
 		switch (msgType) {
@@ -56,7 +63,7 @@ public class SendMsg {
 
 	public SendMsg(PollMsg pollMsg, Content content) {
 		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getFrom();
+		long to = pollMsg.getTargetFromId();
 		switch (msgType) {
 		case message: // 好友信息
 			this.to = to;
@@ -73,7 +80,7 @@ public class SendMsg {
 	
 	public SendMsg(PollMsg pollMsg, String msg) {
 		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getFrom();
+		long to = pollMsg.getTargetFromId();
 		switch (msgType) {
 		case message: // 好友信息
 			this.to = to;

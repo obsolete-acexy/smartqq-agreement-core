@@ -7,24 +7,26 @@ import com.thankjava.wqq.extend.NotifyListener;
 
 public class MessageListener implements NotifyListener {
 
-	@Override
-	public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
-		switch (pollMsg.getMsgType()) {
-		case message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Friend`"));
-			break;
-		case group_message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Group`"));
-			break;
-		case discu_message:
-			smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Discu`"));
-			break;
-		}
-	}
+    @Override
+    public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
+        System.out.println("received msg : " + pollMsg.getMsgContext());
+        switch (pollMsg.getMsgType()) {
+            case message:
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Friend`"));
+                break;
+            case group_message:
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Group`"));
+                break;
+            case discu_message:
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Discu`"));
+                break;
+        }
+    }
 
-	// sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
+    // sendMsg 接口能通过pollMsg得到msg的类型，然后自动回复该类型的msg
 //	@Override
 //	public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
+//      System.out.println("received msg : " + pollMsg.getMsgContext());
 //		smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg"));
 //	}
 

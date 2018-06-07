@@ -55,7 +55,7 @@ public class Content {
 			for (Object m : msg) {
 				if(String.class == m.getClass()){
 					array.add(m);
-				}else if (Integer.class == m.getClass()){
+				}else if (Integer.class == m.getClass() || int.class == m.getClass()){
 					JSONArray faceArray = new JSONArray();
 					faceArray.add("face");
 					faceArray.add((Integer)m);
@@ -66,9 +66,13 @@ public class Content {
 		array.add(font.toFontArray());
 		return array.toJSONString();
 	}
-	
-	
-	public String toGetMsgText(){
+
+
+	/**
+	 * 获取消息问题
+	 * @return
+	 */
+	public String getMsgContext(){
 		if(msg == null || msg.length == 0){
 			return "";
 		}
