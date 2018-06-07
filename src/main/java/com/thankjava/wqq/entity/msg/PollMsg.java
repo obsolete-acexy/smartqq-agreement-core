@@ -53,5 +53,12 @@ public class PollMsg {
 		}
 		return value.getContent().getMsgContext();
 	}
-	
+
+	public void setMsgType(MsgType msgType) {
+		this.msgType = msgType;
+	}
+
+	public void setValue(Value value) {
+		this.value = value;
+	}
 }

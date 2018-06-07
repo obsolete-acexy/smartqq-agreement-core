@@ -9,6 +9,8 @@ public class MessageListener implements NotifyListener {
 
     @Override
     public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
+
+        // 获取到的消息内容
         System.out.println("received msg : " + pollMsg.getMsgContext());
         switch (pollMsg.getMsgType()) {
             case message:

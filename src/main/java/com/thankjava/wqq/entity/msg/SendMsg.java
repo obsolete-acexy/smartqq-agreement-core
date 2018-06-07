@@ -4,6 +4,9 @@ import com.thankjava.wqq.consts.MsgType;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+/**
+ * 发送消息的组装对象
+ */
 public class SendMsg {
 
     private MsgType msgType;
@@ -43,7 +46,6 @@ public class SendMsg {
     }
 
     public SendMsg(long to, MsgType msgType, String msg) {
-
         switch (msgType) {
             case message: // 好友信息
                 this.to = to;
@@ -63,8 +65,8 @@ public class SendMsg {
     }
 
     public SendMsg(PollMsg pollMsg, Content content) {
-        msgType = pollMsg.getMsgType();
         long to = pollMsg.getTargetFromId();
+        msgType = pollMsg.getMsgType();
         switch (msgType) {
             case message: // 好友信息
                 this.to = to;
@@ -80,8 +82,8 @@ public class SendMsg {
     }
 
     public SendMsg(PollMsg pollMsg, String msg) {
-        msgType = pollMsg.getMsgType();
         long to = pollMsg.getTargetFromId();
+        msgType = pollMsg.getMsgType();
         switch (msgType) {
             case message: // 好友信息
                 this.to = to;

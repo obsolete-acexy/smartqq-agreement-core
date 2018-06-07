@@ -64,6 +64,7 @@ public interface SmartQQClient {
      * @author acexy@thankjava.com
      * @date 2016年12月28日 下午11:43:45
      * @version 1.0
+     * @see SendMsg
      */
     public void sendMsg(SendMsg sendMsg);
 
