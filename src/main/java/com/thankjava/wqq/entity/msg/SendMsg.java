@@ -6,113 +6,114 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class SendMsg {
 
-	private MsgType msgType;
+    private MsgType msgType;
 
-	@JSONField(name = "group_uin")
-	private Long groupUin;
-	private Long to;
-	private Long did;
-	private Content content;
+    @JSONField(name = "group_uin")
+    private Long groupUin;
+    private Long to;
+    private Long did;
+    private Content content;
 
-	/**
-	 *  发送消息构造
-	 * @param to 根据 msgType 指定回复对象
-	 * @param msgType
-	 * @param content 回复内容 Content
-	 * @see Content
-	 */
-	public SendMsg(long to, MsgType msgType, Content content) {
+    /**
+     * 发送消息构造
+     *
+     * @param to      根据 msgType 指定回复对象
+     * @param msgType
+     * @param content 回复内容 Content
+     * @see Content
+     */
+    public SendMsg(long to, MsgType msgType, Content content) {
 
-		switch (msgType) {
-		case message: // 好友信息
-			this.to = to;
-			break;
-		case discu_message: // 讨论组信息
-			this.did = to;
-			break;
-		case group_message: // 群信息
-			this.groupUin = to;
-			break;
+        switch (msgType) {
+            case message: // 好友信息
+                this.to = to;
+                break;
+            case discu_message: // 讨论组信息
+                this.did = to;
+                break;
+            case group_message: // 群信息
+                this.groupUin = to;
+                break;
 
-		default:
-			throw new RuntimeException("msgType can not be null");
-		}
-		this.msgType = msgType;
-		this.content = content;
-	}
-	
-	public SendMsg(long to, MsgType msgType, String msg) {
+            default:
+                throw new RuntimeException("msgType can not be null");
+        }
+        this.msgType = msgType;
+        this.content = content;
+    }
 
-		switch (msgType) {
-		case message: // 好友信息
-			this.to = to;
-			break;
-		case discu_message: // 讨论组信息
-			this.did = to;
-			break;
-		case group_message: // 群信息
-			this.groupUin = to;
-			break;
+    public SendMsg(long to, MsgType msgType, String msg) {
 
-		default:
-			throw new RuntimeException("msgType can not be null");
-		}
-		this.msgType = msgType;
-		this.content = new Content(msg);
-	}
+        switch (msgType) {
+            case message: // 好友信息
+                this.to = to;
+                break;
+            case discu_message: // 讨论组信息
+                this.did = to;
+                break;
+            case group_message: // 群信息
+                this.groupUin = to;
+                break;
 
-	public SendMsg(PollMsg pollMsg, Content content) {
-		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getTargetFromId();
-		switch (msgType) {
-		case message: // 好友信息
-			this.to = to;
-			break;
-		case discu_message: // 讨论组信息
-			this.did = to;
-			break;
-		case group_message: // 群信息
-			this.groupUin = to;
-			break;
-		}
-		this.content = content;
-	}
-	
-	public SendMsg(PollMsg pollMsg, String msg) {
-		msgType = pollMsg.getMsgType();
-		long to = pollMsg.getTargetFromId();
-		switch (msgType) {
-		case message: // 好友信息
-			this.to = to;
-			break;
-		case discu_message: // 讨论组信息
-			this.did = to;
-			break;
-		case group_message: // 群信息
-			this.groupUin = to;
-			break;
-		}
-		this.content = new Content(msg);
-	}
+            default:
+                throw new RuntimeException("msgType can not be null");
+        }
+        this.msgType = msgType;
+        this.content = new Content(msg);
+    }
 
-	public MsgType getMsgType() {
-		return msgType;
-	}
+    public SendMsg(PollMsg pollMsg, Content content) {
+        msgType = pollMsg.getMsgType();
+        long to = pollMsg.getTargetFromId();
+        switch (msgType) {
+            case message: // 好友信息
+                this.to = to;
+                break;
+            case discu_message: // 讨论组信息
+                this.did = to;
+                break;
+            case group_message: // 群信息
+                this.groupUin = to;
+                break;
+        }
+        this.content = content;
+    }
 
-	public Long getGroupUin() {
-		return groupUin;
-	}
+    public SendMsg(PollMsg pollMsg, String msg) {
+        msgType = pollMsg.getMsgType();
+        long to = pollMsg.getTargetFromId();
+        switch (msgType) {
+            case message: // 好友信息
+                this.to = to;
+                break;
+            case discu_message: // 讨论组信息
+                this.did = to;
+                break;
+            case group_message: // 群信息
+                this.groupUin = to;
+                break;
+        }
+        this.content = new Content(msg);
+    }
 
-	public Long getTo() {
-		return to;
-	}
+    public MsgType getMsgType() {
+        return msgType;
+    }
 
-	public Long getDid() {
-		return did;
-	}
+    public Long getGroupUin() {
+        return groupUin;
+    }
 
-	public Content getContent() {
-		return content;
-	}
+    public Long getTo() {
+        return to;
+    }
+
+    public Long getDid() {
+        return did;
+    }
+
+    public Content getContent() {
+        return content;
+    }
 
 }
