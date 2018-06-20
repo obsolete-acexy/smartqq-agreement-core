@@ -45,7 +45,7 @@
 ```
 ---
 > ### 快速入手
-
+![Demo](https://github.com/thankjava/smartqq-agreement-core/raw/master/docs/imgs/demo.gif)
 ```
 参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageListener
 ```
