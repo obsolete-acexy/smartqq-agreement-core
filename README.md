@@ -1,15 +1,7 @@
 # smartqq-agreement-core
 ---
 - JDK >= 1.7
-- 用处
-```
-1. <QQ机器人> 好友给机器人发消息，你自定义解析并回复
-2. <个人的快速资料检索器> 将常用的信息保存自己DB，需要时通过向QQ发送检索条件，它去给你筛选并快速告诉你答案
-3. <更方便工作，针对研发> 通过扩展将它部署在服务器上，在实现代码部署或者shell执行时，你只需要给它发送一个指令一就完成
-...
-    And More
-这只是一个小小的jar，但是你可以通过它快速实现自己的工具，创造无限可能！
-```
+- [更多介绍](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
 
 ---
 > ### Bug fixes & 升级备注
@@ -52,7 +44,7 @@
 </dependency>
 ```
 ---
-> ### 使用
+> ### 快速入手
 
 ```
 参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageListener
@@ -170,8 +162,5 @@ public class TestSmartQQ {
 ```
 ---
 > ### Future
-
-    1. 持续优化可能存在的BUG
-    2. 响应用户提出的优化或建议方案
-    3. 跟进TX协议修改后的改动
-    4. 提高可用性
+- 持续解决用户Issues
+- 跟进腾讯WebQQ协议更改的影响
