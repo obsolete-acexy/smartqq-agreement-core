@@ -36,6 +36,7 @@
 ```     
 ---
 > ### 获取
+![version](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/thankjava/wqq/smartqq-agreement-core/maven-metadata.xml.svg)
 ```xml
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
