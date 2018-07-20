@@ -1,4 +1,7 @@
-# smartqq-agreement-core
+![license](https://img.shields.io/badge/license-Apache2.0-100000.svg)
+[![author](https://img.shields.io/badge/author-@thankjava-blue.svg)](https://github.com/thankjava/)
+![version](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/thankjava/wqq/smartqq-agreement-core/maven-metadata.xml.svg)
+> ### smartqq-agreement-core
 ---
 - JDK >= 1.7
 - [更多介绍](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
@@ -47,7 +50,7 @@
 > ### 快速入手
 ![Demo](https://github.com/thankjava/smartqq-agreement-core/raw/master/docs/imgs/demo.gif)
 ```
-参考com.thankjava.wqq.test.qq.TestSmartQQNewVersion & com.thankjava.wqq.test.qq.MessageListener
+参考com.thankjava.wqq.test.qq.TestSmartQQ & com.thankjava.wqq.test.qq.MessageListener
 ```
 ```java
 package com.thankjava.wqq.test.qq;
