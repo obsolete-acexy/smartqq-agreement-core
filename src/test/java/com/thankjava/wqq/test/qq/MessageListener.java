@@ -7,6 +7,7 @@ import com.thankjava.wqq.extend.NotifyListener;
 
 public class MessageListener implements NotifyListener {
 
+
     @Override
     public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
 
