@@ -23,7 +23,7 @@ public class CheckLoginQRcodeStatus extends BaseHttpService {
     protected AsyncRequest buildRequestParams() {
 
         Parameters params = new Parameters("webqq_type", "10");
-        params.append("ptqrtoken", WqqEncryptor.hashForCheckQrStatus(asyncHttpClient.getCookie("qrsig").getValue()));
+        params.append("ptqrtoken", WqqEncryptor.hashForCheckQrStatus(asyncHttpClient.getCookieFromClientContext("qrsig").getValue()));
         params.append("webqq_type", "10");
         params.append("remember_uin", "1");
         params.append("login2qq", "1");

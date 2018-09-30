@@ -19,7 +19,7 @@ public class SmartQQClientBuilder {
 
     private SmartQQClientBuilder() {
     }
-    
+
     private static SmartQQClient smartQQClient;
 
     /**

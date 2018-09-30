@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
 import com.thankjava.toolkit3d.http.async.AsyncHttpClientBuilder;
 import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
+import com.thankjava.toolkit3d.http.async.entity.CookieCheckLevel;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.entity.Session;
@@ -15,7 +16,11 @@ public abstract class BaseHttpService implements RequestBuilder {
 
     protected static final AtomicLong msgId = new AtomicLong(ConstsParams.INIT_MSG_ID);
 
-    public final static AsyncHttpClient asyncHttpClient = AsyncHttpClientBuilder.createDefault();
+    public final static AsyncHttpClient asyncHttpClient = new AsyncHttpClientBuilder()
+            .setWithoutSSLCheck()
+            .setCookiePolicyLevel(CookieCheckLevel.BROWSER_COMPATIBILITY)
+            .setCloseWarnLogger()
+            .create();
 
     /**
      * 关闭AsyncHttpClient
