@@ -189,19 +189,52 @@ public class LoginAction {
 
         if (ConfigParams.INIT_LOGIN_INFO) {
 
-            FriendsList friendsList = getInfo.getFriendsList();
-            if (friendsList == null) {
-                logger.error("获取好友列表失败");
-            } else {
-                friendsList = getInfo.getOnlineStatus();
-                if (friendsList == null) {
-                    logger.error("为好友列表查询在线状态失败");
+            getInfo.getFriendsList(new CallBackListener() {
+                @Override
+                public void onListener(ActionListener actionListener) {
+                    if (actionListener.getData() == null) {
+                        logger.error("获取好友列表失败");
+                    } else {
+                        logger.debug("获取好友列表成功");
+                        getInfo.getOnlineStatus(new CallBackListener() {
+                            @Override
+                            public void onListener(ActionListener actionListener) {
+                                if (actionListener.getData() == null) {
+                                    logger.error("查询好友状态失败");
+                                } else {
+                                    logger.error("查询好友状态失败");
+                                }
+                            }
+                        });
+                    }
                 }
-            }
-            getInfo.getGroupsList();
-            getInfo.getDiscusList();
+            });
+
+            getInfo.getGroupsList(new CallBackListener() {
+                @Override
+                public void onListener(ActionListener actionListener) {
+                    if (actionListener.getData() != null) {
+                        logger.debug("获取群列表成功");
+                    }
+                }
+            });
+
+//            FriendsList friendsList = getInfo.getFriendsList();
+//            if (friendsList == null) {
+//                logger.error("获取好友列表失败");
+//            } else {
+//                friendsList = getInfo.getOnlineStatus();
+//                if (friendsList == null) {
+//                    logger.error("为好友列表查询在线状态失败");
+//                }
+//            }
+//            getInfo.getGroupsList();
+//            getInfo.getDiscusList();
             getInfo.getSelfInfo();
             getInfo.getRecentList();
+
+
+
         }
 
 

@@ -2,6 +2,8 @@ package com.thankjava.wqq.core.request.aop;
 
 import java.lang.reflect.Method;
 
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.thankjava.toolkit3d.http.async.entity.AsyncResponseCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,7 @@ public class DoRequest {
         aopParam.setInvokeProxyMethod(false);
 
         // 获取被代理的函数的参数列
-        CallBackListener listener = (CallBackListener) aopParam.getParams()[0];
+        final CallBackListener listener = (CallBackListener) aopParam.getParams()[0];
 
         // 执行buildRequestParams 得到请求的参数体
         Object proxyInstance = aopParam.getProxyInstance();
@@ -36,9 +38,28 @@ public class DoRequest {
         AsyncRequest asyncRequest = (AsyncRequest) ReflectHelper.invokeMethod(proxyInstance, method);
 
         if (listener != null) {
+
             // 如果传递了listener 则通过listener的方式回调返回
             try {
-                listener.onListener(new ActionListener((asyncHttpClient.syncRequestWithSession(asyncRequest))));
+
+                asyncHttpClient.asyncRequestWithSession(asyncRequest, new AsyncResponseCallback() {
+
+                    @Override
+                    public void completed(AsyncResponse asyncResponse) {
+                        listener.onListener(new ActionListener(asyncResponse));
+                    }
+
+                    @Override
+                    public void failed(Exception e) {
+                        listener.onListener(new ActionListener(null));
+                    }
+
+                    @Override
+                    public void cancelled() {
+                        listener.onListener(new ActionListener(null));
+                    }
+
+                });
             } catch (Throwable e) {
                 logger.error("http request error", e);
                 listener.onListener(new ActionListener());
@@ -52,6 +73,7 @@ public class DoRequest {
                 aopParam.setResult(null);
                 logger.error("http request error", e);
             }
+
         }
 
         // 通过普通的方式返回结果

@@ -1,5 +1,7 @@
 package com.thankjava.wqq.core.action;
 
+import com.thankjava.wqq.extend.ActionListener;
+import com.thankjava.wqq.extend.CallBackListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +45,7 @@ public class GetInfoAction {
      * @date 2016年12月22日 下午1:34:35
      * @version 1.0
      */
+    @Deprecated
     public FriendsList getFriendsList() {
 
         AsyncResponse response = null;
@@ -63,6 +66,42 @@ public class GetInfoAction {
     }
 
     /**
+     * 异步获取好友列表
+     *
+     * @param callBackListener
+     * @param tryTimes
+     */
+    public void getFriendsList(final CallBackListener callBackListener, final Integer... tryTimes) {
+
+        final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
+        if (tryTime >= ConfigParams.EXCEPTION_RETRY_MAX_TIME) {
+            logger.error("getUserFriends2 失败 (已尝试重试)");
+            callBackListener.onListener(new ActionListener(null));
+            return;
+        }
+
+        getUserFriends2.doRequest(new CallBackListener() {
+
+            @Override
+            public void onListener(ActionListener actionListener) {
+                if (actionListener.getData() != null) {
+                    AsyncResponse asyncResponse = (AsyncResponse) actionListener.getData();
+                    FriendsList friendsList = JSON2Entity.userFriends2(asyncResponse.getDataString());
+                    if (friendsList != null) {
+                        session.setFriendsList(friendsList);
+                        callBackListener.onListener(new ActionListener(friendsList));
+                    } else {
+                        getFriendsList(callBackListener, tryTime);
+                    }
+                } else {
+                    getFriendsList(callBackListener, tryTime);
+                }
+            }
+
+        });
+    }
+
+    /**
      * 为当前好友列表数据查询在线状态
      * <p>Function: getOnlineStatus</p>
      * <p>Description: </p>
@@ -72,6 +111,7 @@ public class GetInfoAction {
      * @date 2017年6月14日 下午2:46:17
      * @version 1.0
      */
+    @Deprecated
     public FriendsList getOnlineStatus() {
 
         FriendsList friendsList = session.getFriendsList();
@@ -94,6 +134,41 @@ public class GetInfoAction {
         logger.error("getOnlineBuddies2 失败 (已尝试重试)");
 
         return null;
+    }
+
+    public void getOnlineStatus(final CallBackListener callBackListener, final Integer... tryTimes) {
+
+        final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
+        if (tryTime >= ConfigParams.EXCEPTION_RETRY_MAX_TIME) {
+            logger.error("getOnlineBuddies2 失败 (已尝试重试)");
+            callBackListener.onListener(new ActionListener(null));
+            return;
+        }
+
+        getOnlineBuddies2.doRequest(new CallBackListener() {
+
+            @Override
+            public void onListener(ActionListener actionListener) {
+                FriendsList friendsList = session.getFriendsList();
+                if (friendsList == null) {
+                    callBackListener.onListener(new ActionListener(null));
+                    return;
+                }
+                if (actionListener.getData() != null) {
+                    AsyncResponse asyncResponse = (AsyncResponse) actionListener.getData();
+                    friendsList = JSON2Entity.onlineStatus(friendsList, asyncResponse.getDataString());
+                    if (friendsList != null) {
+                        session.setFriendsList(friendsList);
+                        callBackListener.onListener(new ActionListener(friendsList));
+                    } else {
+                        getOnlineStatus(callBackListener, tryTime);
+                    }
+                } else {
+                    getOnlineStatus(callBackListener, tryTime);
+                }
+            }
+
+        });
     }
 
     /**
@@ -133,6 +208,7 @@ public class GetInfoAction {
      * @date 2016年12月22日 下午1:56:17
      * @version 1.0
      */
+    @Deprecated
     public GroupsList getGroupsList() {
         AsyncResponse response = null;
         GroupsList groupList = null;
@@ -148,6 +224,36 @@ public class GetInfoAction {
         }
         logger.error("getGroupNameListMask2 失败 (已尝试重试)");
         return null;
+    }
+
+    public void getGroupsList(final CallBackListener callBackListener, final Integer... tryTimes) {
+
+        final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
+
+        if (tryTime >= ConfigParams.EXCEPTION_RETRY_MAX_TIME) {
+            logger.error("getGroupNameListMask2 失败 (已尝试重试)");
+            callBackListener.onListener(new ActionListener(null));
+            return;
+        }
+
+        getGroupNameListMask2.doRequest(new CallBackListener() {
+            @Override
+            public void onListener(ActionListener actionListener) {
+                if (actionListener.getData() != null) {
+                    AsyncResponse asyncResponse = (AsyncResponse) actionListener.getData();
+                    GroupsList groupList = JSON2Entity.getGroupsList(asyncResponse.getDataString());
+                    if (groupList != null) {
+                        session.setGroupsList(groupList);
+                        callBackListener.onListener(new ActionListener(groupList));
+                    } else {
+                        getOnlineStatus(callBackListener, tryTime);
+                    }
+                } else {
+                    getOnlineStatus(callBackListener, tryTime);
+                }
+            }
+
+        });
     }
 
     /**
@@ -176,6 +282,9 @@ public class GetInfoAction {
         logger.error("getSelfInfo2 失败 (已尝试重试)");
 
         return null;
+    }
+
+    public void getSelfInfo(final CallBackListener callBackListener, final Integer... tryTimes) {
     }
 
     void getRecentList() {
