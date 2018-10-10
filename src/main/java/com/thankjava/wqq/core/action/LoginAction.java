@@ -202,7 +202,7 @@ public class LoginAction {
                                 if (actionListener.getData() == null) {
                                     logger.error("查询好友状态失败");
                                 } else {
-                                    logger.error("查询好友状态失败");
+                                    logger.debug("查询好友状态成功");
                                 }
                             }
                         });
@@ -215,6 +215,31 @@ public class LoginAction {
                 public void onListener(ActionListener actionListener) {
                     if (actionListener.getData() != null) {
                         logger.debug("获取群列表成功");
+                    }else {
+                        logger.error("获取群列表失败");
+                    }
+                }
+            });
+
+            getInfo.getSelfInfo(new CallBackListener() {
+                @Override
+                public void onListener(ActionListener actionListener) {
+                    if (actionListener.getData() != null) {
+                        logger.debug("获取个人信息成功");
+                    }else {
+                        logger.error("获取个人信息失败");
+                    }
+                }
+            });
+
+            getInfo.getDiscusList(new CallBackListener() {
+                @Override
+                public void onListener(ActionListener actionListener) {
+                    if (actionListener.getData() != null) {
+                        logger.debug("获取讨论组列表成功");
+                    } else {
+                        logger.error("获取讨论组列表失败");
+
                     }
                 }
             });
@@ -230,8 +255,8 @@ public class LoginAction {
 //            }
 //            getInfo.getGroupsList();
 //            getInfo.getDiscusList();
-            getInfo.getSelfInfo();
-            getInfo.getRecentList();
+//            getInfo.getSelfInfo();
+//            getInfo.getRecentList();
 
 
 

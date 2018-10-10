@@ -45,7 +45,6 @@ public class GetInfoAction {
      * @date 2016年12月22日 下午1:34:35
      * @version 1.0
      */
-    @Deprecated
     public FriendsList getFriendsList() {
 
         AsyncResponse response = null;
@@ -111,7 +110,6 @@ public class GetInfoAction {
      * @date 2017年6月14日 下午2:46:17
      * @version 1.0
      */
-    @Deprecated
     public FriendsList getOnlineStatus() {
 
         FriendsList friendsList = session.getFriendsList();
@@ -135,6 +133,7 @@ public class GetInfoAction {
 
         return null;
     }
+
 
     public void getOnlineStatus(final CallBackListener callBackListener, final Integer... tryTimes) {
 
@@ -199,6 +198,40 @@ public class GetInfoAction {
     }
 
     /**
+     * 异步获取讨论组信息
+     * @param callBackListener
+     * @param tryTimes
+     */
+    public void getDiscusList(final CallBackListener callBackListener, final Integer... tryTimes) {
+        final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
+
+        if (tryTime >= ConfigParams.EXCEPTION_RETRY_MAX_TIME) {
+            logger.error("getGroupNameListMask2 失败 (已尝试重试)");
+            callBackListener.onListener(new ActionListener(null));
+            return;
+        }
+
+        getDiscusList.doRequest(new CallBackListener() {
+            @Override
+            public void onListener(ActionListener actionListener) {
+                if (actionListener.getData() != null) {
+                    AsyncResponse asyncResponse = (AsyncResponse) actionListener.getData();
+                    DiscusList discusList = JSON2Entity.getDiscusList(asyncResponse.getDataString());
+                    if (discusList != null) {
+                        session.setDiscusList(discusList);
+                        callBackListener.onListener(new ActionListener(discusList));
+                    } else {
+                        getDiscusList(callBackListener, tryTime);
+                    }
+                } else {
+                    getDiscusList(callBackListener, tryTime);
+                }
+            }
+
+        });
+    }
+
+    /**
      * 获取群列表
      * <p>Function: getGroupsList</p>
      * <p>Description: </p>
@@ -226,6 +259,11 @@ public class GetInfoAction {
         return null;
     }
 
+    /**
+     * 异步获取群组列表
+     * @param callBackListener
+     * @param tryTimes
+     */
     public void getGroupsList(final CallBackListener callBackListener, final Integer... tryTimes) {
 
         final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
@@ -246,10 +284,10 @@ public class GetInfoAction {
                         session.setGroupsList(groupList);
                         callBackListener.onListener(new ActionListener(groupList));
                     } else {
-                        getOnlineStatus(callBackListener, tryTime);
+                        getGroupsList(callBackListener, tryTime);
                     }
                 } else {
-                    getOnlineStatus(callBackListener, tryTime);
+                    getGroupsList(callBackListener, tryTime);
                 }
             }
 
@@ -284,9 +322,47 @@ public class GetInfoAction {
         return null;
     }
 
+
+    /**
+     * 异步获取个人信息
+     * @param callBackListener
+     * @param tryTimes
+     */
     public void getSelfInfo(final CallBackListener callBackListener, final Integer... tryTimes) {
+
+        final int tryTime = tryTimes == null || tryTimes.length == 0 ? 1 : tryTimes[0] + 1;
+
+        if (tryTime >= ConfigParams.EXCEPTION_RETRY_MAX_TIME) {
+            logger.error("getSelfInfo2 失败 (已尝试重试)");
+            callBackListener.onListener(new ActionListener(null));
+            return;
+        }
+
+        getSelfInfo2.doRequest(new CallBackListener() {
+
+            @Override
+            public void onListener(ActionListener actionListener) {
+                if (actionListener.getData() != null) {
+                    AsyncResponse asyncResponse = (AsyncResponse) actionListener.getData();
+                    DetailedInfo detailedInfo = JSON2Entity.getSelfInfo(asyncResponse.getDataString());
+                    if (detailedInfo != null) {
+                        session.setSelfInfo(detailedInfo);
+                        callBackListener.onListener(new ActionListener(detailedInfo));
+                    } else {
+                        getSelfInfo(callBackListener, tryTime);
+                    }
+                } else {
+                    getSelfInfo(callBackListener, tryTime);
+                }
+            }
+
+        });
     }
 
+    /**
+     * 获取最近联系的好友，没有实际意义未实现
+     */
+    @Deprecated
     void getRecentList() {
         getRecentList2.doRequest(null).isEmptyDataString();
     }
