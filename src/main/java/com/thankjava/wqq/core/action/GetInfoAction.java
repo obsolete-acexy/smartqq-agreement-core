@@ -241,7 +241,6 @@ public class GetInfoAction {
      * @date 2016年12月22日 下午1:56:17
      * @version 1.0
      */
-    @Deprecated
     public GroupsList getGroupsList() {
         AsyncResponse response = null;
         GroupsList groupList = null;

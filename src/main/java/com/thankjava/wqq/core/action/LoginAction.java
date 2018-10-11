@@ -244,22 +244,6 @@ public class LoginAction {
                 }
             });
 
-//            FriendsList friendsList = getInfo.getFriendsList();
-//            if (friendsList == null) {
-//                logger.error("获取好友列表失败");
-//            } else {
-//                friendsList = getInfo.getOnlineStatus();
-//                if (friendsList == null) {
-//                    logger.error("为好友列表查询在线状态失败");
-//                }
-//            }
-//            getInfo.getGroupsList();
-//            getInfo.getDiscusList();
-//            getInfo.getSelfInfo();
-//            getInfo.getRecentList();
-
-
-
         }
 
 

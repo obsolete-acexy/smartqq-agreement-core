@@ -75,8 +75,9 @@ public class WQQClient implements SmartQQClient {
 
     @Override
     public FriendsList getFriendsList(boolean isFromServer) {
+        FriendsList friendsList = null;
         if (isFromServer) {
-            FriendsList friendsList = getInfo.getFriendsList();
+            friendsList = getInfo.getFriendsList();
             if (friendsList == null) {
                 return null;
             } else {
@@ -86,7 +87,11 @@ public class WQQClient implements SmartQQClient {
                 }
             }
         }
-        return session.getFriendsList();
+        friendsList = session.getFriendsList();
+        if (friendsList == null) {
+            friendsList = getFriendsList(true);
+        }
+        return friendsList;
     }
 
 }
