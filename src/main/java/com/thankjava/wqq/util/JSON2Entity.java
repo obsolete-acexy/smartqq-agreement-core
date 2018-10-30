@@ -1,27 +1,19 @@
 package com.thankjava.wqq.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.thankjava.wqq.entity.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.thankjava.toolkit3d.fastjson.FastJson;
+import com.thankjava.toolkit3d.core.fastjson.FastJson;
+import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.msg.Content;
 import com.thankjava.wqq.entity.msg.Font;
 import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.entity.msg.Value;
-import com.thankjava.wqq.entity.wqq.CategorieInfo;
-import com.thankjava.wqq.entity.wqq.DetailedInfo;
-import com.thankjava.wqq.entity.wqq.DiscuInfo;
-import com.thankjava.wqq.entity.wqq.DiscusList;
-import com.thankjava.wqq.entity.wqq.FriendInfo;
-import com.thankjava.wqq.entity.wqq.FriendsList;
-import com.thankjava.wqq.entity.wqq.GroupInfo;
-import com.thankjava.wqq.entity.wqq.GroupsList;
+import com.thankjava.wqq.entity.wqq.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用于解析腾讯返回json格式的数据

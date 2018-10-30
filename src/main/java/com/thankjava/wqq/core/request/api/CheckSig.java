@@ -1,9 +1,9 @@
 package com.thankjava.wqq.core.request.api;
 
-import com.thankjava.toolkit3d.aop.anno.Before;
-import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
-import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.thankjava.toolkit.bean.aop.anno.Before;
+import com.thankjava.toolkit3d.bean.http.AsyncRequest;
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
+import com.thankjava.toolkit3d.bean.http.HttpMethod;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
 

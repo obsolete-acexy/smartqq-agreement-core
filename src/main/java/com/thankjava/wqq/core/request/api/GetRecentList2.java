@@ -1,17 +1,12 @@
 package com.thankjava.wqq.core.request.api;
 
-import com.thankjava.toolkit3d.aop.anno.Before;
-import com.thankjava.toolkit3d.http.async.consts.HttpMethod;
-import com.thankjava.toolkit3d.http.async.entity.Headers;
-import com.thankjava.toolkit3d.http.async.entity.Parameters;
-import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.alibaba.fastjson.JSONObject;
+import com.thankjava.toolkit.bean.aop.anno.Before;
+import com.thankjava.toolkit3d.bean.http.*;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.RequestUrls;
 import com.thankjava.wqq.core.request.aop.DoRequest;
 import com.thankjava.wqq.extend.CallBackListener;
-
-import com.alibaba.fastjson.JSONObject;
 
 public class GetRecentList2 extends BaseHttpService {
 

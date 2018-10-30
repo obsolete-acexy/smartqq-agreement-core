@@ -1,14 +1,14 @@
 package com.thankjava.wqq.util;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
+import com.thankjava.toolkit.core.utils.SourceLoaderUtil;
+import com.thankjava.wqq.core.action.LoginAction;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.thankjava.toolkit.resource.SourceLoader;
-import com.thankjava.wqq.core.action.LoginAction;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 public class WqqEncryptor {
 
@@ -29,7 +29,7 @@ public class WqqEncryptor {
     public static String hash(String uin, String ptwebqq) {
 
         try {
-            String jsSource = IOUtils.toString(SourceLoader.getResourceAsInputStream("hash.js"), "utf-8");
+            String jsSource = IOUtils.toString(SourceLoaderUtil.getResourceAsInputStream("hash.js"), "utf-8");
             ScriptEngineManager scriptEMgr = new ScriptEngineManager();
             ScriptEngine engine = scriptEMgr.getEngineByMimeType("application/javascript");
             engine.eval(jsSource);

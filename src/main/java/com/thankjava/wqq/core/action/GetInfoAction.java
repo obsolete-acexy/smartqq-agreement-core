@@ -1,26 +1,20 @@
 package com.thankjava.wqq.core.action;
 
-import com.thankjava.wqq.extend.ActionListener;
-import com.thankjava.wqq.extend.CallBackListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
-import com.thankjava.wqq.core.request.api.GetDiscusList;
-import com.thankjava.wqq.core.request.api.GetGroupNameListMask2;
-import com.thankjava.wqq.core.request.api.GetOnlineBuddies2;
-import com.thankjava.wqq.core.request.api.GetRecentList2;
-import com.thankjava.wqq.core.request.api.GetSelfInfo2;
-import com.thankjava.wqq.core.request.api.GetUserFriends2;
+import com.thankjava.wqq.core.request.api.*;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.wqq.DetailedInfo;
 import com.thankjava.wqq.entity.wqq.DiscusList;
 import com.thankjava.wqq.entity.wqq.FriendsList;
 import com.thankjava.wqq.entity.wqq.GroupsList;
+import com.thankjava.wqq.extend.ActionListener;
+import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.JSON2Entity;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GetInfoAction {
 
@@ -199,6 +193,7 @@ public class GetInfoAction {
 
     /**
      * 异步获取讨论组信息
+     *
      * @param callBackListener
      * @param tryTimes
      */
@@ -260,6 +255,7 @@ public class GetInfoAction {
 
     /**
      * 异步获取群组列表
+     *
      * @param callBackListener
      * @param tryTimes
      */
@@ -324,6 +320,7 @@ public class GetInfoAction {
 
     /**
      * 异步获取个人信息
+     *
      * @param callBackListener
      * @param tryTimes
      */

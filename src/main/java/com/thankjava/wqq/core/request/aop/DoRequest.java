@@ -1,19 +1,18 @@
 package com.thankjava.wqq.core.request.aop;
 
-import java.lang.reflect.Method;
-
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponseCallback;
+import com.thankjava.toolkit.bean.aop.entity.AopArgs;
+import com.thankjava.toolkit.core.reflect.ReflectUtil;
+import com.thankjava.toolkit3d.bean.http.AsyncRequest;
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
+import com.thankjava.toolkit3d.bean.http.AsyncResponseCallback;
+import com.thankjava.toolkit3d.core.http.AsyncHttpClient;
+import com.thankjava.wqq.core.request.api.BaseHttpService;
+import com.thankjava.wqq.extend.ActionListener;
+import com.thankjava.wqq.extend.CallBackListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thankjava.toolkit3d.aop.entity.AopParam;
-import com.thankjava.toolkit.reflect.ReflectHelper;
-import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
-import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
-import com.thankjava.wqq.core.request.api.BaseHttpService;
-import com.thankjava.wqq.extend.CallBackListener;
-import com.thankjava.wqq.extend.ActionListener;
+import java.lang.reflect.Method;
 
 public class DoRequest {
 
@@ -23,19 +22,19 @@ public class DoRequest {
 
     private static AsyncHttpClient asyncHttpClient = BaseHttpService.asyncHttpClient;
 
-    public AopParam doRequest(AopParam aopParam) {
+    public void doRequest(AopArgs aopArgs) {
 
         // 指定代理的函数不要被执行
-        aopParam.setInvokeProxyMethod(false);
+        aopArgs.setInvokeProxyMethod(false);
 
         // 获取被代理的函数的参数列
-        final CallBackListener listener = (CallBackListener) aopParam.getParams()[0];
+        final CallBackListener listener = (CallBackListener) aopArgs.getInvokeArgs()[0];
 
         // 执行buildRequestParams 得到请求的参数体
-        Object proxyInstance = aopParam.getProxyInstance();
+        Object proxyInstance = aopArgs.getProxyInstance();
 
-        Method method = ReflectHelper.getMethod(proxyInstance.getClass(), proxyMethodName);
-        AsyncRequest asyncRequest = (AsyncRequest) ReflectHelper.invokeMethod(proxyInstance, method);
+        Method method = ReflectUtil.getMethod(proxyInstance.getClass(), proxyMethodName);
+        AsyncRequest asyncRequest = (AsyncRequest) ReflectUtil.invokeMethod(proxyInstance, method);
 
         if (listener != null) {
 
@@ -68,15 +67,12 @@ public class DoRequest {
         } else {
 
             try {
-                aopParam.setResult(asyncHttpClient.syncRequestWithSession(asyncRequest));
+                aopArgs.setReturnResult(asyncHttpClient.syncRequestWithSession(asyncRequest));
             } catch (Throwable e) {
-                aopParam.setResult(null);
+                aopArgs.setReturnResult(null);
                 logger.error("http request error", e);
             }
 
         }
-
-        // 通过普通的方式返回结果
-        return aopParam;
     }
 }

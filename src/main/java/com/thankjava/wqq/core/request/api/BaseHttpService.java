@@ -1,26 +1,24 @@
 package com.thankjava.wqq.core.request.api;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import com.thankjava.toolkit3d.http.async.AsyncHttpClient;
-import com.thankjava.toolkit3d.http.async.AsyncHttpClientBuilder;
-import com.thankjava.toolkit3d.http.async.consts.CookieCheckLevel;
-import com.thankjava.toolkit3d.http.async.entity.AsyncRequest;
+import com.thankjava.toolkit3d.bean.http.AsyncRequest;
+import com.thankjava.toolkit3d.bean.http.CookieCheckLevel;
+import com.thankjava.toolkit3d.core.http.AsyncHttpClient;
+import com.thankjava.toolkit3d.core.http.AsyncHttpClientBuilder;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.entity.Session;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public abstract class BaseHttpService implements RequestBuilder {
-
-    protected final Session session = Session.getSession();
-
-    protected static final AtomicLong msgId = new AtomicLong(ConstsParams.INIT_MSG_ID);
 
     public final static AsyncHttpClient asyncHttpClient = new AsyncHttpClientBuilder()
             .setWithoutSSLCheck()
             .setCookiePolicyLevel(CookieCheckLevel.BROWSER_COMPATIBILITY)
             .setCloseWarnLogger()
             .create();
+    protected static final AtomicLong msgId = new AtomicLong(ConstsParams.INIT_MSG_ID);
+    protected final Session session = Session.getSession();
 
     /**
      * 关闭AsyncHttpClient

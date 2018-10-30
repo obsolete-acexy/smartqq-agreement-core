@@ -1,6 +1,6 @@
 package com.thankjava.wqq;
 
-import com.thankjava.toolkit.reflect.ReflectHelper;
+import com.thankjava.toolkit.core.reflect.ReflectUtil;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.LoginAction;
 import com.thankjava.wqq.entity.enums.LoginResultStatus;
@@ -17,10 +17,10 @@ import com.thankjava.wqq.factory.ActionFactory;
  */
 public class SmartQQClientBuilder {
 
+    private static SmartQQClient smartQQClient;
+
     private SmartQQClientBuilder() {
     }
-
-    private static SmartQQClient smartQQClient;
 
     /**
      * 声明需要自定义参数化 SmartQQClient
@@ -36,7 +36,7 @@ public class SmartQQClientBuilder {
             throw new NullPointerException("notifyListener can not be null");
         }
 
-        ReflectHelper.setFieldVal(smartQQClient, "notifyListener", notifyListener);
+        ReflectUtil.setFieldVal(smartQQClient, "notifyListener", notifyListener);
 
         return new SmartQQClientBuilder();
     }
@@ -77,6 +77,7 @@ public class SmartQQClientBuilder {
 
     /**
      * 当系统计算出登陆状态异常时会重新登录，连续异常到限定阀值后放弃
+     *
      * @param times
      * @return
      */
@@ -90,11 +91,12 @@ public class SmartQQClientBuilder {
 
     /**
      * 注册一个掉线通知
+     *
      * @param offlineListener
      * @return
      */
     public SmartQQClientBuilder setOffLineListener(CallBackListener offlineListener) {
-        ReflectHelper.setFieldVal(smartQQClient, "offlineListener", offlineListener);
+        ReflectUtil.setFieldVal(smartQQClient, "offlineListener", offlineListener);
         return this;
     }
 
@@ -107,7 +109,7 @@ public class SmartQQClientBuilder {
     public void createAndLogin(final CallBackListener getQrListener, final CallBackListener loginListener) {
 
         if (getQrListener == null || loginListener == null) {
-	        throw new NullPointerException("listener can not be null");
+            throw new NullPointerException("listener can not be null");
         }
 
         LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
@@ -116,7 +118,7 @@ public class SmartQQClientBuilder {
 
             @Override
             public void onListener(ActionListener actionListener) {
-                loginListener.onListener(new ActionListener(new LoginResult(smartQQClient, (LoginResultStatus)actionListener.getData())));
+                loginListener.onListener(new ActionListener(new LoginResult(smartQQClient, (LoginResultStatus) actionListener.getData())));
             }
 
         });

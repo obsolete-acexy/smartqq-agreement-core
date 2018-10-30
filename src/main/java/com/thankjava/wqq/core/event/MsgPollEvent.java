@@ -1,23 +1,23 @@
 package com.thankjava.wqq.core.event;
 
-import com.thankjava.toolkit.reflect.ReflectHelper;
+import com.thankjava.toolkit.core.reflect.ReflectUtil;
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
+import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.core.action.LoginAction;
-import com.thankjava.wqq.extend.ActionListener;
-import com.thankjava.wqq.factory.ActionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
-import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.core.request.RequestBuilder;
 import com.thankjava.wqq.core.request.api.Poll2;
 import com.thankjava.wqq.entity.Session;
 import com.thankjava.wqq.entity.enums.PullMsgStatus;
 import com.thankjava.wqq.entity.msg.PollMsg;
 import com.thankjava.wqq.entity.sys.MonitoringData;
+import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
+import com.thankjava.wqq.factory.ActionFactory;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.JSON2Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 
@@ -27,13 +27,9 @@ import java.lang.reflect.Method;
 public class MsgPollEvent {
 
     private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
-
-    private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
-
-    private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
-
-
     private static Session session = Session.getSession();
+    private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
+    private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
 
     public void poll() {
 
@@ -88,10 +84,10 @@ public class MsgPollEvent {
             // 重置监控数据
             session.resetMonitoringData();
             try {
-                Method method = ReflectHelper.getMethod(LoginAction.class, "beginLogin");
+                Method method = ReflectUtil.getMethod(LoginAction.class, "beginLogin");
                 int retryTimes = ConfigParams.AUTO_RE_LOGIN_RETRY_MAX_TIME;
                 while (retryTimes > 0) {
-                    boolean flag = (boolean) ReflectHelper.invokeMethod(loginAction, method);
+                    boolean flag = (boolean) ReflectUtil.invokeMethod(loginAction, method);
                     if (flag) {
                         logger.debug("执行重连完成");
                         break;

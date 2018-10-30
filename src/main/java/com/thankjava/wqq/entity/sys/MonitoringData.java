@@ -2,7 +2,7 @@ package com.thankjava.wqq.entity.sys;
 
 import java.util.ArrayDeque;
 
-import com.thankjava.toolkit.math.MathUtils;
+import com.thankjava.toolkit.core.utils.MathUtil;
 import com.thankjava.wqq.consts.ConfigParams;
 
 public class MonitoringData {
@@ -25,6 +25,6 @@ public class MonitoringData {
         long first = frequencyData.getFirst();
         long last = frequencyData.getLast();
         long timeSecond = (last - first) / 1000;
-        return MathUtils.divide(ConfigParams.MONITOR_THE_NUMBER_OF_DATA_SAMPLES, timeSecond, 0);
+        return MathUtil.divide(ConfigParams.MONITOR_THE_NUMBER_OF_DATA_SAMPLES, timeSecond, 0);
     }
 }

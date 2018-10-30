@@ -1,33 +1,27 @@
 package com.thankjava.wqq.core.action;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import com.thankjava.wqq.entity.enums.LoginResultStatus;
-import com.thankjava.wqq.extend.ActionListener;
-import org.apache.http.cookie.Cookie;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.thankjava.toolkit3d.http.async.entity.AsyncResponse;
+import com.alibaba.fastjson.JSONObject;
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
 import com.thankjava.wqq.consts.ConfigParams;
 import com.thankjava.wqq.consts.ConstsParams;
 import com.thankjava.wqq.consts.DataResRegx;
 import com.thankjava.wqq.core.event.MsgPollEvent;
 import com.thankjava.wqq.core.request.RequestBuilder;
-import com.thankjava.wqq.core.request.api.CheckLoginQRcodeStatus;
-import com.thankjava.wqq.core.request.api.CheckSig;
-import com.thankjava.wqq.core.request.api.GetLoginQRcode;
-import com.thankjava.wqq.core.request.api.GetVfWebqq;
-import com.thankjava.wqq.core.request.api.Login2;
+import com.thankjava.wqq.core.request.api.*;
 import com.thankjava.wqq.entity.Session;
-import com.thankjava.wqq.entity.wqq.FriendsList;
+import com.thankjava.wqq.entity.enums.LoginResultStatus;
+import com.thankjava.wqq.extend.ActionListener;
 import com.thankjava.wqq.extend.CallBackListener;
 import com.thankjava.wqq.factory.ActionFactory;
 import com.thankjava.wqq.factory.RequestFactory;
 import com.thankjava.wqq.util.RegexUtil;
-import com.alibaba.fastjson.JSONObject;
+import org.apache.http.cookie.Cookie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 public class LoginAction {
 
@@ -215,7 +209,7 @@ public class LoginAction {
                 public void onListener(ActionListener actionListener) {
                     if (actionListener.getData() != null) {
                         logger.debug("获取群列表成功");
-                    }else {
+                    } else {
                         logger.error("获取群列表失败");
                     }
                 }
@@ -226,7 +220,7 @@ public class LoginAction {
                 public void onListener(ActionListener actionListener) {
                     if (actionListener.getData() != null) {
                         logger.debug("获取个人信息成功");
-                    }else {
+                    } else {
                         logger.error("获取个人信息失败");
                     }
                 }
