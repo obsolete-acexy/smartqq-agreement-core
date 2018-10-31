@@ -19,12 +19,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<fast-toolkit.version>1.1.1-SNAPSHOT</fast-toolkit.version>
+		<fast-toolkit.version>1.1.1</fast-toolkit.version>
 		<httpasyncclient.version>4.1.4</httpasyncclient.version>
 		<fastjson.version>1.2.49</fastjson.version>
 		<org.slf4j.version>1.7.25</org.slf4j.version>
 		<ch.qos.logback.version>1.2.3</ch.qos.logback.version>
-		<cglib.version>3.2.6</cglib.version>
+		<cglib.version>3.2.8</cglib.version>
 		<commons-io.version>2.6</commons-io.version>
 
 	</properties>
