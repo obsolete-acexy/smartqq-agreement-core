@@ -1,6 +1,7 @@
 package com.thankjava.wqq.core.event;
 
 import com.thankjava.toolkit.core.reflect.ReflectUtil;
+import com.thankjava.toolkit.core.thread.ThreadPool;
 import com.thankjava.toolkit3d.bean.http.AsyncResponse;
 import com.thankjava.wqq.WQQClient;
 import com.thankjava.wqq.consts.ConfigParams;
@@ -28,6 +29,7 @@ public class MsgPollEvent {
 
     private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
     private static Session session = Session.getSession();
+    private ThreadPool threadPool = new ThreadPool();
     private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
     private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
 
@@ -37,24 +39,40 @@ public class MsgPollEvent {
 
             @Override
             public void onListener(ActionListener actionListener) {
+
                 PullMsgStatus pullMsgStatus;
+
                 if (actionListener.getData() != null) {
+
                     AsyncResponse response = (AsyncResponse) actionListener.getData();
-                    logger.debug("MsgPollEvent httpStatus: " + response.getHttpCode());
-                    if (response.getHttpCode() == 200) {
-                        PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
-                        if (pollMsg != null) {
-                            notifyMsgEvent(pollMsg);
-                            pullMsgStatus = PullMsgStatus.normal;
-                        } else {
-                            // 未能解析响应数据
-                            pullMsgStatus = PullMsgStatus.http_response_error;
-                        }
+                    if (response.getException() != null) {
+
+                        logger.error("MsgPollEvent Error", response.getException());
+                        pullMsgStatus = PullMsgStatus.http_exception;
+
                     } else {
-                        pullMsgStatus = PullMsgStatus.http_status_error;
+
+                        if (response.getHttpCode() == 200) {
+
+                            PollMsg pollMsg = JSON2Entity.pollMsg(response.getDataString());
+
+                            if (pollMsg != null) {
+
+                                notifyMsgEvent(pollMsg);
+                                pullMsgStatus = PullMsgStatus.normal;
+
+                            } else {
+                                // 未能解析响应数据
+                                pullMsgStatus = PullMsgStatus.http_response_error;
+                            }
+
+                        } else {
+                            pullMsgStatus = PullMsgStatus.http_status_error;
+                        }
                     }
+
                 } else {
-                    // http 请求异常
+                    logger.error("MsgPollEvent error");
                     pullMsgStatus = PullMsgStatus.http_exception;
                 }
 
@@ -66,8 +84,14 @@ public class MsgPollEvent {
         });
     }
 
-    private void notifyMsgEvent(PollMsg pollMsg) {
-        WQQClient.getNotifyListener().handler(WQQClient.getInstance(), pollMsg);
+    private void notifyMsgEvent(final PollMsg pollMsg) {
+        
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                WQQClient.getNotifyListener().handler(WQQClient.getInstance(), pollMsg);
+            }
+        });
     }
 
     // 用来监控&计算当前SmartQQClient的健康状态
@@ -89,14 +113,14 @@ public class MsgPollEvent {
                 while (retryTimes > 0) {
                     boolean flag = (boolean) ReflectUtil.invokeMethod(loginAction, method);
                     if (flag) {
-                        logger.debug("执行重连完成");
+                        logger.debug("系统执行自动重连完成");
                         break;
                     }
                     retryTimes--;
                 }
                 if (retryTimes == 0) {
                     // 计算是否处于连续重连失败的情况
-                    logger.debug("执行重连失败已达到上限，已放弃尝试");
+                    logger.debug("系统执行自动重连失败已达到上限，已放弃尝试");
                     CallBackListener callBackListener = WQQClient.getOfflineListener();
                     if (callBackListener != null) {
                         callBackListener.onListener(new ActionListener(WQQClient.getInstance()));

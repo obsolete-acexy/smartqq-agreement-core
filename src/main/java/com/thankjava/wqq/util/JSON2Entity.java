@@ -269,9 +269,13 @@ public class JSON2Entity {
 
             JSONObject valueJson = pollMsgJson.getJSONObject("value");
 
-            // 由于腾讯协议bug造成群消息&讨论组消息，会将自己发送的消息poll识别成别人的消息，
-            // 此处需要过滤
+            // 由于腾讯协议bug造成群消息&讨论组消息，会将自己发送的消息poll识别成别人的消息
             if (Session.getSession().getUin() == valueJson.getLongValue("send_uin")) {
+                return null;
+            }
+
+            // 由于腾讯协议变更，自己发送的消息会触发poll事件
+            if (Session.getSession().getUin() == valueJson.getLong("from_uin")) {
                 return null;
             }
 

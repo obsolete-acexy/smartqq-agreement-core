@@ -1,5 +1,6 @@
 package com.thankjava.wqq.core.action;
 
+import com.thankjava.toolkit3d.bean.http.AsyncResponse;
 import com.thankjava.wqq.core.request.api.SendBuddyMsg2;
 import com.thankjava.wqq.core.request.api.SendDiscuMsg2;
 import com.thankjava.wqq.core.request.api.SendQunMsg2;
