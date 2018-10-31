@@ -2,6 +2,8 @@
 [![author](https://img.shields.io/badge/author-@thankjava-blue.svg)](https://github.com/thankjava/)
 ![version](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/thankjava/wqq/smartqq-agreement-core/maven-metadata.xml.svg)
 > ### smartqq-agreement-core
+![Demo](https://github.com/thankjava/smartqq-agreement-core/raw/master/docs/imgs/demo.gif)
+
 ---
 - JDK >= 1.7
 - [更多介绍](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
@@ -9,22 +11,13 @@
 ---
 > ### Bug fixes & 升级备注
 ```
-1.0.1     
-    修复腾讯修改二维码校验流程带来的影响      
-1.0.2
-    调整代码易读性，增加稳定性等      
-    代码结构调整
-    增加异常重试机制，增强稳定性
-    初始化SmartQQ的实现新增两个可选的构造参数
-1.0.3      
-    配合java-toolkit升级，修复async.http模块稳定性
-    配合async.http参数变更结构调整等
-    解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
-1.0.4 
-    升级java-toolkit依赖的模块
-1.0.5
-    升级依赖组件
-    调整代码结构
+1.1.2
+    升级部分依赖组件版本
+    关闭httpclient cookie检查的警告日志    
+    登录相关信息查询使用async.http的异步请求方式，提高登录速度
+1.1.1
+    移除了历史版本登录测试方法和历史登录的相关支持代码
+    调整了测试代码优化了大量代码注释
 1.1.0
     标注废除历史版本登录和应用初始化相关代码预计1.1.1将彻底移除)
     新增提供基于Fluent Interface风格代码的初始化，并提供测试案例代码
@@ -32,13 +25,24 @@
     废弃主动登录接口，合并到初始化自动完成
     闭环登录环节的相关异常，各个需要业务控制的回调均提供反馈调用
     增加稳定性，新增应用健康状态监控，提供优化掉线自动重连机制
-1.1.1
-    移除了历史版本登录测试方法和历史登录的相关支持代码
-    调整了测试代码优化了大量代码注释
-1.1.2
-    升级部分依赖组件版本
-    关闭httpclient cookie检查的警告日志    
-    登录相关信息查询使用async.http的异步请求方式，提高登录速度
+1.0.5
+    升级依赖组件
+    调整代码结构
+1.0.4 
+    升级java-toolkit依赖的模块
+1.0.3      
+    配合java-toolkit升级，修复async.http模块稳定性
+    配合async.http参数变更结构调整等
+    解决由于腾讯协议bug导致的自己发送的群消息识别为别人的信息
+1.0.2
+    调整代码易读性，增加稳定性等      
+    代码结构调整
+    增加异常重试机制，增强稳定性
+    初始化SmartQQ的实现新增两个可选的构造参数
+1.0.1     
+    修复腾讯修改二维码校验流程带来的影响      
+1.0.0
+    版本初始
 ```     
 ---
 > ### 获取
@@ -51,7 +55,6 @@
 ```
 ---
 > ### 快速入手
-![Demo](https://github.com/thankjava/smartqq-agreement-core/raw/master/docs/imgs/demo.gif)
 ```
 参考com.thankjava.wqq.test.qq.TestSmartQQ & com.thankjava.wqq.test.qq.MessageListener
 ```
@@ -162,8 +165,6 @@ public class TestSmartQQ {
     }
 
 }
-
-
 
 ```
 ---
