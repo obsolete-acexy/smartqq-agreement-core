@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thankjava.wqq</groupId>
 	<artifactId>smartqq-agreement-core</artifactId>
-	<version>1.2.0</version>
+	<version>1.1.3</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -19,7 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<fast-toolkit.version>1.1.0</fast-toolkit.version>
+		<fast-toolkit.version>1.1.1-SNAPSHOT</fast-toolkit.version>
 		<httpasyncclient.version>4.1.4</httpasyncclient.version>
 		<fastjson.version>1.2.49</fastjson.version>
 		<org.slf4j.version>1.7.25</org.slf4j.version>

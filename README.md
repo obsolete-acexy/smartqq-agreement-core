@@ -9,8 +9,11 @@
 - [更多介绍](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
 
 ---
-> ### Bug fixes & 升级备注
+> ### 升级备注
 ```
+1.1.3
+    升级了关键依赖版本
+    掉线事件回调函数返回了SmartQQClient实例，方便业务关闭实例
 1.1.2
     升级部分依赖组件版本
     关闭httpclient cookie检查的警告日志    

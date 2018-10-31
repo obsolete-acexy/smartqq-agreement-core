@@ -1,6 +1,6 @@
 package com.thankjava.wqq.test.qq;
 
-import com.thankjava.toolkit3d.fastjson.FastJson;
+import com.thankjava.toolkit3d.core.fastjson.FastJson;
 import com.thankjava.wqq.SmartQQClient;
 import com.thankjava.wqq.SmartQQClientBuilder;
 import com.thankjava.wqq.entity.enums.LoginResultStatus;
@@ -29,7 +29,6 @@ public class TestSmartQQ {
          * step 1 > 利用指定使用SmartQQClientBuilder指南来构建SmartQQClient实例
          */
         SmartQQClientBuilder builder = SmartQQClientBuilder.custom(
-
                 // 注册一个通知事件的处理器，它将在SmartQQClient获得到相关信息时被调用执行
                 new MessageListener()
         );
@@ -42,12 +41,14 @@ public class TestSmartQQ {
                 .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
                 .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
                 .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
-//                .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
-//                    @Override
-//                    public void onListener(ActionListener actionListener) {
-//                        logger.info("登录的QQ已由掉线无法继续使用(系统已经尝试自动处理)");
-//                    }
-//                })
+                .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
+                    @Override
+                    public void onListener(ActionListener actionListener) {
+                        logger.info("登录的QQ已掉线无法继续使用(系统已经尝试自动处理)");
+                        SmartQQClient smartQQClient = (SmartQQClient) actionListener.getData();
+                        smartQQClient.shutdown();
+                    }
+                })
         ;
 
         /**

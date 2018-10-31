@@ -99,7 +99,7 @@ public class MsgPollEvent {
                     logger.debug("执行重连失败已达到上限，已放弃尝试");
                     CallBackListener callBackListener = WQQClient.getOfflineListener();
                     if (callBackListener != null) {
-                        callBackListener.onListener(new ActionListener());
+                        callBackListener.onListener(new ActionListener(WQQClient.getInstance()));
                     }
                 }
             } catch (Exception e) {
