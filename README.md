@@ -55,7 +55,7 @@
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 ---
