@@ -160,7 +160,8 @@ public class TestSmartQQ {
                     SmartQQClient smartQQClient = loginResult.getClient();
 
                     // TODO: 后续就可以利用smartQQClient调用API
-                    logger.info("获取到的好友列表信息: " + FastJson.toJSONString(smartQQClient.getFriendsList(true)));
+                    logger.info("获取到的好友列表信息: " + 
+                        FastJson.toJSONString(smartQQClient.getFriendsList(true)));
 
 
                     // 业务处理
