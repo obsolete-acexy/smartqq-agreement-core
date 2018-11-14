@@ -38,9 +38,12 @@ public class TestSmartQQ {
          * step 2 > 自定义可选参数(为方便查看可选方法，设置参数的函数均以set关键字命名开始)
          */
         builder
-                .setAutoGetInfoAfterLogin() // 设置登录成功后立即拉取一些信息
-                .setExceptionRetryMaxTimes(3) // 设置如果请求异常重试3次
-                .setAutoRefreshQrcode() // 设置若发现登录二维码过期则自动重新拉取
+                .setAutoGetInfoAfterLogin()     // 设置登录成功后立即拉取一些信息
+
+                .setExceptionRetryMaxTimes(3)   // 设置如果请求异常重试3次
+
+                .setAutoRefreshQrcode()         // 设置若发现登录二维码过期则自动重新拉取 将自动触发获取到二维码的回调事件
+
                 .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
                     @Override
                     public void onListener(ActionListener actionListener) {
@@ -55,7 +58,7 @@ public class TestSmartQQ {
          * step 3 > create SmartQQClient 实例 并进行登录
          */
 
-        // A: 声明一个获取到登录二维码的回调函数，将返回二维码的byte数组数据
+        // A: 注册一个获取到登录二维码的回调函数，将返回二维码的byte数组数据
         CallBackListener getQrListener = new CallBackListener() {
 
             // login 接口在得到登录二维码时会调用CallBackListener
@@ -76,7 +79,7 @@ public class TestSmartQQ {
             }
         };
 
-        // B: 声明一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
+        // B: 注册一个登录结果的函数回调，在登录成功或者失败或异常时进行回调触发
         CallBackListener loginListener = new CallBackListener() {
 
             // ListenerAction.data 返回登录结果 com.thankjava.wqq.entity.sys.LoginResult
