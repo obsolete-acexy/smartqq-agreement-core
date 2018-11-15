@@ -108,7 +108,7 @@ public class TestSmartQQ {
 
                 .setExceptionRetryMaxTimes(3)   // 设置如果请求异常重试3次
 
-                .setAutoRefreshQrcode()         // 设置若发现登录二维码过期则自动重新拉取 将自动触发获取到二维码的回调事件
+                .setAutoRefreshQrcode()         // 设置若二维码过期则自动重新拉取
 
                 .setOffLineListener(new CallBackListener() { // 注册一个离线通知 掉线后将被调用执行
                     @Override
