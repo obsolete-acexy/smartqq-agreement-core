@@ -136,7 +136,8 @@ public class TestSmartQQ {
                 try {
                     // 将返回的byte[]数据io处理成一张png图片
                     // 位于项目log/qrcode.png
-                    ImageIO.write((BufferedImage) actionListener.getData(), "png", new File("./log/qrcode.png"));
+                    ImageIO.write((BufferedImage) actionListener.getData(), "png", 
+                    new File("./log/qrcode.png"));
                     logger.debug("获取登录二维码完成,手机QQ扫描 ./log/qrcode.png 位置的二维码图片");
                 } catch (Exception e) {
                     logger.error("将byte[]写为图片失败", e);
