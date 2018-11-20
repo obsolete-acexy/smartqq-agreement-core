@@ -29,7 +29,7 @@ public class MsgPollEvent {
 
     private static final Logger logger = LoggerFactory.getLogger(MsgPollEvent.class);
     private static Session session = Session.getSession();
-    private ThreadPool threadPool = new ThreadPool();
+    private ThreadPool threadPool = new ThreadPool(10, 20, 60 * 1000, 20);
     private RequestBuilder poll2 = RequestFactory.getInstance(Poll2.class);
     private LoginAction loginAction = ActionFactory.getInstance(LoginAction.class);
 
@@ -85,7 +85,7 @@ public class MsgPollEvent {
     }
 
     private void notifyMsgEvent(final PollMsg pollMsg) {
-        
+
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
