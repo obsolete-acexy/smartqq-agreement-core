@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * 新版本SmartQQClient测试代码 version >= 1.1.x
+ * SmartQQClient测试代码
  *
  * @author acexy
  */

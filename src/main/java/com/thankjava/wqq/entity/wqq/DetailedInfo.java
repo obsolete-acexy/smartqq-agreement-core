@@ -7,6 +7,7 @@ public class DetailedInfo {
 	
 	// 职位
 	private String occupation;
+
 	// 学校
 	private String college;
 	

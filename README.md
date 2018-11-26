@@ -11,6 +11,9 @@
 ---
 > ### 升级备注
 ```
+1.1.4
+    调整了gif展示效果图
+    调整poll事件异步线程数量初始化
 1.1.3
     升级了关键依赖版本
     掉线事件回调函数返回了SmartQQClient实例，方便业务关闭实例
@@ -55,7 +58,7 @@
 <dependency>
   <groupId>com.thankjava.wqq</groupId>
   <artifactId>smartqq-agreement-core</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.4</version>
 </dependency>
 ```
 ---
@@ -81,7 +84,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * 新版本SmartQQClient测试代码 version >= 1.1.x
+ * SmartQQClient测试代码
  *
  * @author acexy
  */
