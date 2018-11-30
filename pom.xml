@@ -1,141 +1,141 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.thankjava.wqq</groupId>
-	<artifactId>smartqq-agreement-core</artifactId>
-	<version>1.1.4</version>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.thankjava.wqq</groupId>
+    <artifactId>smartqq-agreement-core</artifactId>
+    <version>1.1.4</version>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
-	<name>smartqq-agreement-core</name>
+    <name>smartqq-agreement-core</name>
 
-	<properties>
+    <properties>
 
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<fast-toolkit.version>1.1.1</fast-toolkit.version>
-		<httpasyncclient.version>4.1.4</httpasyncclient.version>
-		<fastjson.version>1.2.49</fastjson.version>
-		<org.slf4j.version>1.7.25</org.slf4j.version>
-		<ch.qos.logback.version>1.2.3</ch.qos.logback.version>
-		<cglib.version>3.2.8</cglib.version>
-		<commons-io.version>2.6</commons-io.version>
+        <fast-toolkit.version>1.1.1</fast-toolkit.version>
+        <httpasyncclient.version>4.1.4</httpasyncclient.version>
+        <fastjson.version>1.2.49</fastjson.version>
+        <org.slf4j.version>1.7.25</org.slf4j.version>
+        <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
+        <cglib.version>3.2.8</cglib.version>
+        <commons-io.version>2.6</commons-io.version>
 
-	</properties>
+    </properties>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>com.thankjava.toolkit</groupId>
-			<artifactId>fast-toolkit</artifactId>
-			<version>${fast-toolkit.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.thankjava.toolkit3d</groupId>
-			<artifactId>fast-toolkit3d</artifactId>
-			<version>${fast-toolkit.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.thankjava.toolkit</groupId>
+            <artifactId>fast-toolkit</artifactId>
+            <version>${fast-toolkit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thankjava.toolkit3d</groupId>
+            <artifactId>fast-toolkit3d</artifactId>
+            <version>${fast-toolkit.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpasyncclient</artifactId>
-			<version>${httpasyncclient.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>${httpasyncclient.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${ch.qos.logback.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>${cglib.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${ch.qos.logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<finalName>smartqq-agreement-core</finalName>
-		<plugins>
-			<plugin><!-- 跳过测试 -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
-			<plugin><!-- 指定JDK版本 -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>utf-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin><!-- 指定 mvn 编译源码 -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <finalName>smartqq-agreement-core</finalName>
+        <plugins>
+            <plugin><!-- 跳过测试 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin><!-- 指定JDK版本 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin><!-- 指定 mvn 编译源码 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<scm>
-		<tag>master</tag>
-		<url>git@github.com:thankjava/smartqq-agreement-core.git</url>
-		<connection>scm:git@github.com:thankjava/smartqq-agreement-core.git</connection>
-		<developerConnection>scm:git:git@github.com:thankjava/smartqq-agreement-core.git</developerConnection>
-	</scm>
+    <scm>
+        <tag>master</tag>
+        <url>git@github.com:thankjava/smartqq-agreement-core.git</url>
+        <connection>scm:git@github.com:thankjava/smartqq-agreement-core.git</connection>
+        <developerConnection>scm:git:git@github.com:thankjava/smartqq-agreement-core.git</developerConnection>
+    </scm>
 
-	<developers>
-		<developer>
-			<name>acexy</name>
-			<email>acexy@thankjava.com</email>
-			<organization>Lazy-Koala</organization>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>acexy</name>
+            <email>acexy@thankjava.com</email>
+            <organization>Lazy-Koala</organization>
+        </developer>
+    </developers>
 
 </project>
