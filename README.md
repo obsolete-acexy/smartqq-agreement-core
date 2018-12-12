@@ -4,6 +4,14 @@
 > ### smartqq-agreement-core
 ![Demo](https://github.com/thankjava/smartqq-agreement-core/raw/master/docs/imgs/demo.gif)
 
+> # 停止维护公告
+
+```
+    2018/12/12 腾讯在https://web2.qq.com/上贴出公告表示2019/01/01开始届时QQWeb协议将永久下线，
+所以相关依赖服务将不再可用，为此该项目也将不再能正常使用，所以需要停止维护。大家也不用再去花时间找webqq协议的版本，
+服务端的关闭将使其均不可用。若后续提供类似代替品可以花时间再研究。
+```
+
 ---
 - JDK >= 1.7
 - [更多介绍](https://www.thankjava.com/opensource/069239e5eee95a2299b804d9f98f1f9a)
