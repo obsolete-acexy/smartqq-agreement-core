@@ -15,16 +15,16 @@ public class MessageListener implements NotifyListener {
     public void handler(SmartQQClient smartQQClient, PollMsg pollMsg) {
 
         // 获取到的消息内容
-        logger.debug("received msg : " + pollMsg.getMsgContext());
+        logger.debug("Received Msg: " + pollMsg.getMsgContext());
         switch (pollMsg.getMsgType()) {
             case message:
-                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Friend`"));
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "Friend I Have Got Your Msg: " + pollMsg.getMsgContext()));
                 break;
             case group_message:
-                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Group`"));
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "Group I Have Got Your Msg: " + pollMsg.getMsgContext()));
                 break;
             case discu_message:
-                smartQQClient.sendMsg(new SendMsg(pollMsg, "I Have Got Your Msg: `Discu`"));
+                smartQQClient.sendMsg(new SendMsg(pollMsg, "Discu I Have Got Your Msg: " + pollMsg.getMsgContext()));
                 break;
         }
     }
